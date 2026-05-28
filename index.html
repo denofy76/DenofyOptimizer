@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Optimizer Pack</title>
+    <title>DenofyOptimizer</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -146,7 +146,7 @@
 
         <!-- Вкладка 1: Скачать пак -->
         <div id="download-pack" class="tab-content active">
-            <h2 style="margin-bottom: 5px;">⚡ Optimizer Pack</h2>
+            <h2 style="margin-bottom: 5px;">⚡ DenofyOptimizer</h2>
             <p style="color: #8b949e; margin-bottom: 15px;">Комплексная оптимизация Windows 11</p>
             <a href="https://cloud.mail.ru/public/BMvi/1we86ngZn" class="btn">💾 Скачать</a>
             <p class="size-info">Размер: ~4 ГБ</p>
@@ -202,10 +202,8 @@
 
     <script>
         function switchTab(tabId) {
-            // Скрыть все вкладки и контент
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            // Показать нужную вкладку и подсветить кнопку
             document.getElementById(tabId).classList.add('active');
             event.target.classList.add('active');
         }
