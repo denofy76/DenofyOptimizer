@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>DenofyOptimizer</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #0d1117, #1a1f26, #0d1117, #161b22);
+            background-size: 400% 400%;
+            animation: gradientShift 12s ease infinite;
+            color: #e6edf3;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            padding-top: calc(20px + env(safe-area-inset-top, 0px));
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Верхняя панель */
+        .top-bar {
+            position: fixed;
+            top: 22px;
+            left: 28px;
+            right: 28px;
+            z-index: 10;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            background: rgba(33, 38, 45, 0.65);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(88, 166, 255, 0.25);
+            border-radius: 14px;
+            padding: 10px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+            transition: all 0.25s ease;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .logo:hover {
+            background: rgba(33, 38, 45, 0.8);
+            border-color: #58a6ff;
+            box-shadow: 0 0 20px rgba(88, 166, 255, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .logo-img {
+            height: 44px;
+            width: auto;
+            display: block;
+        }
+
+        .lang-switcher {
+            display: flex;
+            background: rgba(33, 38, 45, 0.65);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(88, 166, 255, 0.25);
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: none;
+            color: #8b949e;
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 10px 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            letter-spacing: 0.3px;
+        }
+
+        .lang-btn.active {
+            background: rgba(88, 166, 255, 0.15);
+            color: #ffffff;
+            box-shadow: inset 0 0 0 1px rgba(88, 166, 255, 0.5);
+        }
+
+        .lang-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.05);
+            color: #c9d1d9;
+        }
+
+        .container {
+            background: rgba(33, 38, 45, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(48, 54, 61, 0.6);
+            border-radius: 24px;
+            padding: 40px;
+            max-width: 800px;
+            width: 100%;
+            margin-top: 60px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(88, 166, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 35px;
+            border-bottom: 2px solid rgba(48, 54, 61, 0.8);
+            padding-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: #8b949e;
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 10px 10px 0 0;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            position: relative;
+            letter-spacing: 0.3px;
+            white-space: nowrap;
+        }
+
+        .tab-btn:hover {
+            color: #c9d1d9;
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .tab-btn.active {
+            color: #ffffff;
+            background: rgba(88, 166, 255, 0.08);
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -17px;
+            left: 10%;
+            right: 10%;
+            height: 3px;
+            background: linear-gradient(90deg, #58a6ff, #a855f7);
+            border-radius: 3px 3px 0 0;
+            box-shadow: 0 0 12px rgba(88, 166, 255, 0.6);
+        }
+
+        .tab-content { display: none; animation: fadeSlide 0.35s ease; }
+        .tab-content.active { display: block; }
+
+        @keyframes fadeSlide {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .btn {
+            display: inline-block;
+            background: #238636;
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 12px 32px;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: all 0.25s ease;
+            border: 1px solid #2ea043;
+            box-shadow: 0 4px 12px rgba(35, 134, 54, 0.3);
+            letter-spacing: 0.3px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #2ea043;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(35, 134, 54, 0.6);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid #58a6ff;
+            color: #58a6ff;
+            box-shadow: 0 4px 12px rgba(88, 166, 255, 0.2);
+        }
+
+        .btn-outline:hover {
+            background: rgba(88, 166, 255, 0.1);
+            box-shadow: 0 8px 25px rgba(88, 166, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .btn-disabled {
+            background: #30363d;
+            border-color: #484f58;
+            color: #8b949e;
+            cursor: not-allowed;
+            pointer-events: none;
+            box-shadow: none;
+        }
+
+        .size-info { color: #8b949e; font-size: 0.95rem; margin-top: 20px; }
+
+        .package-cards {
+            display: flex;
+            gap: 24px;
+            margin: 30px 0 10px;
+            flex-wrap: wrap;
+        }
+
+        .package-card {
+            flex: 1 1 230px;
+            background: rgba(26, 31, 38, 0.7);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(48, 54, 61, 0.7);
+            border-radius: 16px;
+            padding: 28px 22px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .package-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(88, 166, 255, 0.4);
+            box-shadow: 0 16px 35px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(88, 166, 255, 0.3);
+        }
+
+        .package-icon { font-size: 2.8rem; }
+        .package-name { font-weight: 700; font-size: 1.3rem; color: #f0f6fc; }
+        .package-desc { font-size: 0.9rem; color: #8b949e; line-height: 1.5; flex-grow: 1; }
+        .package-card .btn { margin-top: auto; }
+
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 18px;
+            margin-top: 25px;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 14px 18px;
+            background: rgba(26, 31, 38, 0.7);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(48, 54, 61, 0.7);
+            border-radius: 14px;
+            color: #e6edf3;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.25s ease;
+        }
+
+        .social-link:hover {
+            background: rgba(88, 166, 255, 0.08);
+            border-color: #58a6ff;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(88, 166, 255, 0.3);
+        }
+
+        .social-link .emoji { font-size: 1.3rem; }
+
+        .support-link {
+            background: rgba(255, 215, 0, 0.08);
+            border-color: rgba(255, 215, 0, 0.3);
+            color: #ffd700;
+        }
+
+        .support-link:hover {
+            background: rgba(255, 215, 0, 0.15);
+            border-color: #ffd700;
+            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.3);
+        }
+
+        /* ========= МОБИЛЬНАЯ АДАПТАЦИЯ ========= */
+        @media (max-width: 600px) {
+            body {
+                padding: 12px;
+                padding-top: calc(12px + env(safe-area-inset-top, 0px));
+            }
+
+            .top-bar {
+                top: 12px;
+                left: 12px;
+                right: 12px;
+                flex-direction: row; /* в строку */
+                justify-content: space-between;
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+
+            .logo { padding: 8px; }
+            .logo-img { height: 36px; }
+
+            .lang-switcher { border-radius: 12px; }
+            .lang-btn { font-size: 0.8rem; padding: 8px 12px; }
+
+            .container {
+                margin-top: 90px; /* чтобы не заезжало под top-bar */
+                padding: 24px 16px;
+                border-radius: 20px;
+            }
+
+            .tabs {
+                gap: 6px;
+                margin-bottom: 24px;
+                padding-bottom: 12px;
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+            }
+            .tabs::-webkit-scrollbar { display: none; }
+
+            .tab-btn {
+                font-size: 0.9rem;
+                padding: 8px 14px;
+                white-space: nowrap;
+                border-radius: 8px 8px 0 0;
+            }
+
+            .tab-btn.active::after {
+                bottom: -14px;
+                height: 2px;
+            }
+
+            .package-cards {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .package-card {
+                flex: 1 1 auto;
+                padding: 24px 16px;
+            }
+
+            .package-icon { font-size: 2.4rem; }
+            .package-name { font-size: 1.1rem; }
+            .package-desc { font-size: 0.85rem; }
+
+            .btn {
+                font-size: 0.95rem;
+                padding: 12px 24px;
+                width: 100%;
+                text-align: center;
+            }
+
+            .links-grid {
+                grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+                gap: 12px;
+            }
+
+            .social-link {
+                font-size: 0.85rem;
+                padding: 12px 14px;
+            }
+
+            h2 { font-size: 1.5rem !important; }
+            .size-info { font-size: 0.85rem; }
+
+            /* Telegram feed cards */
+            #telegram-feed > div {
+                padding: 12px !important;
+                margin-bottom: 10px !important;
+            }
+        }
+
+        /* iPhone 13 mini и аналоги (ширина <= 375px) */
+        @media (max-width: 375px) {
+            .top-bar {
+                gap: 6px;
+            }
+            .logo-img { height: 32px; }
+            .container {
+                margin-top: 80px;
+                padding: 20px 12px;
+            }
+            .tab-btn {
+                font-size: 0.8rem;
+                padding: 6px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <a href="#" class="logo" onclick="switchTab('download-pack'); return false;">
+            <img src="logo.png" alt="DenofyOptimizer" class="logo-img">
+        </a>
+        <div class="lang-switcher">
+            <button class="lang-btn active" data-lang="ru">RU</button>
+            <button class="lang-btn" data-lang="en">EN</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('download-pack')" data-i18n="tab_download">📦 Скачать пак</button>
+            <button class="tab-btn" onclick="switchTab('download-app')" data-i18n="tab_app">💻 Программа</button>
+            <button class="tab-btn" onclick="switchTab('updates')" data-i18n="tab_updates">📝 Обновления</button>
+            <button class="tab-btn" onclick="switchTab('about-author')" data-i18n="tab_author">👤 Автор</button>
+        </div>
+
+        <!-- Вкладки без изменений -->
+        <div id="download-pack" class="tab-content active">
+            <h2 style="margin-bottom: 5px; font-size: 1.8rem;">⚡ DenofyOptimizer</h2>
+            <p style="color: #8b949e; margin-bottom: 5px; font-size: 1rem;" data-i18n="optimization_desc">Оптимизация Windows 11</p>
+            <div class="package-cards">
+                <div class="package-card">
+                    <div class="package-icon">💠</div>
+                    <div class="package-name">DenofyOptimizer</div>
+                    <div class="package-desc" data-i18n="pack1_desc">Сборка с набором твиков и скриптов</div>
+                    <a href="https://cloud.mail.ru/public/8F83/7EbHpFpMH" class="btn" data-i18n="download_btn">💾 Скачать</a>
+                </div>
+                <div class="package-card">
+                    <div class="package-icon">🔹</div>
+                    <div class="package-name">DenofyOptimizer + ReviOS</div>
+                    <div class="package-desc" data-i18n="pack2_desc">Сборка с интеграцией ReviOS</div>
+                    <a href="https://cloud.mail.ru/public/TfNr/vAYGCQZnh" class="btn" data-i18n="download_btn">💾 Скачать</a>
+                </div>
+            </div>
+            <p class="size-info" data-i18n="size_info">Размер каждой сборки: ~4 ГБ</p>
+        </div>
+
+        <div id="download-app" class="tab-content">
+            <h2 style="margin-bottom: 15px; font-size: 1.8rem;" data-i18n="app_title">🛠 Программа-установщик</h2>
+            <p style="color: #8b949e; margin-bottom: 20px; font-size: 1rem;" data-i18n="app_desc">Удобная оболочка для установки пакета в один клик. Сейчас в разработке.</p>
+            <button class="btn btn-disabled" disabled data-i18n="app_btn">Скоро будет доступно</button>
+            <p style="color: #484f58; font-size: 0.9rem; margin-top: 12px;" data-i18n="app_note">Ожидайте в следующих обновлениях</p>
+        </div>
+
+        <div id="updates" class="tab-content">
+            <h2 style="margin-bottom: 10px; font-size: 1.8rem;" data-i18n="updates_title">📝 Обновления</h2>
+            <p style="color: #8b949e; margin-bottom: 20px; font-size: 1rem;" data-i18n="updates_desc">Все детали о версиях и изменениях публикуются в Telegram-канале.</p>
+            <div id="telegram-feed" style="margin-top: 15px;"></div>
+        </div>
+
+        <div id="about-author" class="tab-content">
+            <h2 style="margin-bottom: 15px; font-size: 1.8rem;" data-i18n="author_title">👤 Об авторе</h2>
+            <p style="color: #8b949e; margin-bottom: 15px; font-size: 1rem;" data-i18n="author_desc">Связь со мной на разных площадках</p>
+            <div class="links-grid">
+                <a href="https://github.com/denofy76" class="social-link" target="_blank"><span class="emoji">🐙</span> GitHub</a>
+                <a href="https://vk.com/denofy" class="social-link" target="_blank"><span class="emoji">💬</span> VK</a>
+                <a href="https://www.faceit.com/ru/players/Denofy" class="social-link" target="_blank"><span class="emoji">🎮</span> Faceit</a>
+                <a href="https://steamcommunity.com/profiles/76561199140272909/" class="social-link" target="_blank"><span class="emoji">🔧</span> Steam</a>
+                <a href="https://www.twitch.tv/denofy336/about" class="social-link" target="_blank"><span class="emoji">🎥</span> Twitch</a>
+                <a href="https://www.tiktok.com/@denofy?clckid=e626169d" class="social-link" target="_blank"><span class="emoji">🎵</span> TikTok</a>
+                <a href="https://www.donationalerts.com/r/denofy336" class="social-link support-link" target="_blank"><span class="emoji">💖</span> <span data-i18n="support">Поддержать</span></a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ===================== ПЕРЕВОДЫ =====================
+        const translations = {
+            ru: {
+                tab_download: '📦 Скачать пак',
+                tab_app: '💻 Программа',
+                tab_updates: '📝 Обновления',
+                tab_author: '👤 Автор',
+                optimization_desc: 'Оптимизация Windows 11',
+                pack1_desc: 'Сборка с набором твиков и скриптов',
+                pack2_desc: 'Сборка с интеграцией ReviOS',
+                download_btn: '💾 Скачать',
+                size_info: 'Размер каждой сборки: ~4 ГБ',
+                app_title: '🛠 Программа-установщик',
+                app_desc: 'Удобная оболочка для установки пакета в один клик. Сейчас в разработке.',
+                app_btn: 'Скоро будет доступно',
+                app_note: 'Ожидайте в следующих обновлениях',
+                updates_title: '📝 Обновления',
+                updates_desc: 'Все детали о версиях и изменениях публикуются в Telegram-канале.',
+                updates_link: '📢 Telegram канал с обновлениями',
+                author_title: '👤 Об авторе',
+                author_desc: 'Связь со мной на разных площадках',
+                support: 'Поддержать'
+            },
+            en: {
+                tab_download: '📦 Download Pack',
+                tab_app: '💻 App',
+                tab_updates: '📝 Updates',
+                tab_author: '👤 Author',
+                optimization_desc: 'Windows 11 Optimization',
+                pack1_desc: 'Bundle with tweaks and scripts',
+                pack2_desc: 'Bundle with ReviOS integration',
+                download_btn: '💾 Download',
+                size_info: 'Each build size: ~4 GB',
+                app_title: '🛠 Installer App',
+                app_desc: 'A convenient shell for one-click package installation. Currently in development.',
+                app_btn: 'Coming soon',
+                app_note: 'Expect in future updates',
+                updates_title: '📝 Updates',
+                updates_desc: 'All version details and changes are published in the Telegram channel.',
+                updates_link: '📢 Telegram Updates Channel',
+                author_title: '👤 About the Author',
+                author_desc: 'Connect with me on various platforms',
+                support: 'Support'
+            }
+        };
+
+        function applyLanguage(lang) {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    el.textContent = translations[lang][key];
+                }
+            });
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('data-lang') === lang) btn.classList.add('active');
+            });
+            localStorage.setItem('denofy-lang', lang);
+            document.documentElement.lang = lang;
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            const activeBtn = document.querySelector(`.tab-btn[onclick="switchTab('${tabId}')"]`);
+            if (activeBtn) activeBtn.classList.add('active');
+            if (tabId === 'updates') loadTelegramFeed();
+        }
+
+        function initLanguage() {
+            let savedLang = localStorage.getItem('denofy-lang');
+            if (!savedLang) {
+                const browserLang = navigator.language || navigator.userLanguage;
+                savedLang = browserLang.startsWith('en') ? 'en' : 'ru';
+            }
+            applyLanguage(savedLang);
+        }
+
+        // ===================== TELEGRAM FEED =====================
+        const WORKER_URL = 'https://denofy-updates.denofy76.workers.dev';
+
+        async function loadTelegramFeed() {
+            const feed = document.getElementById('telegram-feed');
+            if (!feed) return;
+            feed.innerHTML = '<p style="color:#8b949e">Загрузка обновлений...</p>';
+            try {
+                const res = await fetch(WORKER_URL);
+                if (!res.ok) throw new Error('Worker response error');
+                const posts = await res.json();
+                if (!Array.isArray(posts) || posts.length === 0) {
+                    feed.innerHTML = '<p style="color:#8b949e">Пока нет обновлений</p>';
+                    return;
+                }
+                feed.innerHTML = posts.slice(0, 5).map(p => {
+                    const date = new Date(p.date * 1000).toLocaleDateString('ru-RU', {
+                        day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit'
+                    });
+                    const textHtml = (p.text || '')
+                        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+                        .replace(/\n/g, '<br>');
+                    return `
+                        <div style="background:rgba(26,31,38,0.7); border:1px solid rgba(48,54,61,0.7); border-radius:12px; padding:15px; margin-bottom:12px;">
+                            ${p.photo ? `<img src="${p.photo}" style="max-width:100%; border-radius:8px; margin-bottom:8px;" loading="lazy">` : ''}
+                            <p style="color:#c9d1d9; margin-bottom:8px; line-height:1.5;">${textHtml}</p>
+                            <div style="display:flex; justify-content:space-between; align-items:center;">
+                                <span style="color:#8b949e; font-size:0.85rem;">${date}</span>
+                                <a href="${p.link}" target="_blank" style="color:#58a6ff; font-size:0.85rem; text-decoration:none;">Читать в Telegram →</a>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            } catch (error) {
+                feed.innerHTML = '<p style="color:#f85149">Не удалось загрузить обновления 😕</p>';
+                console.error('Telegram feed error:', error);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initLanguage();
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    applyLanguage(btn.getAttribute('data-lang'));
+                });
+            });
+            if (document.getElementById('updates')?.classList.contains('active')) {
+                loadTelegramFeed();
+            }
+        });
+    </script>
+</body>
+</html>
