@@ -32,8 +32,8 @@
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(48, 54, 61, 0.6);
             border-radius: 24px;
-            padding: 40px 35px;
-            max-width: 680px;
+            padding: 35px 30px;
+            max-width: 720px;
             width: 100%;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(88, 166, 255, 0.1);
             transition: all 0.3s ease;
@@ -42,7 +42,7 @@
         .tabs {
             display: flex;
             gap: 10px;
-            margin-bottom: 35px;
+            margin-bottom: 30px;
             border-bottom: 2px solid rgba(48, 54, 61, 0.8);
             padding-bottom: 15px;
             flex-wrap: wrap;
@@ -54,7 +54,7 @@
             color: #8b949e;
             font-size: 0.95rem;
             font-weight: 600;
-            padding: 10px 18px;
+            padding: 10px 16px;
             border-radius: 10px 10px 0 0;
             cursor: pointer;
             transition: all 0.25s ease;
@@ -98,8 +98,8 @@
             background: #238636;
             color: #ffffff;
             font-weight: 600;
-            font-size: 0.95rem;
-            padding: 12px 30px;
+            font-size: 0.9rem;
+            padding: 10px 28px;
             border-radius: 10px;
             text-decoration: none;
             transition: all 0.25s ease;
@@ -183,19 +183,20 @@
             line-height: 1.4;
         }
 
+        /* Сетка ссылок автора — компактнее */
         .links-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 16px;
-            margin-top: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 12px;
+            margin-top: 20px;
         }
 
         .social-link {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            padding: 12px 16px;
+            gap: 8px;
+            padding: 10px 12px;
             background: rgba(26, 31, 38, 0.7);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
@@ -204,7 +205,7 @@
             color: #e6edf3;
             text-decoration: none;
             font-weight: 600;
-            font-size: 0.95rem;
+            font-size: 0.85rem;
             transition: all 0.25s ease;
         }
 
@@ -215,7 +216,7 @@
             box-shadow: 0 8px 20px rgba(88, 166, 255, 0.3);
         }
 
-        .social-link .emoji { font-size: 1.3rem; }
+        .social-link .emoji { font-size: 1.1rem; }
     </style>
 </head>
 <body>
@@ -269,7 +270,7 @@
         <!-- Вкладка 4: Автор -->
         <div id="about-author" class="tab-content">
             <h2 style="margin-bottom: 15px;">👤 Об авторе</h2>
-            <p style="color: #8b949e; margin-bottom: 20px;">Связь со мной на разных площадках</p>
+            <p style="color: #8b949e; margin-bottom: 10px;">Связь со мной на разных площадках</p>
             <div class="links-grid">
                 <a href="https://github.com/denofy76" class="social-link" target="_blank">
                     <span class="emoji">🐙</span> GitHub
@@ -282,6 +283,12 @@
                 </a>
                 <a href="https://steamcommunity.com/profiles/76561199140272909/" class="social-link" target="_blank">
                     <span class="emoji">🔧</span> Steam
+                </a>
+                <a href="https://www.twitch.tv/denofy336/about" class="social-link" target="_blank">
+                    <span class="emoji">🎥</span> Twitch
+                </a>
+                <a href="https://www.tiktok.com/@denofy?clckid=e626169d" class="social-link" target="_blank">
+                    <span class="emoji">🎵</span> TikTok
                 </a>
             </div>
         </div>
