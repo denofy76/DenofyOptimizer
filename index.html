@@ -7,7 +7,6 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        /* Анимированный градиентный фон */
         body {
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             background: linear-gradient(135deg, #0d1117, #1a1f26, #0d1117, #161b22);
@@ -27,7 +26,6 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* Контейнер с эффектом матового стекла */
         .container {
             background: rgba(33, 38, 45, 0.75);
             backdrop-filter: blur(16px);
@@ -47,20 +45,22 @@
             margin-bottom: 35px;
             border-bottom: 2px solid rgba(48, 54, 61, 0.8);
             padding-bottom: 15px;
+            flex-wrap: wrap;
         }
 
         .tab-btn {
             background: transparent;
             border: none;
             color: #8b949e;
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 600;
-            padding: 10px 22px;
+            padding: 10px 18px;
             border-radius: 10px 10px 0 0;
             cursor: pointer;
             transition: all 0.25s ease;
             position: relative;
             letter-spacing: 0.3px;
+            white-space: nowrap;
         }
 
         .tab-btn:hover {
@@ -93,7 +93,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Кнопки */
         .btn {
             display: inline-block;
             background: #238636;
@@ -139,7 +138,6 @@
 
         .size-info { color: #8b949e; font-size: 0.9rem; margin-top: 20px; }
 
-        /* Карточки сборок */
         .package-cards {
             display: flex;
             gap: 20px;
@@ -185,33 +183,48 @@
             line-height: 1.4;
         }
 
-        /* Размер и предупреждения */
-        .info-text {
-            color: #8b949e;
-            font-size: 0.85rem;
-            margin-top: 15px;
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 16px;
+            margin-top: 25px;
         }
 
-        /* Вкладка Telegram */
-        .tg-container {
-            margin-top: 20px;
-            text-align: center;
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px 16px;
+            background: rgba(26, 31, 38, 0.7);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(48, 54, 61, 0.7);
+            border-radius: 12px;
+            color: #e6edf3;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.25s ease;
         }
 
-        .tg-container p {
-            color: #8b949e;
-            font-size: 0.9rem;
-            margin-top: 15px;
+        .social-link:hover {
+            background: rgba(88, 166, 255, 0.08);
+            border-color: #58a6ff;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(88, 166, 255, 0.3);
         }
+
+        .social-link .emoji { font-size: 1.3rem; }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Вкладки -->
         <div class="tabs">
             <button class="tab-btn active" onclick="switchTab('download-pack')">📦 Скачать пак</button>
             <button class="tab-btn" onclick="switchTab('download-app')">💻 Программа</button>
             <button class="tab-btn" onclick="switchTab('updates')">📝 Обновления</button>
+            <button class="tab-btn" onclick="switchTab('about-author')">👤 Автор</button>
         </div>
 
         <!-- Вкладка 1: Скачать пак -->
@@ -220,18 +233,16 @@
             <p style="color: #8b949e; margin-bottom: 5px;">Оптимизация Windows 11</p>
             
             <div class="package-cards">
-                <!-- Карточка 1 -->
                 <div class="package-card">
                     <div class="package-icon">💠</div>
                     <div class="package-name">DenofyOptimizer</div>
                     <div class="package-desc">Базовая сборка с набором твиков и скриптов</div>
                     <a href="https://cloud.mail.ru/public/8F83/7EbHpFpMH" class="btn">💾 Скачать</a>
                 </div>
-                <!-- Карточка 2 -->
                 <div class="package-card">
-                    <div class="package-icon">⚡</div>
-                    <div class="package-name">+ ReviOS</div>
-                    <div class="package-desc">Усиленная оптимизация с интеграцией ReviOS</div>
+                    <div class="package-icon">🔹</div>
+                    <div class="package-name">DenofyOptimizer + ReviOS</div>
+                    <div class="package-desc">Та же базовая сборка с интеграцией ReviOS</div>
                     <a href="https://cloud.mail.ru/public/TfNr/vAYGCQZnh" class="btn">💾 Скачать</a>
                 </div>
             </div>
@@ -250,9 +261,27 @@
         <div id="updates" class="tab-content">
             <h2 style="margin-bottom: 10px;">📝 Обновления</h2>
             <p style="color: #8b949e; margin-bottom: 25px;">Все детали о версиях и изменениях публикуются в Telegram-канале.</p>
-            <div class="tg-container">
-                <a href="https://t.me/denofyoptimizer" class="btn btn-outline" target="_blank">
-                    📢 Telegram канал с обновлениями
+            <a href="https://t.me/denofyoptimizer" class="btn btn-outline" target="_blank">
+                📢 Telegram канал с обновлениями
+            </a>
+        </div>
+
+        <!-- Вкладка 4: Автор -->
+        <div id="about-author" class="tab-content">
+            <h2 style="margin-bottom: 15px;">👤 Об авторе</h2>
+            <p style="color: #8b949e; margin-bottom: 20px;">Связь со мной на разных площадках</p>
+            <div class="links-grid">
+                <a href="https://github.com/denofy76" class="social-link" target="_blank">
+                    <span class="emoji">🐙</span> GitHub
+                </a>
+                <a href="https://vk.com/denofy" class="social-link" target="_blank">
+                    <span class="emoji">💬</span> VK
+                </a>
+                <a href="https://www.faceit.com/ru/players/Denofy" class="social-link" target="_blank">
+                    <span class="emoji">🎮</span> Faceit
+                </a>
+                <a href="https://steamcommunity.com/profiles/76561199140272909/" class="social-link" target="_blank">
+                    <span class="emoji">🔧</span> Steam
                 </a>
             </div>
         </div>
