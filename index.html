@@ -26,7 +26,7 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* Логотип – только картинка */
+        /* Логотип */
         .logo {
             position: fixed;
             top: 22px;
@@ -43,6 +43,7 @@
             box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
             transition: all 0.25s ease;
             text-decoration: none;
+            cursor: pointer;
         }
 
         .logo:hover {
@@ -53,7 +54,7 @@
         }
 
         .logo-img {
-            height: 36px;
+            height: 44px;
             width: auto;
             display: block;
         }
@@ -188,6 +189,10 @@
             text-align: center;
             transition: all 0.3s ease;
             box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
         }
 
         .package-card:hover {
@@ -198,21 +203,25 @@
 
         .package-icon {
             font-size: 2.8rem;
-            margin-bottom: 12px;
         }
 
         .package-name {
             font-weight: 700;
             font-size: 1.3rem;
             color: #f0f6fc;
-            margin-bottom: 8px;
         }
 
         .package-desc {
             font-size: 0.9rem;
             color: #8b949e;
-            margin-bottom: 22px;
             line-height: 1.5;
+            flex-grow: 1;
+        }
+
+        /* Кнопка внутри карточки — прижата к низу */
+        .package-card .btn {
+            margin: 0;
+            margin-top: auto;
         }
 
         .links-grid {
@@ -263,8 +272,8 @@
     </style>
 </head>
 <body>
-    <!-- Логотип только из картинки -->
-    <a href="#" class="logo">
+    <!-- Логотип (клик → вкладка «Скачать пак») -->
+    <a href="#" class="logo" onclick="switchTab('download-pack'); return false;">
         <img src="logo.png" alt="DenofyOptimizer" class="logo-img">
     </a>
 
@@ -285,13 +294,13 @@
                 <div class="package-card">
                     <div class="package-icon">💠</div>
                     <div class="package-name">DenofyOptimizer</div>
-                    <div class="package-desc">Базовая сборка с набором твиков и скриптов</div>
+                    <div class="package-desc">Сборка с набором твиков и скриптов</div>
                     <a href="https://cloud.mail.ru/public/8F83/7EbHpFpMH" class="btn">💾 Скачать</a>
                 </div>
                 <div class="package-card">
                     <div class="package-icon">🔹</div>
                     <div class="package-name">DenofyOptimizer + ReviOS</div>
-                    <div class="package-desc">Та же базовая сборка с интеграцией ReviOS</div>
+                    <div class="package-desc">Сборка с интеграцией ReviOS</div>
                     <a href="https://cloud.mail.ru/public/TfNr/vAYGCQZnh" class="btn">💾 Скачать</a>
                 </div>
             </div>
@@ -350,7 +359,9 @@
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
-            event.target.classList.add('active');
+            // Активная кнопка ищется по атрибуту onclick
+            const activeBtn = document.querySelector(`.tab-btn[onclick="switchTab('${tabId}')"]`);
+            if (activeBtn) activeBtn.classList.add('active');
         }
     </script>
 </body>
