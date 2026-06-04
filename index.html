@@ -68,18 +68,27 @@
             background: #238636;
             color: #ffffff;
             font-weight: 600;
-            font-size: 1.1rem;
-            padding: 14px 45px;
+            font-size: 1rem;
+            padding: 12px 35px;
             border-radius: 10px;
             text-decoration: none;
             transition: all 0.2s;
             border: 1px solid #2ea043;
-            margin: 15px 0 5px;
+            margin: 10px 5px;
         }
         .btn:hover {
             background: #2ea043;
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(35, 134, 54, 0.4);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid #58a6ff;
+            color: #58a6ff;
+        }
+        .btn-outline:hover {
+            background: #1a2634;
+            box-shadow: 0 8px 25px rgba(88, 166, 255, 0.3);
         }
         .btn-disabled {
             background: #30363d;
@@ -88,51 +97,11 @@
             cursor: not-allowed;
             pointer-events: none;
         }
-        .size-info { color: #8b949e; font-size: 0.9rem; margin-bottom: 15px; }
-        .warning {
-            margin-top: 15px;
-            padding: 12px;
-            background: #1a1f26;
-            border-radius: 8px;
-            color: #f85149;
-            font-size: 0.85rem;
+        .size-info { color: #8b949e; font-size: 0.9rem; margin: 5px 0 15px; }
+        
+        .tg-button {
+            margin: 10px 0 20px;
         }
-
-        /* Стили для обновлений */
-        .update-post {
-            background: #1a1f26;
-            border: 1px solid #30363d;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-        .update-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: #58a6ff;
-            margin-bottom: 12px;
-        }
-        .update-section {
-            margin: 10px 0;
-            font-size: 0.95rem;
-            color: #c9d1d9;
-        }
-        .update-section strong {
-            color: #e6edf3;
-            display: inline-block;
-            width: 130px;
-        }
-        .update-section ul {
-            list-style: none;
-            padding-left: 0;
-        }
-        .update-section li {
-            padding: 2px 0;
-            color: #8b949e;
-        }
-        .update-section .added li::before { content: "+ "; color: #3fb950; font-weight: bold; }
-        .update-section .removed li::before { content: "− "; color: #f85149; font-weight: bold; }
-        .update-section .changed li::before { content: "~ "; color: #d2991d; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -147,12 +116,10 @@
         <!-- Вкладка 1: Скачать пак -->
         <div id="download-pack" class="tab-content active">
             <h2 style="margin-bottom: 5px;">⚡ DenofyOptimizer</h2>
-            <p style="color: #8b949e; margin-bottom: 15px;">Комплексная оптимизация Windows 11</p>
-            <a href="https://cloud.mail.ru/public/BMvi/1we86ngZn" class="btn">💾 Скачать</a>
+            <p style="color: #8b949e; margin-bottom: 15px;">Оптимизация Windows 11</p>
+            <a href="https://cloud.mail.ru/public/8F83/7EbHpFpMH" class="btn">💾 DenofyOptimizer</a>
+            <a href="https://cloud.mail.ru/public/TfNr/vAYGCQZnh" class="btn">💾 DenofyOptimizer + ReviOS</a>
             <p class="size-info">Размер: ~4 ГБ</p>
-            <div class="warning">
-                ⚠️ Перед применением создайте точку восстановления. Антивирус может ложно срабатывать на скрипты.
-            </div>
         </div>
 
         <!-- Вкладка 2: Программа (пока заглушка) -->
@@ -165,38 +132,13 @@
 
         <!-- Вкладка 3: Обновления -->
         <div id="updates" class="tab-content">
-            <h2 style="margin-bottom: 25px;">📝 История версий</h2>
-
-            <!-- ==================== ПОСТЫ ОБНОВЛЕНИЙ ==================== -->
-            <!-- Чтобы добавить новый пост, скопируй блок ниже и измени данные -->
-
-            <div class="update-post">
-                <div class="update-title">DenofyOptimizer 1.7</div>
-                <div class="update-section added">
-                    <strong>Добавлено:</strong>
-                    <ul>
-                        <li>priority.bat — Понижает приоритет фоновых задач</li>
-                        <li>Broken resolution fix — Гайд на исправление разрешения</li>
-                        <li>Windows (без office) — Активация Windows через cmd (от администратора)</li>
-                        <li>Low Latency profile — Гайд по активации профиля для устранения подлагиваний интерфейса</li>
-                    </ul>
-                </div>
-                <div class="update-section removed">
-                    <strong>Убрано:</strong>
-                    <ul>
-                        <li>del windows defender — Из-за полного удаления появились фризы в игре</li>
-                    </ul>
-                </div>
-                <div class="update-section changed">
-                    <strong>Дополнено:</strong>
-                    <ul>
-                        <li>Steam settings — Добавлен раздел с настройками графики «CS2 video»</li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Здесь можно добавлять новые блоки update-post выше этого комментария -->
-
+            <h2 style="margin-bottom: 15px;">📝 Обновления</h2>
+            
+            <!-- Кнопка Telegram -->
+            <a href="https://t.me/denofyoptimizer" class="btn btn-outline tg-button" target="_blank">
+                📢 Telegram канал с обновлениями
+            </a>
+            <p style="color: #8b949e; font-size: 0.9rem;">Все подробности о версиях и изменениях публикуются в канале.</p>
         </div>
     </div>
 
