@@ -26,6 +26,38 @@
             100% { background-position: 0% 50%; }
         }
 
+        /* Логотип – только картинка */
+        .logo {
+            position: fixed;
+            top: 22px;
+            left: 28px;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            background: rgba(33, 38, 45, 0.65);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(88, 166, 255, 0.25);
+            border-radius: 14px;
+            padding: 10px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+            transition: all 0.25s ease;
+            text-decoration: none;
+        }
+
+        .logo:hover {
+            background: rgba(33, 38, 45, 0.8);
+            border-color: #58a6ff;
+            box-shadow: 0 0 20px rgba(88, 166, 255, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .logo-img {
+            height: 36px;
+            width: auto;
+            display: block;
+        }
+
         .container {
             background: rgba(33, 38, 45, 0.75);
             backdrop-filter: blur(16px);
@@ -217,7 +249,6 @@
 
         .social-link .emoji { font-size: 1.3rem; }
 
-        /* Стиль для кнопки поддержки */
         .support-link {
             background: rgba(255, 215, 0, 0.08);
             border-color: rgba(255, 215, 0, 0.3);
@@ -232,6 +263,11 @@
     </style>
 </head>
 <body>
+    <!-- Логотип только из картинки -->
+    <a href="#" class="logo">
+        <img src="logo.png" alt="DenofyOptimizer" class="logo-img">
+    </a>
+
     <div class="container">
         <div class="tabs">
             <button class="tab-btn active" onclick="switchTab('download-pack')">📦 Скачать пак</button>
@@ -302,7 +338,6 @@
                 <a href="https://www.tiktok.com/@denofy?clckid=e626169d" class="social-link" target="_blank">
                     <span class="emoji">🎵</span> TikTok
                 </a>
-                <!-- Кнопка поддержки -->
                 <a href="https://www.donationalerts.com/r/denofy336" class="social-link support-link" target="_blank">
                     <span class="emoji">💖</span> Поддержать
                 </a>
