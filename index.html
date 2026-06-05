@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#0d1117">
     <title>DenofyOptimizer</title>
-    <!-- Фавикон -->
     <link rel="icon" href="logo3.ico" type="image/x-icon">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -25,10 +24,8 @@
             padding: 20px;
             padding-top: calc(20px + env(safe-area-inset-top, 0px));
             position: relative;
-            transition: opacity 0.4s ease;
         }
 
-        /* Контент скрыт, пока не загрузится */
         body.loading .container,
         body.loading .top-bar {
             opacity: 0;
@@ -41,7 +38,7 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* Заставка */
+        /* --- Заставка --- */
         .splash-screen {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             background: #0d1117; z-index: 100;
@@ -52,19 +49,21 @@
             padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px));
         }
         .splash-screen.hide { opacity: 0; pointer-events: none; }
-        /* Новый класс для картинки-логотипа */
+
         .splash-logo-img { 
-            width: 100px;  /* регулируйте размер под ваш логотип */
+            width: 150px;                     /* Увеличенный размер */
             height: auto;
             animation: splashPulse 1.5s ease infinite; 
             margin-bottom: 16px; 
             filter: drop-shadow(0 0 20px rgba(88,166,255,0.4));
         }
+
         @keyframes splashPulse {
             0% { transform: scale(0.95); opacity: 0.8; }
             50% { transform: scale(1.05); opacity: 1; }
             100% { transform: scale(0.95); opacity: 0.8; }
         }
+
         .splash-text {
             font-size: 1.4rem; font-weight: 600; letter-spacing: 0.2em;
             color: #58a6ff; margin-bottom: 30px; animation: splashFadeText 1.5s ease infinite;
@@ -72,9 +71,11 @@
             text-shadow: 0 0 15px rgba(88,166,255,0.5);
             line-height: 1.3;
         }
+
         @keyframes splashFadeText {
             0% { opacity: 0.6; } 50% { opacity: 1; } 100% { opacity: 0.6; }
         }
+
         .splash-progress {
             width: 200px; height: 4px; background: rgba(255,255,255,0.15);
             border-radius: 2px; overflow: hidden;
@@ -87,34 +88,32 @@
         }
         @keyframes progressGrow { 0% { width: 0%; } 100% { width: 100%; } }
 
-        /* Анимации после заставки */
-        @keyframes bounceIn {
-            0% { transform: translateY(50px); opacity: 0; }
-            60% { transform: translateY(-15px); opacity: 1; }
-            80% { transform: translateY(5px); }
-            100% { transform: translateY(0); opacity: 1; }
-        }
-        @keyframes dropIn {
-            0% { transform: translateY(-30px); opacity: 0; }
-            60% { transform: translateY(6px); opacity: 1; }
-            80% { transform: translateY(-3px); }
-            100% { transform: translateY(0); opacity: 1; }
-        }
-
+        /* --- Плавное появление контента --- */
         .container {
-            opacity: 0; /* скрыт до анимации */
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
         }
-        .tab-btn {
-            opacity: 0; /* скрыты до анимации */
+        body.loaded .container {
+            opacity: 1;
+            transform: translateY(0);
         }
-        body.loaded .container { animation: bounceIn 0.7s cubic-bezier(0.22, 0.61, 0.36, 1) forwards; }
-        body.loaded .tab-btn { animation: dropIn 0.5s ease forwards; }
-        body.loaded .tab-btn:nth-child(1) { animation-delay: 0.2s; }
-        body.loaded .tab-btn:nth-child(2) { animation-delay: 0.35s; }
-        body.loaded .tab-btn:nth-child(3) { animation-delay: 0.5s; }
-        body.loaded .tab-btn:nth-child(4) { animation-delay: 0.65s; }
 
-        /* Верхняя панель */
+        .tab-btn {
+            opacity: 0;
+            transform: translateY(-15px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        body.loaded .tab-btn {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        body.loaded .tab-btn:nth-child(1) { transition-delay: 0.1s; }
+        body.loaded .tab-btn:nth-child(2) { transition-delay: 0.2s; }
+        body.loaded .tab-btn:nth-child(3) { transition-delay: 0.3s; }
+        body.loaded .tab-btn:nth-child(4) { transition-delay: 0.4s; }
+
+        /* --- Остальные стили без изменений --- */
         .top-bar {
             position: fixed; top: 22px; left: 28px; right: 28px; z-index: 10;
             display: flex; justify-content: space-between; align-items: center;
@@ -152,7 +151,6 @@
             border: 1px solid rgba(48, 54, 61, 0.6); border-radius: 24px;
             padding: 40px; max-width: 800px; width: 100%; margin-top: 60px;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(88, 166, 255, 0.1);
-            transition: all 0.3s ease; position: relative;
         }
         .tabs {
             display: flex; gap: 12px; margin-bottom: 35px;
@@ -162,8 +160,8 @@
             background: transparent; border: none; color: #8b949e;
             font-size: 1rem; font-weight: 600; padding: 10px 20px;
             border-radius: 10px 10px 0 0; cursor: pointer;
-            transition: all 0.25s ease; position: relative;
-            letter-spacing: 0.3px; white-space: nowrap;
+            position: relative; letter-spacing: 0.3px; white-space: nowrap;
+            transition: color 0.25s ease, background 0.25s ease, opacity 0.4s ease, transform 0.4s ease;
         }
         .tab-btn:hover { color: #c9d1d9; background: rgba(255, 255, 255, 0.03); }
         .tab-btn.active { color: #ffffff; background: rgba(88, 166, 255, 0.08); }
@@ -271,7 +269,7 @@
             display: inline-block; margin-right: 10px;
         }
 
-        /* ========== МОБИЛЬНАЯ АДАПТАЦИЯ ========== */
+        /* Мобильная адаптация */
         @media (max-width: 600px) {
             body { padding: 12px; padding-top: calc(12px + env(safe-area-inset-top, 0px)); }
             .top-bar { top: 12px; left: 12px; right: 12px; flex-wrap: wrap; gap: 8px; }
@@ -296,15 +294,14 @@
             .size-info { font-size: 0.85rem; }
             .share-btn { width: 100%; justify-content: center; }
 
-            /* ===== Адаптивная заставка ===== */
+            /* Заставка на телефоне */
             .splash-screen {
                 padding: 15px;
                 padding-top: calc(15px + env(safe-area-inset-top, 0px));
                 padding-bottom: calc(15px + env(safe-area-inset-bottom, 0px));
             }
-            /* Изменённый селектор для логотипа-картинки */
             .splash-logo-img { 
-                width: 80px;  /* немного меньше на мобильных */
+                width: 110px; 
                 margin-bottom: 12px; 
                 filter: drop-shadow(0 0 25px rgba(88,166,255,0.8));
             }
@@ -327,7 +324,6 @@
 
     <!-- Заставка -->
     <div class="splash-screen" id="splashScreen">
-        <!-- Картинка вместо молнии -->
         <img class="splash-logo-img" src="logo2.png" alt="Denofy Logo">
         <div class="splash-text">СДЕЛАНО DENOFY</div>
         <div class="splash-progress"><div class="splash-progress-bar"></div></div>
@@ -352,7 +348,7 @@
             <button class="tab-btn" data-tab="about-author" data-i18n="tab_author">👤 Автор</button>
         </div>
 
-        <!-- Вкладки -->
+        <!-- Вкладки (без изменений) -->
         <div id="download-pack" class="tab-content active">
             <h2 style="margin-bottom: 5px; font-size: 1.8rem;">⚡ DenofyOptimizer</h2>
             <p style="color: #8b949e; margin-bottom: 5px; font-size: 1rem;" data-i18n="optimization_desc">Оптимизация Windows 11</p>
@@ -417,7 +413,7 @@
         </div>
     </div>
 
-    <!-- Змейка (без стрелок) -->
+    <!-- Змейка -->
     <div class="snake-overlay" id="snakeOverlay">
         <canvas id="snakeCanvas" width="400" height="400"></canvas>
         <div>
@@ -441,7 +437,7 @@
             }, 1500);
         });
 
-        // Переводы
+        // Переводы (без изменений)
         const translations = {
             ru: {
                 tab_download: '📦 Скачать пак', tab_app: '💻 Программа', tab_updates: '📝 Обновления', tab_author: '👤 Автор',
@@ -485,11 +481,9 @@
             if (activeBtn) activeBtn.classList.add('active');
             if (tabId === 'updates') loadTelegramFeed();
             
-            // Прокручиваем страницу вверх, чтобы контент был полностью виден
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Делегирование кликов на табах
         document.addEventListener('DOMContentLoaded', () => {
             const tabsContainer = document.getElementById('tabsContainer');
             if (tabsContainer) {
@@ -567,7 +561,7 @@
             if (document.getElementById('updates')?.classList.contains('active')) loadTelegramFeed();
         });
 
-        // ========== ЗМЕЙКА (WASD + стрелки, без скролла фона) ==========
+        // ========== ЗМЕЙКА (WASD + стрелки – надёжно работает) ==========
         let snakeGame = null;
 
         function initSnakeEasterEgg() {
@@ -604,7 +598,6 @@
             let gameOver = false;
             let interval;
 
-            // Блокируем скролл фона
             document.body.style.overflow = 'hidden';
             const preventTouchMove = e => e.preventDefault();
             overlay.addEventListener('touchmove', preventTouchMove, {passive: false});
@@ -659,22 +652,19 @@
                 if (newDir.y && direction.y === 0) direction = newDir;
             }
 
+            // Единый обработчик клавиш (английские + русские WASD)
             function keyHandler(e) {
                 if (gameOver) return;
-                const key = e.key.toLowerCase(); // приводим к нижнему регистру
-                // Стрелки
-                if (key === 'arrowup') changeDir({x:0, y:-1});
-                else if (key === 'arrowdown') changeDir({x:0, y:1});
-                else if (key === 'arrowleft') changeDir({x:-1, y:0});
-                else if (key === 'arrowright') changeDir({x:1, y:0});
-                // WASD
-                else if (key === 'w') changeDir({x:0, y:-1});
-                else if (key === 'a') changeDir({x:-1, y:0});
-                else if (key === 's') changeDir({x:0, y:1});
-                else if (key === 'd') changeDir({x:1, y:0});
+                const key = e.key.toLowerCase();
 
-                // Предотвращаем скролл страницы от WASD/стрелок, только если игра активна
-                if (['arrowup','arrowdown','arrowleft','arrowright','w','a','s','d'].includes(key)) {
+                // Английские и русские буквы
+                if (key === 'arrowup' || key === 'w' || key === 'ц') changeDir({x:0, y:-1});
+                else if (key === 'arrowdown' || key === 's' || key === 'ы') changeDir({x:0, y:1});
+                else if (key === 'arrowleft' || key === 'a' || key === 'ф') changeDir({x:-1, y:0});
+                else if (key === 'arrowright' || key === 'd' || key === 'в') changeDir({x:1, y:0});
+
+                // Блокируем скролл страницы
+                if (['arrowup','arrowdown','arrowleft','arrowright','w','a','s','d','ц','ф','ы','в'].includes(key)) {
                     e.preventDefault();
                 }
             }
@@ -694,7 +684,6 @@
             touchArea.addEventListener('touchstart', handleTouchStart, {passive: true});
             touchArea.addEventListener('touchend', handleTouchEnd, {passive: true});
 
-            // Перезапуск по клику на canvas после Game Over
             function canvasRestartHandler() {
                 if (gameOver) restartSnake();
             }
@@ -718,7 +707,7 @@
                     touchArea.removeEventListener('touchend', handleTouchEnd);
                     overlay.removeEventListener('touchmove', preventTouchMove);
                     canvas.removeEventListener('click', canvasRestartHandler);
-                    document.body.style.overflow = ''; // возвращаем скролл
+                    document.body.style.overflow = '';
                     overlay.classList.remove('active');
                     snakeGame = null;
                 }
