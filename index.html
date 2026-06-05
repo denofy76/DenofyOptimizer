@@ -88,30 +88,22 @@
         }
         @keyframes progressGrow { 0% { width: 0%; } 100% { width: 100%; } }
 
-        /* --- Плавное появление контента --- */
+        /* --- Единая плавная анимация появления контента --- */
         .container {
             opacity: 0;
             transform: translateY(40px);
-            transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+            transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.22, 0.61, 0.36, 1);
         }
         body.loaded .container {
             opacity: 1;
             transform: translateY(0);
         }
-
+        /* Кнопки видны сразу, без отдельных анимаций */
         .tab-btn {
-            opacity: 0;
-            transform: translateY(-15px);
-            transition: opacity 0.4s ease, transform 0.4s ease;
-        }
-        body.loaded .tab-btn {
             opacity: 1;
-            transform: translateY(0);
+            transform: none;
+            transition: color 0.25s ease, background 0.25s ease;
         }
-        body.loaded .tab-btn:nth-child(1) { transition-delay: 0.1s; }
-        body.loaded .tab-btn:nth-child(2) { transition-delay: 0.2s; }
-        body.loaded .tab-btn:nth-child(3) { transition-delay: 0.3s; }
-        body.loaded .tab-btn:nth-child(4) { transition-delay: 0.4s; }
 
         /* --- Верхняя панель --- */
         .top-bar {
@@ -161,7 +153,6 @@
             font-size: 1rem; font-weight: 600; padding: 10px 20px;
             border-radius: 10px 10px 0 0; cursor: pointer;
             position: relative; letter-spacing: 0.3px; white-space: nowrap;
-            transition: color 0.25s ease, background 0.25s ease, opacity 0.4s ease, transform 0.4s ease;
         }
         .tab-btn:hover { color: #c9d1d9; background: rgba(255, 255, 255, 0.03); }
         .tab-btn.active { color: #ffffff; background: rgba(46, 160, 67, 0.12); }
@@ -173,7 +164,7 @@
         .tab-content {
             display: none;
             animation: fadeSlide 0.35s ease;
-            min-height: 450px; /* чтобы вкладки не прыгали по высоте */
+            min-height: 450px;
         }
         .tab-content.active { display: block; }
         @keyframes fadeSlide {
@@ -289,7 +280,7 @@
             .tab-btn.active { background: rgba(46, 160, 67, 0.15); border-color: #2ea043; }
             .tab-btn.active::after { display: none; }
             .tab-content {
-                min-height: 350px; /* немного меньше на телефонах, но всё равно стабильно */
+                min-height: 350px;
             }
             .package-cards { flex-direction: column; gap: 16px; }
             .package-card { padding: 24px 16px; }
@@ -355,7 +346,7 @@
             <button class="tab-btn" data-tab="about-author" data-i18n="tab_author">👤 Автор</button>
         </div>
 
-        <!-- Вкладки (контент без изменений) -->
+        <!-- Вкладки -->
         <div id="download-pack" class="tab-content active">
             <h2 style="margin-bottom: 5px; font-size: 1.8rem;">⚡ DenofyOptimizer</h2>
             <p style="color: #8b949e; margin-bottom: 5px; font-size: 1rem;" data-i18n="optimization_desc">Оптимизация Windows 11</p>
@@ -437,6 +428,7 @@
             setTimeout(() => {
                 splash.classList.add('hide');
                 body.classList.remove('loading');
+                // Добавляем loaded сразу после снятия loading, без задержки
                 body.classList.add('loaded');
                 setTimeout(() => {
                     if (splash.parentNode) splash.parentNode.removeChild(splash);
@@ -487,7 +479,6 @@
             const activeBtn = document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
             if (activeBtn) activeBtn.classList.add('active');
             if (tabId === 'updates') loadTelegramFeed();
-            
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
