@@ -95,11 +95,6 @@
             opacity: 1;
             transform: translateY(0);
         }
-        .tab-btn {
-            opacity: 1;
-            transform: none;
-            transition: color 0.25s ease, background 0.25s ease;
-        }
 
         .top-bar {
             position: fixed; top: 22px; left: 28px; right: 28px; z-index: 10;
@@ -150,6 +145,22 @@
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(46, 160, 67, 0.15);
         }
 
+        /* Заголовок сайта над вкладками */
+        .main-title {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .main-title h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 2px;
+            color: #ffffff;
+        }
+        .main-title .subtitle {
+            font-size: 1rem;
+            color: #8b949e;
+        }
+
         .tabs {
             display: flex; 
             gap: 12px; 
@@ -164,6 +175,7 @@
             font-size: 1rem; font-weight: 600; padding: 10px 20px;
             border-radius: 10px 10px 0 0; cursor: pointer;
             position: relative; letter-spacing: 0.3px; white-space: nowrap;
+            transition: color 0.25s ease, background 0.25s ease;
         }
         .tab-btn:hover { color: #c9d1d9; background: rgba(255, 255, 255, 0.03); }
         .tab-btn.active { color: #ffffff; background: rgba(46, 160, 67, 0.12); }
@@ -175,6 +187,7 @@
         .tab-content {
             display: none;
             animation: fadeSlide 0.35s ease;
+            min-height: 450px;   /* фиксированная высота, чтобы не прыгало */
         }
         .tab-content.active { display: block; }
         @keyframes fadeSlide {
@@ -309,6 +322,8 @@
             .logo { padding: 8px; } .logo-img { height: 36px; }
             .lang-btn { font-size: 0.8rem; padding: 8px 14px; }
             .container { margin-top: 90px; padding: 24px 16px; border-radius: 20px; }
+            .main-title h1 { font-size: 1.6rem; }
+            .main-title .subtitle { font-size: 0.9rem; }
             .tabs { 
                 flex-direction: column; 
                 gap: 8px; 
@@ -323,6 +338,9 @@
             }
             .tab-btn.active { background: rgba(46, 160, 67, 0.15); border-color: #2ea043; }
             .tab-btn.active::after { display: none; }
+            .tab-content {
+                min-height: 350px;
+            }
             .package-cards {
                 flex-wrap: wrap;
             }
@@ -388,6 +406,12 @@
     </div>
 
     <div class="container">
+        <!-- Общий заголовок -->
+        <div class="main-title">
+            <h1>DenofyOptimizer</h1>
+            <div class="subtitle" data-i18n="optimization_desc">Оптимизация Windows 11</div>
+        </div>
+
         <div class="tabs" id="tabsContainer">
             <button class="tab-btn active" data-tab="download-pack" data-i18n="tab_download">📦 Скачать пак</button>
             <button class="tab-btn" data-tab="download-app" data-i18n="tab_app">💻 Программа</button>
@@ -396,8 +420,6 @@
         </div>
 
         <div id="download-pack" class="tab-content active">
-            <h2 style="margin-bottom: 2px; font-size: 1.8rem;">DenofyOptimizer</h2>
-            <p style="color: #8b949e; margin-bottom: 15px; font-size: 1rem;" data-i18n="optimization_desc">Оптимизация Windows 11</p>
             <div class="package-cards">
                 <div class="package-card">
                     <div class="package-icon">💠</div>
@@ -605,12 +627,8 @@
         }
         function closeShareModal() { document.getElementById('shareModal').classList.remove('active'); }
         function share() {
-            if (navigator.share) {
-                navigator.share({ title: 'DenofyOptimizer', text: shareText, url: shareUrl })
-                    .catch(() => openShareModal());
-            } else {
-                openShareModal();
-            }
+            // Всегда открываем кастомное окно
+            openShareModal();
         }
 
         document.addEventListener('DOMContentLoaded', () => {
