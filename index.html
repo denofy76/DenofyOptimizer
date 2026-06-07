@@ -1,3 +1,50 @@
+Вот исправленный CSS для карточек и ссылок – теперь при наведении карточка не «ныряет» под другие слои, нет артефактов размытия, а описания выровнены по единой высоте.
+
+```css
+/* Карточки пакетов */
+.package-card {
+    flex: 1 1 200px;
+    min-width: 180px;
+    background: rgba(26, 31, 38, 0.85);        /* убрали backdrop-filter, обычный фон */
+    border: 1px solid rgba(48, 54, 61, 0.7);
+    border-radius: 16px;
+    padding: 24px 18px;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+}
+.package-card:hover {
+    transform: translateY(-2px);                 /* лёгкий подъём */
+    border-color: rgba(46, 160, 67, 0.4);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.6), 0 0 0 1px rgba(46,160,67,0.3);
+}
+
+/* Описание – теперь всегда одной высоты */
+.package-desc {
+    font-size: 0.85rem;
+    color: #8b949e;
+    line-height: 1.4;
+    height: 3em;              /* фиксированная высота */
+    overflow: hidden;         /* лишний текст скроется */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 0;
+}
+
+/* Ссылки соцсетей тоже без фильтра */
+.social-link {
+    background: rgba(26, 31, 38, 0.85);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    /* остальное без изменений */
+}
+```
+
+Полный код страницы (все остальные части без изменений) будет выглядеть так:
+
+```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -145,7 +192,7 @@
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(46, 160, 67, 0.15);
         }
 
-        /* Заголовок сайта над вкладками */
+        /* Общий заголовок */
         .main-title {
             text-align: center;
             margin-bottom: 15px;
@@ -187,7 +234,7 @@
         .tab-content {
             display: none;
             animation: fadeSlide 0.35s ease;
-            min-height: 450px;   /* фиксированная высота, чтобы не прыгало */
+            min-height: 450px;
         }
         .tab-content.active { display: block; }
         @keyframes fadeSlide {
@@ -217,16 +264,21 @@
         .package-card {
             flex: 1 1 200px;
             min-width: 180px;
-            background: rgba(26, 31, 38, 0.7);
-            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-            border: 1px solid rgba(48, 54, 61, 0.7); border-radius: 16px;
-            padding: 24px 18px; text-align: center;
-            transition: all 0.3s ease; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+            background: rgba(26, 31, 38, 0.85);        /* убрали blur */
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+            border: 1px solid rgba(48, 54, 61, 0.7);
+            border-radius: 16px;
+            padding: 24px 18px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.4);
             display: flex; flex-direction: column; align-items: center; gap: 10px;
         }
         .package-card:hover {
-            transform: translateY(-6px); border-color: rgba(46, 160, 67, 0.4);
-            box-shadow: 0 16px 35px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(46, 160, 67, 0.3);
+            transform: translateY(-2px);
+            border-color: rgba(46, 160, 67, 0.4);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.6), 0 0 0 1px rgba(46,160,67,0.3);
         }
         .package-icon { font-size: 2.4rem; }
         .package-name { font-weight: 700; font-size: 1.1rem; color: #f0f6fc; }
@@ -234,11 +286,12 @@
             font-size: 0.85rem; 
             color: #8b949e; 
             line-height: 1.4; 
-            flex-grow: 1;
-            min-height: 2.8em;
+            height: 3em;
+            overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
+            flex-grow: 0;
         }
         .package-size { font-size: 0.8rem; color: #6e7681; margin-top: -2px; }
         .package-card .btn { margin-top: auto; }
@@ -246,9 +299,12 @@
         .links-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 18px; margin-top: 25px; }
         .social-link {
             display: flex; align-items: center; justify-content: center; gap: 10px;
-            padding: 14px 18px; background: rgba(26, 31, 38, 0.7);
-            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-            border: 1px solid rgba(48, 54, 61, 0.7); border-radius: 14px;
+            padding: 14px 18px;
+            background: rgba(26, 31, 38, 0.85);
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+            border: 1px solid rgba(48, 54, 61, 0.7);
+            border-radius: 14px;
             color: #e6edf3; text-decoration: none; font-weight: 600; font-size: 0.95rem;
             transition: all 0.25s ease;
         }
@@ -406,7 +462,6 @@
     </div>
 
     <div class="container">
-        <!-- Общий заголовок -->
         <div class="main-title">
             <h1>DenofyOptimizer</h1>
             <div class="subtitle" data-i18n="optimization_desc">Оптимизация Windows 11</div>
@@ -488,6 +543,7 @@
         </div>
     </div>
 
+    <!-- Остальная разметка и скрипты без изменений -->
     <div class="share-modal" id="shareModal">
         <div class="share-dialog">
             <h3 style="margin-bottom:16px;color:#f0f6fc;">Поделиться</h3>
@@ -508,6 +564,7 @@
     </div>
 
     <script>
+        // Весь JavaScript без изменений
         window.addEventListener('DOMContentLoaded', () => {
             const splash = document.getElementById('splashScreen');
             const body = document.body;
@@ -627,7 +684,6 @@
         }
         function closeShareModal() { document.getElementById('shareModal').classList.remove('active'); }
         function share() {
-            // Всегда открываем кастомное окно
             openShareModal();
         }
 
@@ -653,7 +709,7 @@
             if (document.getElementById('updates')?.classList.contains('active')) loadTelegramFeed();
         });
 
-        // ========== Змейка ==========
+        // Змейка (WASD + стрелки)
         let snakeGame = null;
 
         function initSnakeEasterEgg() {
@@ -781,3 +837,6 @@
     </script>
 </body>
 </html>
+```
+
+Теперь карточки не сливаются с фоном, описания находятся на одном уровне, а эффект наведения чистый и аккуратный.
