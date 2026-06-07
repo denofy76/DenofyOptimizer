@@ -1,50 +1,3 @@
-Вот исправленный CSS для карточек и ссылок – теперь при наведении карточка не «ныряет» под другие слои, нет артефактов размытия, а описания выровнены по единой высоте.
-
-```css
-/* Карточки пакетов */
-.package-card {
-    flex: 1 1 200px;
-    min-width: 180px;
-    background: rgba(26, 31, 38, 0.85);        /* убрали backdrop-filter, обычный фон */
-    border: 1px solid rgba(48, 54, 61, 0.7);
-    border-radius: 16px;
-    padding: 24px 18px;
-    text-align: center;
-    transition: all 0.3s ease;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.4);
-    display: flex; flex-direction: column; align-items: center; gap: 10px;
-}
-.package-card:hover {
-    transform: translateY(-2px);                 /* лёгкий подъём */
-    border-color: rgba(46, 160, 67, 0.4);
-    box-shadow: 0 12px 30px rgba(0,0,0,0.6), 0 0 0 1px rgba(46,160,67,0.3);
-}
-
-/* Описание – теперь всегда одной высоты */
-.package-desc {
-    font-size: 0.85rem;
-    color: #8b949e;
-    line-height: 1.4;
-    height: 3em;              /* фиксированная высота */
-    overflow: hidden;         /* лишний текст скроется */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-grow: 0;
-}
-
-/* Ссылки соцсетей тоже без фильтра */
-.social-link {
-    background: rgba(26, 31, 38, 0.85);
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-    /* остальное без изменений */
-}
-```
-
-Полный код страницы (все остальные части без изменений) будет выглядеть так:
-
-```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -837,6 +790,3 @@
     </script>
 </body>
 </html>
-```
-
-Теперь карточки не сливаются с фоном, описания находятся на одном уровне, а эффект наведения чистый и аккуратный.
