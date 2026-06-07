@@ -8,7 +8,6 @@
     <link rel="icon" href="logo3.ico" type="image/x-icon">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
         html { background: #0d1117; }
 
         body {
@@ -38,7 +37,6 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* Заставка */
         .splash-screen {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             background: #0d1117; z-index: 100;
@@ -88,7 +86,6 @@
         }
         @keyframes progressGrow { 0% { width: 0%; } 100% { width: 100%; } }
 
-        /* Плавное появление */
         .container {
             opacity: 0;
             transform: translateY(40px);
@@ -104,7 +101,6 @@
             transition: color 0.25s ease, background 0.25s ease;
         }
 
-        /* Верхняя панель */
         .top-bar {
             position: fixed; top: 22px; left: 28px; right: 28px; z-index: 10;
             display: flex; justify-content: space-between; align-items: center;
@@ -221,7 +217,16 @@
         }
         .package-icon { font-size: 2.4rem; }
         .package-name { font-weight: 700; font-size: 1.1rem; color: #f0f6fc; }
-        .package-desc { font-size: 0.85rem; color: #8b949e; line-height: 1.4; flex-grow: 1; }
+        .package-desc { 
+            font-size: 0.85rem; 
+            color: #8b949e; 
+            line-height: 1.4; 
+            flex-grow: 1;
+            min-height: 2.8em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
         .package-size { font-size: 0.8rem; color: #6e7681; margin-top: -2px; }
         .package-card .btn { margin-top: auto; }
 
@@ -237,7 +242,6 @@
         .social-link:hover { background: rgba(46, 160, 67, 0.08); border-color: #2ea043; transform: translateY(-3px); box-shadow: 0 8px 20px rgba(46, 160, 67, 0.3); }
         .social-link .emoji { font-size: 1.3rem; }
 
-        /* Кнопки поделиться и поддержать */
         .action-buttons {
             display: flex;
             gap: 16px;
@@ -261,25 +265,6 @@
         }
         .donate-btn:hover { background: rgba(255, 215, 0, 0.2); box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4); }
 
-        /* Заголовок с подзаголовком в одной строке */
-        .title-row {
-            display: flex;
-            align-items: baseline;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin-bottom: 5px;
-        }
-        .title-row h2 {
-            margin-bottom: 0;
-            font-size: 1.8rem;
-            white-space: nowrap;
-        }
-        .title-row .subtitle {
-            color: #8b949e;
-            font-size: 1rem;
-            white-space: nowrap;
-        }
-
         .share-modal {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0,0,0,0.7); backdrop-filter: blur(6px);
@@ -299,7 +284,6 @@
         }
         .share-option:hover { background: rgba(46, 160, 67, 0.15); }
 
-        /* Змейка */
         .snake-overlay {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0,0,0,0.85); backdrop-filter: blur(10px);
@@ -319,7 +303,6 @@
             display: inline-block; margin-right: 10px;
         }
 
-        /* Мобильная адаптация */
         @media (max-width: 700px) {
             body { padding: 12px; padding-top: calc(12px + env(safe-area-inset-top, 0px)); }
             .top-bar { top: 12px; left: 12px; right: 12px; flex-wrap: wrap; gap: 8px; }
@@ -352,8 +335,6 @@
             .links-grid { grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; }
             .social-link { font-size: 0.85rem; padding: 12px 14px; }
             h2 { font-size: 1.5rem !important; }
-            .title-row h2 { font-size: 1.5rem; }
-            .title-row .subtitle { font-size: 0.9rem; white-space: normal; }
             .action-buttons {
                 flex-direction: column;
                 gap: 10px;
@@ -414,12 +395,9 @@
             <button class="tab-btn" data-tab="about-author" data-i18n="tab_author">👤 Автор</button>
         </div>
 
-        <!-- Вкладка Скачать пак -->
         <div id="download-pack" class="tab-content active">
-            <div class="title-row">
-                <h2>DenofyOptimizer</h2>
-                <span class="subtitle" data-i18n="optimization_desc">Оптимизация Windows 11</span>
-            </div>
+            <h2 style="margin-bottom: 2px; font-size: 1.8rem;">DenofyOptimizer</h2>
+            <p style="color: #8b949e; margin-bottom: 15px; font-size: 1rem;" data-i18n="optimization_desc">Оптимизация Windows 11</p>
             <div class="package-cards">
                 <div class="package-card">
                     <div class="package-icon">💠</div>
@@ -449,7 +427,6 @@
             </div>
         </div>
 
-        <!-- Остальные вкладки -->
         <div id="download-app" class="tab-content">
             <h2 style="margin-bottom: 15px; font-size: 1.8rem;" data-i18n="app_title">🛠 Программа-установщик</h2>
             <p style="color: #8b949e; margin-bottom: 20px; font-size: 1rem;" data-i18n="app_desc">Удобная оболочка для установки пакета в один клик. Сейчас в разработке.</p>
@@ -489,7 +466,6 @@
         </div>
     </div>
 
-    <!-- Модальное окно шаринга -->
     <div class="share-modal" id="shareModal">
         <div class="share-dialog">
             <h3 style="margin-bottom:16px;color:#f0f6fc;">Поделиться</h3>
@@ -501,7 +477,6 @@
         </div>
     </div>
 
-    <!-- Змейка -->
     <div class="snake-overlay" id="snakeOverlay">
         <canvas id="snakeCanvas" width="400" height="400"></canvas>
         <div>
@@ -624,11 +599,15 @@
 
         const shareUrl = window.location.href;
         const shareText = 'DenofyOptimizer — оптимизация Windows 11';
-        function openShareModal() { document.getElementById('shareUrl').value = shareUrl; document.getElementById('shareModal').classList.add('active'); }
+        function openShareModal() { 
+            document.getElementById('shareUrl').value = shareUrl; 
+            document.getElementById('shareModal').classList.add('active'); 
+        }
         function closeShareModal() { document.getElementById('shareModal').classList.remove('active'); }
         function share() {
             if (navigator.share) {
-                navigator.share({ title: 'DenofyOptimizer', text: shareText, url: shareUrl }).catch(() => {});
+                navigator.share({ title: 'DenofyOptimizer', text: shareText, url: shareUrl })
+                    .catch(() => openShareModal());
             } else {
                 openShareModal();
             }
@@ -638,7 +617,17 @@
             initLanguage();
             document.querySelectorAll('.lang-btn').forEach(btn => btn.addEventListener('click', () => applyLanguage(btn.getAttribute('data-lang'))));
             document.querySelectorAll('.share-btn').forEach(btn => btn.addEventListener('click', share));
-            document.getElementById('copyLinkBtn').addEventListener('click', () => { const input = document.getElementById('shareUrl'); input.select(); document.execCommand('copy'); alert('Ссылка скопирована!'); });
+            document.getElementById('copyLinkBtn').addEventListener('click', () => {
+                const input = document.getElementById('shareUrl');
+                input.select();
+                try {
+                    navigator.clipboard.writeText(input.value);
+                    alert('Ссылка скопирована!');
+                } catch (err) {
+                    document.execCommand('copy');
+                    alert('Ссылка скопирована!');
+                }
+            });
             document.getElementById('shareVkBtn').addEventListener('click', () => window.open(`https://vk.com/share.php?url=${encodeURIComponent(shareUrl)}&title=${encodeURIComponent(shareText)}`, '_blank'));
             document.getElementById('shareTgBtn').addEventListener('click', () => window.open(`https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}`, '_blank'));
             document.getElementById('shareModal').addEventListener('click', function(e) { if (e.target === this) closeShareModal(); });
@@ -646,7 +635,7 @@
             if (document.getElementById('updates')?.classList.contains('active')) loadTelegramFeed();
         });
 
-        // Змейка (WASD + стрелки)
+        // ========== Змейка ==========
         let snakeGame = null;
 
         function initSnakeEasterEgg() {
@@ -669,13 +658,23 @@
             const canvas = document.getElementById('snakeCanvas');
             const ctx = canvas.getContext('2d');
             const gridSize = 20, width = canvas.width, height = canvas.height;
-            let snake = [{x:5, y:5}], direction = {x:1, y:0}, food = spawnFood(), gameOver = false, interval;
+            let snake = [{x:5, y:5}], direction = {x:1, y:0}, food, gameOver = false, interval;
 
             document.body.style.overflow = 'hidden';
             const preventTouchMove = e => e.preventDefault();
             overlay.addEventListener('touchmove', preventTouchMove, {passive: false});
 
-            function spawnFood() { return { x: Math.floor(Math.random() * (width / gridSize)), y: Math.floor(Math.random() * (height / gridSize)) }; }
+            function spawnFood() {
+                let newFood;
+                do {
+                    newFood = {
+                        x: Math.floor(Math.random() * (width / gridSize)),
+                        y: Math.floor(Math.random() * (height / gridSize))
+                    };
+                } while (snake.some(seg => seg.x === newFood.x && seg.y === newFood.y));
+                return newFood;
+            }
+            food = spawnFood();
 
             function draw() {
                 ctx.clearRect(0,0,width,height);
@@ -694,11 +693,19 @@
 
             function update() {
                 const head = {x: snake[0].x + direction.x, y: snake[0].y + direction.y};
-                if (head.x < 0 || head.x >= width/gridSize || head.y < 0 || head.y >= height/gridSize) { gameOver = true; clearInterval(interval); draw(); return; }
-                if (snake.some(s => s.x === head.x && s.y === head.y)) { gameOver = true; clearInterval(interval); draw(); return; }
+                if (head.x < 0 || head.x >= width/gridSize || head.y < 0 || head.y >= height/gridSize) {
+                    gameOver = true; clearInterval(interval); draw(); return;
+                }
+                if (snake.some(s => s.x === head.x && s.y === head.y)) {
+                    gameOver = true; clearInterval(interval); draw(); return;
+                }
                 snake.unshift(head);
-                if (head.x === food.x && head.y === food.y) { food = spawnFood(); if (navigator.vibrate) navigator.vibrate(20); }
-                else snake.pop();
+                if (head.x === food.x && head.y === food.y) {
+                    food = spawnFood();
+                    if (navigator.vibrate) navigator.vibrate(20);
+                } else {
+                    snake.pop();
+                }
                 draw();
             }
 
