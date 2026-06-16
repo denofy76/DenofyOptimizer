@@ -319,3 +319,182 @@ before.style.width = percent+"%";
 slider.style.left = percent+"%";
 });
 </script>
+<script>
+// =======================
+// TABS SYSTEM
+// =======================
+const tabs = document.querySelectorAll(".tab");
+tabs.forEach(t=>{
+    t.addEventListener("click", ()=>{
+        tabs.forEach(x=>x.classList.remove("active"));
+        t.classList.add("active");
+    });
+});
+
+
+// =======================
+// BEFORE / AFTER (drag upgrade)
+// =======================
+const before = document.getElementById("before");
+const slider = document.getElementById("slider");
+const compare = document.getElementById("compare");
+
+let dragging = false;
+
+function moveSlider(x){
+    let rect = compare.getBoundingClientRect();
+    let percent = ((x - rect.left) / rect.width) * 100;
+
+    percent = Math.max(0, Math.min(100, percent));
+
+    before.style.width = percent + "%";
+    slider.style.left = percent + "%";
+}
+
+slider.addEventListener("mousedown", ()=>dragging=true);
+window.addEventListener("mouseup", ()=>dragging=false);
+window.addEventListener("mousemove",(e)=>{
+    if(dragging) moveSlider(e.clientX);
+});
+
+// touch
+slider.addEventListener("touchstart", ()=>dragging=true);
+window.addEventListener("touchend", ()=>dragging=false);
+window.addEventListener("touchmove",(e)=>{
+    if(dragging) moveSlider(e.touches[0].clientX);
+});
+
+
+// =======================
+// SIMPLE I18N
+// =======================
+const langData = {
+    ru:{
+        title:"Оптимизация Windows",
+        desc:"Быстро • Чисто • Эффективно",
+        dl:"Скачать",
+        tabs:["📦 Скачать","⚡ Тесты","📝 Обновления","👤 Автор"]
+    },
+    en:{
+        title:"Windows Optimization",
+        desc:"Fast • Clean • Powerful",
+        dl:"Download",
+        tabs:["📦 Downloads","⚡ Tests","📝 Updates","👤 Author"]
+    }
+};
+
+let currentLang = "ru";
+
+function setLang(lang){
+    currentLang = lang;
+
+    document.querySelector(".hero h1").textContent = langData[lang].title;
+    document.querySelector(".hero p").textContent = langData[lang].desc;
+
+    document.querySelectorAll(".btn").forEach(b=>{
+        b.textContent = langData[lang].dl;
+    });
+
+    document.querySelectorAll(".tab").forEach((t,i)=>{
+        t.textContent = langData[lang].tabs[i];
+    });
+
+    document.querySelectorAll(".lang button").forEach(b=>b.classList.remove("active"));
+    document.querySelectorAll(".lang button")[lang==="ru"?0:1].classList.add("active");
+}
+
+
+// =======================
+// LANG BUTTONS
+// =======================
+document.querySelectorAll(".lang button").forEach((btn,i)=>{
+    btn.addEventListener("click", ()=>{
+        setLang(i===0?"ru":"en");
+    });
+});
+
+
+// =======================
+// SNAKE GAME (FULL SIMPLE VERSION)
+// =======================
+const snakeOverlay = document.getElementById("snake");
+const canvas = snakeOverlay.querySelector("canvas");
+const ctx = canvas.getContext("2d");
+
+let snake, dir, food, loop;
+
+function initSnake(){
+    snake = [{x:10,y:10}];
+    dir = {x:1,y:0};
+    food = {x:5,y:5};
+
+    if(loop) clearInterval(loop);
+
+    loop = setInterval(update, 120);
+}
+
+function draw(){
+    ctx.clearRect(0,0,400,400);
+
+    // snake
+    ctx.fillStyle="#2ea043";
+    snake.forEach(s=>{
+        ctx.fillRect(s.x*20,s.y*20,18,18);
+    });
+
+    // food
+    ctx.fillStyle="red";
+    ctx.fillRect(food.x*20,food.y*20,18,18);
+}
+
+function update(){
+    let head = {
+        x:snake[0].x + dir.x,
+        y:snake[0].y + dir.y
+    };
+
+    // wall
+    if(head.x<0||head.y<0||head.x>19||head.y>19){
+        return initSnake();
+    }
+
+    snake.unshift(head);
+
+    if(head.x===food.x && head.y===food.y){
+        food = {
+            x:Math.floor(Math.random()*20),
+            y:Math.floor(Math.random()*20)
+        };
+    } else {
+        snake.pop();
+    }
+
+    draw();
+}
+
+document.addEventListener("keydown",(e)=>{
+    if(e.key==="ArrowUp") dir={x:0,y:-1};
+    if(e.key==="ArrowDown") dir={x:0,y:1};
+    if(e.key==="ArrowLeft") dir={x:-1,y:0};
+    if(e.key==="ArrowRight") dir={x:1,y:0};
+});
+
+function startSnake(){
+    snakeOverlay.style.display="flex";
+    initSnake();
+}
+
+function closeSnake(){
+    snakeOverlay.style.display="none";
+    clearInterval(loop);
+}
+
+
+// =======================
+// INIT DEFAULT
+// =======================
+setLang("ru");
+
+</script>
+</body>
+</html>
