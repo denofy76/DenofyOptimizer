@@ -23,6 +23,8 @@
             padding: 20px;
             padding-top: calc(20px + env(safe-area-inset-top, 0px));
             position: relative;
+            font-size: 16px; /* базовый размер для читаемости */
+            line-height: 1.5;
         }
 
         body.loading .container,
@@ -181,6 +183,16 @@
             height: 3px; background: linear-gradient(90deg, #2ea043, #6fdd8c);
             border-radius: 3px 3px 0 0; box-shadow: 0 0 12px rgba(46, 160, 67, 0.5);
         }
+        /* Фокус для доступности */
+        .tab-btn:focus-visible {
+            outline: 2px solid #2ea043;
+            outline-offset: -2px;
+        }
+        :focus-visible {
+            outline: 2px solid #2ea043;
+            outline-offset: 2px;
+        }
+
         .tab-content {
             display: none;
             animation: fadeSlide 0.4s ease-out;
@@ -258,6 +270,72 @@
         }
         .package-size { font-size: 0.8rem; color: #6e7681; margin-top: -2px; }
         .package-card .btn { margin-top: auto; }
+
+        /* Слайдер сравнения (исправленный) */
+        .compare-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: 30px auto;
+            overflow: hidden;
+            border-radius: 16px;
+            box-shadow: 0 12px 35px rgba(0,0,0,0.5);
+            user-select: none;
+        }
+        .compare-container img {
+            display: block;
+            width: 100%;
+            height: auto;
+            pointer-events: none;
+        }
+        .img-before {
+            position: absolute;
+            top: 0;
+            left: 0;
+            clip-path: inset(0 50% 0 0);
+        }
+        .compare-slider {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: #2ea043;
+            left: 50%;
+            transform: translateX(-50%);
+            cursor: ew-resize;
+            box-shadow: 0 0 15px rgba(46,160,67,0.6);
+            z-index: 2;
+        }
+        .compare-slider::after {
+            content: "◀ ▶";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #0d1117;
+            color: #2ea043;
+            font-weight: bold;
+            font-size: 1.2rem;
+            padding: 6px 14px;
+            border-radius: 20px;
+            white-space: nowrap;
+            box-shadow: 0 0 10px rgba(0,0,0,0.6);
+        }
+        .compare-label {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.7);
+            color: #fff;
+            padding: 4px 14px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            pointer-events: none;
+            z-index: 3;
+        }
+        .label-before { left: 15px; }
+        .label-after  { right: 15px; }
 
         .links-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 18px; margin-top: 25px; }
         .social-link {
@@ -411,14 +489,14 @@
 <body class="loading">
 
     <div class="splash-screen" id="splashScreen">
-        <img class="splash-logo-img" src="logo2.png" alt="Denofy Logo">
+        <img class="splash-logo-img" src="logo2.png" alt="Denofy Logo" loading="lazy">
         <div class="splash-text">СДЕЛАНО DENOFY</div>
         <div class="splash-progress"><div class="splash-progress-bar"></div></div>
     </div>
 
     <div class="top-bar">
         <a href="#" class="logo" id="logo">
-            <img src="logo.png" alt="DenofyOptimizer" class="logo-img">
+            <img src="logo.png" alt="DenofyOptimizer" class="logo-img" loading="lazy">
         </a>
         <div class="lang-switcher">
             <button class="lang-btn active" data-lang="ru">RU</button>
@@ -441,7 +519,7 @@
         </div>
 
         <!-- Вкладка Скачать пак -->
-        <div id="download-pack" class="tab-content active">
+        <section id="download-pack" class="tab-content active" aria-labelledby="download-pack-heading">
             <div class="package-cards">
                 <div class="package-card">
                     <div class="package-icon">💠</div>
@@ -469,11 +547,11 @@
                 <button class="share-btn" id="shareBtn1"><span>📤</span> <span data-i18n="share_btn">Поделиться</span></button>
                 <a href="https://www.donationalerts.com/r/denofy336" class="donate-btn" target="_blank"><span>💖</span> <span data-i18n="support">Поддержать</span></a>
             </div>
-        </div>
+        </section>
 
-        <!-- Остальные вкладки без изменений -->
-        <div id="download-app" class="tab-content" style="text-align: center;">
-            <h2 style="margin-bottom: 15px; font-size: 1.8rem;" data-i18n="app_title">🛠 Программа-установщик</h2>
+        <!-- Вкладка Программа -->
+        <section id="download-app" class="tab-content" style="text-align: center;" aria-labelledby="app-title">
+            <h2 id="app-title" style="margin-bottom: 15px; font-size: 1.8rem;" data-i18n="app_title">🛠 Программа-установщик</h2>
             <p style="color: #8b949e; margin-bottom: 20px; font-size: 1rem;" data-i18n="app_desc">Удобная оболочка для установки пакета в один клик. Сейчас в разработке.</p>
             <button class="btn btn-disabled" disabled data-i18n="app_btn">Скоро будет доступно</button>
             <p style="color: #484f58; font-size: 0.9rem; margin-top: 12px;" data-i18n="app_note">Ожидайте в следующих обновлениях</p>
@@ -481,26 +559,42 @@
                 <button class="share-btn" id="shareBtn2"><span>📤</span> <span data-i18n="share_btn">Поделиться</span></button>
                 <a href="https://www.donationalerts.com/r/denofy336" class="donate-btn" target="_blank"><span>💖</span> <span data-i18n="support">Поддержать</span></a>
             </div>
-        </div>
+        </section>
 
-        <div id="tests" class="tab-content" style="text-align: center;">
-            <h2 style="margin-bottom: 10px; font-size: 1.8rem;">⚡ До и после оптимизации</h2>
+        <!-- НОВАЯ ВКЛАДКА ТЕСТЫ (с улучшениями) -->
+        <section id="tests" class="tab-content" style="text-align: center;" aria-labelledby="tests-heading">
+            <h2 id="tests-heading" style="margin-bottom: 10px; font-size: 1.8rem;">⚡ До и после оптимизации</h2>
             <p style="color: #8b949e; margin-bottom: 20px; font-size: 1rem;">Двигайте ползунок, чтобы увидеть разницу</p>
+
             <div class="compare-container" id="compareContainer">
-                <img src="after.png" alt="После оптимизации" class="img-after">
-                <img src="before.png" alt="До оптимизации" class="img-before" id="imgBefore">
-                <div class="compare-slider" id="compareSlider"></div>
+                <img src="after.png" alt="После оптимизации" class="img-after" loading="lazy">
+                <img src="before.png" alt="До оптимизации" class="img-before" id="imgBefore" loading="lazy">
+                <div class="compare-slider" id="compareSlider"
+                     role="slider"
+                     tabindex="0"
+                     aria-valuemin="0"
+                     aria-valuemax="100"
+                     aria-valuenow="50"
+                     aria-label="Ползунок сравнения до и после">
+                </div>
                 <div class="compare-label label-before">До</div>
                 <div class="compare-label label-after">После</div>
             </div>
+
+            <!-- Переключатель До/После -->
+            <button id="toggleBeforeAfter" role="switch" aria-checked="false" aria-label="Показать после оптимизации" style="margin-top: 15px; background: rgba(46,160,67,0.1); border: 1px solid rgba(46,160,67,0.3); color: #2ea043; padding: 8px 16px; border-radius: 10px; cursor: pointer; font-weight: 600;">
+                👁️ Показать «После»
+            </button>
+
             <div class="action-buttons" style="margin-top: 25px;">
                 <button class="share-btn" id="shareBtnTests"><span>📤</span> <span data-i18n="share_btn">Поделиться</span></button>
                 <a href="https://www.donationalerts.com/r/denofy336" class="donate-btn" target="_blank"><span>💖</span> <span data-i18n="support">Поддержать</span></a>
             </div>
-        </div>
+        </section>
 
-        <div id="updates" class="tab-content" style="text-align: center;">
-            <h2 style="margin-bottom: 10px; font-size: 1.8rem;" data-i18n="updates_title">📝 Обновления</h2>
+        <!-- Вкладка Обновления -->
+        <section id="updates" class="tab-content" style="text-align: center;" aria-labelledby="updates-heading">
+            <h2 id="updates-heading" style="margin-bottom: 10px; font-size: 1.8rem;" data-i18n="updates_title">📝 Обновления</h2>
             <p style="color: #8b949e; margin-bottom: 20px; font-size: 1rem;" data-i18n="updates_desc">Все детали о версиях и изменениях публикуются в Telegram-канале.</p>
             <div id="telegram-feed" style="margin-top: 15px;"></div>
             <a href="https://t.me/denofyoptimizer" target="_blank" class="btn btn-outline" style="margin-top:15px;">📢 Telegram-канал с обновлениями</a>
@@ -508,10 +602,11 @@
                 <button class="share-btn" id="shareBtn3"><span>📤</span> <span data-i18n="share_btn">Поделиться</span></button>
                 <a href="https://www.donationalerts.com/r/denofy336" class="donate-btn" target="_blank"><span>💖</span> <span data-i18n="support">Поддержать</span></a>
             </div>
-        </div>
+        </section>
 
-        <div id="about-author" class="tab-content" style="text-align: center;">
-            <h2 style="margin-bottom: 15px; font-size: 1.8rem;" data-i18n="author_title">👤 Об авторе</h2>
+        <!-- Вкладка Автор -->
+        <section id="about-author" class="tab-content" style="text-align: center;" aria-labelledby="about-heading">
+            <h2 id="about-heading" style="margin-bottom: 15px; font-size: 1.8rem;" data-i18n="author_title">👤 Об авторе</h2>
             <p style="color: #8b949e; margin-bottom: 15px; font-size: 1rem;" data-i18n="author_desc">Связь со мной на разных площадках</p>
             <div class="links-grid">
                 <a href="https://github.com/denofy76" class="social-link" target="_blank"><span class="emoji">🐙</span> GitHub</a>
@@ -525,7 +620,7 @@
                 <button class="share-btn" id="shareBtn4"><span>📤</span> <span data-i18n="share_btn">Поделиться</span></button>
                 <a href="https://www.donationalerts.com/r/denofy336" class="donate-btn" target="_blank"><span>💖</span> <span data-i18n="support">Поддержать</span></a>
             </div>
-        </div>
+        </section>
     </div>
 
     <div class="share-modal" id="shareModal">
@@ -575,6 +670,7 @@
                     const percent = (x / rect.width) * 100;
                     imgBefore.style.clipPath = `inset(0 ${100 - percent}% 0 0)`;
                     slider.style.left = `${percent}%`;
+                    slider.setAttribute('aria-valuenow', Math.round(percent));
                 };
 
                 const onMouseDown = (e) => {
@@ -608,12 +704,35 @@
                     dragging = false;
                 });
 
+                // Клавиатурное управление (стрелки)
+                slider.addEventListener('keydown', (e) => {
+                    let percent = parseFloat(slider.style.left) || 50;
+                    if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') percent = Math.max(0, percent - 2);
+                    else if (e.key === 'ArrowRight' || e.key === 'ArrowUp') percent = Math.min(100, percent + 2);
+                    else return;
+                    e.preventDefault();
+                    slider.style.left = `${percent}%`;
+                    imgBefore.style.clipPath = `inset(0 ${100 - percent}% 0 0)`;
+                    slider.setAttribute('aria-valuenow', Math.round(percent));
+                });
+
                 // По умолчанию 50%
                 imgBefore.style.clipPath = 'inset(0 50% 0 0)';
             }
+
+            // ===== ПЕРЕКЛЮЧАТЕЛЬ ДО/ПОСЛЕ =====
+            const toggleBtn = document.getElementById('toggleBeforeAfter');
+            if (toggleBtn && imgBefore) {
+                toggleBtn.addEventListener('click', () => {
+                    const showingAfter = toggleBtn.getAttribute('aria-checked') === 'true';
+                    toggleBtn.setAttribute('aria-checked', String(!showingAfter));
+                    imgBefore.style.display = showingAfter ? 'block' : 'none';
+                    toggleBtn.textContent = showingAfter ? '👁️ Показать «После»' : '👁️ Показать «До»';
+                });
+            }
         });
 
-        // ===== ПЕРЕВОДЫ (добавлен tab_tests) =====
+        // ===== ПЕРЕВОДЫ =====
         const translations = {
             ru: {
                 tab_download: '📦 Скачать пак', tab_app: '💻 Программа', tab_tests: '⚡ Тесты',
