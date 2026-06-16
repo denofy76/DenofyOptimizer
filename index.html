@@ -1,559 +1,321 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#0d1117">
-    <title>DenofyOptimizer v3</title>
-    <link rel="icon" href="logo3.ico" type="image/x-icon">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="theme-color" content="#0b0f14"/>
 
-        body {
-            background: #0b0f14;
-            color: #e6edf3;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            overflow-x: hidden;
-        }
+<title>DenofyOptimizer</title>
 
-        /* Частицы на фоне */
-        #particles {
-            position: fixed;
-            inset: 0;
-            z-index: -1;
-            pointer-events: none;
-        }
+<link rel="icon" href="logo3.ico">
 
-        /* Верхняя панель */
-        .topbar {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 14px 20px;
-            background: rgba(13, 17, 23, 0.6);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            z-index: 10;
-        }
+<style>
+:root{
+    --bg:#0b0f14;
+    --card:#111823;
+    --card2:#0f1620;
+    --green:#2ea043;
+    --green2:#6fdd8c;
+    --text:#e6edf3;
+    --muted:#8b949e;
+    --border:rgba(255,255,255,0.08);
+    --shadow:0 20px 60px rgba(0,0,0,0.6);
+}
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 1.2rem;
-            color: #2ea043;
-            text-decoration: none;
-            user-select: none;
-        }
+*{margin:0;padding:0;box-sizing:border-box;}
 
-        .logo img {
-            height: 36px;
-        }
+body{
+    font-family: system-ui, -apple-system, Segoe UI, sans-serif;
+    background: radial-gradient(circle at top, #122018, var(--bg));
+    color:var(--text);
+    min-height:100vh;
+}
 
-        /* Hero */
-        .hero {
-            padding: 140px 20px 60px;
-            text-align: center;
-        }
+/* TOP BAR */
+.topbar{
+    position:fixed;
+    top:0;left:0;right:0;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:14px 22px;
+    backdrop-filter:blur(14px);
+    background:rgba(10,14,18,0.6);
+    border-bottom:1px solid var(--border);
+    z-index:100;
+}
 
-        .hero h1 {
-            font-size: 52px;
-            background: linear-gradient(90deg, #ffffff, #2ea043);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 15px;
-        }
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-weight:700;
+    color:var(--text);
+    text-decoration:none;
+}
 
-        .hero p {
-            color: #8b949e;
-            font-size: 1.2rem;
-            margin-top: 10px;
-        }
+.logo img{height:38px;}
 
-        .cta {
-            margin-top: 25px;
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
+.lang button{
+    background:transparent;
+    border:1px solid var(--border);
+    color:var(--muted);
+    padding:6px 10px;
+    border-radius:8px;
+    cursor:pointer;
+}
 
-        .btn {
-            padding: 12px 24px;
-            border-radius: 12px;
-            border: none;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.2s;
-        }
+.lang button.active{
+    color:#fff;
+    border-color:var(--green);
+}
 
-        .btn-green {
-            background: #2ea043;
-            color: white;
-            box-shadow: 0 0 15px rgba(46, 160, 67, 0.3);
-        }
+/* HERO */
+.hero{
+    padding:120px 20px 40px;
+    text-align:center;
+}
 
-        .btn-green:hover {
-            background: #3fb950;
-            transform: translateY(-2px);
-        }
+.hero h1{
+    font-size:2.4rem;
+}
 
-        .btn-dark {
-            background: #161b22;
-            color: #e6edf3;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-        }
+.hero p{
+    color:var(--muted);
+    margin-top:10px;
+}
 
-        .btn-dark:hover {
-            background: #21262d;
-        }
+/* GRID */
+.container{
+    max-width:1100px;
+    margin:auto;
+    padding:20px;
+}
 
-        /* Статистика */
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            max-width: 700px;
-            margin: 40px auto;
-            gap: 12px;
-        }
+/* TABS */
+.tabs{
+    display:flex;
+    gap:10px;
+    justify-content:center;
+    flex-wrap:wrap;
+    margin:30px 0;
+}
 
-        .stat {
-            background: rgba(22, 27, 34, 0.7);
-            padding: 18px;
-            border-radius: 14px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            text-align: center;
-            backdrop-filter: blur(6px);
-        }
+.tab{
+    padding:10px 14px;
+    border:1px solid var(--border);
+    border-radius:10px;
+    cursor:pointer;
+    color:var(--muted);
+    transition:.2s;
+    background:rgba(255,255,255,0.02);
+}
 
-        .stat h2 {
-            font-size: 2rem;
-            color: #2ea043;
-            margin-bottom: 5px;
-        }
+.tab.active{
+    border-color:var(--green);
+    color:#fff;
+    box-shadow:0 0 20px rgba(46,160,67,0.2);
+}
 
-        .stat p {
-            color: #8b949e;
-        }
+/* CARDS */
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:16px;
+}
 
-        /* Секции */
-        .section {
-            max-width: 1000px;
-            margin: 80px auto;
-            padding: 0 20px;
-        }
+.card{
+    background:linear-gradient(145deg,var(--card),var(--card2));
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:18px;
+    box-shadow:var(--shadow);
+    transition:.2s;
+}
 
-        .section h2 {
-            margin-bottom: 25px;
-            font-size: 2rem;
-        }
+.card:hover{
+    transform:translateY(-5px);
+    border-color:rgba(46,160,67,0.5);
+}
 
-        /* Карточки */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 14px;
-        }
+.card h3{
+    margin-bottom:6px;
+}
 
-        .card {
-            background: rgba(22, 27, 34, 0.7);
-            padding: 20px;
-            border-radius: 14px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(6px);
-            transition: 0.2s;
-        }
+.card p{
+    color:var(--muted);
+    font-size:.9rem;
+    line-height:1.4;
+}
 
-        .card:hover {
-            transform: translateY(-6px);
-            border-color: #2ea043;
-            box-shadow: 0 8px 20px rgba(46, 160, 67, 0.2);
-        }
+.btn{
+    display:inline-block;
+    margin-top:12px;
+    padding:10px 14px;
+    border-radius:10px;
+    background:var(--green);
+    color:#fff;
+    text-decoration:none;
+    font-weight:600;
+}
 
-        .card h3 {
-            margin-bottom: 8px;
-        }
+.btn:hover{
+    background:var(--green2);
+}
 
-        .card p {
-            color: #8b949e;
-            font-size: 0.95rem;
-        }
+/* BEFORE AFTER */
+.compare{
+    position:relative;
+    max-width:800px;
+    margin:40px auto;
+    overflow:hidden;
+    border-radius:16px;
+    border:1px solid var(--border);
+}
 
-        /* Скачивание */
-        .download-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 18px;
-            border-radius: 14px;
-            background: rgba(22, 27, 34, 0.7);
-            margin-bottom: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(6px);
-        }
+.compare img{
+    width:100%;
+    display:block;
+}
 
-        .download-item strong {
-            font-size: 1.1rem;
-        }
+.before{
+    position:absolute;
+    top:0;left:0;
+    width:50%;
+    overflow:hidden;
+}
 
-        .download-item p {
-            color: #8b949e;
-            margin-top: 4px;
-            font-size: 0.9rem;
-        }
+.slider{
+    position:absolute;
+    top:0;bottom:0;
+    left:50%;
+    width:3px;
+    background:var(--green);
+    cursor:ew-resize;
+}
 
-        /* Before/After */
-        .compare {
-            position: relative;
-            overflow: hidden;
-            border-radius: 14px;
-            max-width: 800px;
-            margin: 0 auto;
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
-        }
+/* SNAKE */
+.snake-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.8);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+}
 
-        .compare img {
-            width: 100%;
-            display: block;
-        }
+canvas{
+    border:1px solid var(--green);
+    background:#000;
+}
 
-        .before {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 50%;
-            overflow: hidden;
-        }
+/* FOOTER */
+footer{
+    text-align:center;
+    color:var(--muted);
+    padding:40px 10px;
+    font-size:.9rem;
+}
 
-        .slider-input {
-            width: 100%;
-            max-width: 800px;
-            margin: 15px auto 0;
-            display: block;
-            accent-color: #2ea043;
-            height: 6px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 40px;
-            color: #8b949e;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
-            margin-top: 60px;
-        }
-
-        footer p {
-            margin: 6px 0;
-        }
-
-        /* Змейка */
-        .snake-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(10px);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            z-index: 100;
-        }
-
-        .snake-overlay canvas {
-            background: #000;
-            border: 2px solid #2ea043;
-            border-radius: 12px;
-            box-shadow: 0 0 25px rgba(46, 160, 67, 0.4);
-        }
-
-        @media (max-width: 700px) {
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-            .stats {
-                grid-template-columns: 1fr;
-            }
-            .topbar {
-                padding: 10px 15px;
-            }
-            .btn {
-                width: 100%;
-                text-align: center;
-            }
-            .download-item {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 12px;
-            }
-        }
-    </style>
+@media(max-width:600px){
+.hero h1{font-size:1.8rem;}
+}
+</style>
 </head>
+
 <body>
 
-<!-- Фоновые частицы -->
-<canvas id="particles"></canvas>
-
-<!-- Верхняя панель -->
 <div class="topbar">
-    <div class="logo" id="logoClick">
-        <img src="logo.png" alt="DenofyOptimizer">
-        <span>DenofyOptimizer</span>
+    <a class="logo" href="#">
+        <img src="logo.png">
+        DenofyOptimizer
+    </a>
+
+    <div class="lang">
+        <button class="active">RU</button>
+        <button>EN</button>
     </div>
-    <button class="btn btn-dark" onclick="startSnake()">🐍 Snake</button>
 </div>
 
-<!-- Hero -->
-<section class="hero">
-    <h1>Windows Optimization Tool</h1>
-    <p>FPS Boost · Low Latency · Clean System · Gaming Ready</p>
+<div class="hero">
+    <h1>Windows Optimization Toolkit</h1>
+    <p>Clean • Fast • Minimal • Powerful</p>
+</div>
 
-    <div class="cta">
-        <button class="btn btn-green" onclick="document.getElementById('download').scrollIntoView({behavior:'smooth'})">
-            Скачать
-        </button>
-        <button class="btn btn-dark" onclick="document.getElementById('tests').scrollIntoView({behavior:'smooth'})">
-            Тесты
-        </button>
+<div class="container">
+
+<!-- TABS -->
+<div class="tabs">
+    <div class="tab active">📦 Downloads</div>
+    <div class="tab">⚡ Tests</div>
+    <div class="tab">📝 Updates</div>
+    <div class="tab">👤 Author</div>
+</div>
+
+<!-- DOWNLOADS -->
+<div class="grid">
+    <div class="card">
+        <h3>DenofyOptimizer</h3>
+        <p>Основная сборка с твиками и оптимизацией.</p>
+        <a class="btn" href="#">Скачать</a>
     </div>
 
-    <div class="stats">
-        <div class="stat">
-            <h2>1200+</h2>
-            <p>Downloads</p>
-        </div>
-        <div class="stat">
-            <h2>4.9</h2>
-            <p>Rating</p>
-        </div>
-        <div class="stat">
-            <h2>v3</h2>
-            <p>Version</p>
-        </div>
-    </div>
-</section>
-
-<!-- Преимущества -->
-<section class="section">
-    <h2>Почему DenofyOptimizer</h2>
-    <div class="grid">
-        <div class="card">
-            <h3>🚀 FPS Boost</h3>
-            <p>Увеличение FPS в играх за счёт оптимизации Windows</p>
-        </div>
-        <div class="card">
-            <h3>⚡ Low Latency</h3>
-            <p>Уменьшение задержек системы и сети</p>
-        </div>
-        <div class="card">
-            <h3>🧹 Clean System</h3>
-            <p>Удаление мусора и фоновых служб</p>
-        </div>
-        <div class="card">
-            <h3>🔒 Safe Tweaks</h3>
-            <p>Только безопасные системные изменения</p>
-        </div>
-    </div>
-</section>
-
-<!-- Скачивание -->
-<section class="section" id="download">
-    <h2>Скачать сборки</h2>
-
-    <div class="download-item">
-        <div>
-            <strong>DenofyOptimizer</strong>
-            <p>Базовая сборка (1,44 ГБ)</p>
-        </div>
-        <a class="btn btn-green" href="https://cloud.mail.ru/public/vtYr/X244pt7bn">Скачать</a>
+    <div class="card">
+        <h3>ReviOS Pack</h3>
+        <p>Оптимизированная система с ReviOS интеграцией.</p>
+        <a class="btn" href="#">Скачать</a>
     </div>
 
-    <div class="download-item">
-        <div>
-            <strong>DenofyOptimizer + ReviOS</strong>
-            <p>Максимальная производительность (1,50 ГБ)</p>
-        </div>
-        <a class="btn btn-green" href="https://cloud.mail.ru/public/ZSBd/6FQTXMLFc">Скачать</a>
+    <div class="card">
+        <h3>PC Test Tool</h3>
+        <p>Проверка производительности и стабильности.</p>
+        <a class="btn" href="#">Скачать</a>
     </div>
+</div>
 
-    <div class="download-item">
-        <div>
-            <strong>PC Check Tool</strong>
-            <p>Диагностика системы (1,85 ГБ)</p>
-        </div>
-        <a class="btn btn-green" href="https://cloud.mail.ru/public/CcQd/vrYp5P71Y">Скачать</a>
+<!-- BEFORE AFTER -->
+<h2 style="text-align:center;margin-top:50px;">До / После</h2>
+
+<div class="compare" id="compare">
+    <img src="after.png">
+    <div class="before" id="before">
+        <img src="before.png">
     </div>
-</section>
+    <div class="slider" id="slider"></div>
+</div>
 
-<!-- Before / After -->
-<section class="section" id="tests">
-    <h2>Результаты оптимизации</h2>
+<button onclick="startSnake()">🎮 Секрет: Змейка</button>
 
-    <div class="compare">
-        <img src="after.png" alt="После оптимизации">
-        <div class="before" id="beforeBox">
-            <img src="before.png" alt="До оптимизации">
-        </div>
-    </div>
-
-    <input type="range" min="0" max="100" value="50" class="slider-input"
-           oninput="document.getElementById('beforeBox').style.width = this.value + '%'">
-</section>
-
-<!-- Footer -->
 <footer>
-    <p>© 2026 DenofyOptimizer</p>
-    <p>Made for performance enthusiasts</p>
+DenofyOptimizer © 2026
 </footer>
 
-<!-- Snake Arcade -->
+</div>
+
+<!-- SNAKE -->
 <div class="snake-overlay" id="snake">
-    <canvas id="game" width="400" height="400"></canvas>
-    <div style="margin-top:12px; display:flex; gap:10px;">
-        <button class="btn btn-green" onclick="restartSnake()">🔄 Restart</button>
-        <button class="btn btn-dark" onclick="closeSnake()">Close</button>
-    </div>
+<canvas width="400" height="400"></canvas>
+<button onclick="closeSnake()">Закрыть</button>
 </div>
 
 <script>
-    // ==================== ЧАСТИЦЫ ====================
-    const canvasParticles = document.getElementById('particles');
-    const ctxParticles = canvasParticles.getContext('2d');
-    canvasParticles.width = window.innerWidth;
-    canvasParticles.height = window.innerHeight;
+let before = document.getElementById("before");
+let slider = document.getElementById("slider");
+let compare = document.getElementById("compare");
 
-    const particlesArray = [];
-    for (let i = 0; i < 80; i++) {
-        particlesArray.push({
-            x: Math.random() * canvasParticles.width,
-            y: Math.random() * canvasParticles.height,
-            r: Math.random() * 2 + 0.5
-        });
-    }
+let dragging = false;
 
-    function drawParticles() {
-        ctxParticles.clearRect(0, 0, canvasParticles.width, canvasParticles.height);
-        ctxParticles.fillStyle = '#2ea043';
-        particlesArray.forEach(p => {
-            p.y += 0.3;
-            if (p.y > canvasParticles.height) {
-                p.y = 0;
-                p.x = Math.random() * canvasParticles.width;
-            }
-            ctxParticles.beginPath();
-            ctxParticles.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-            ctxParticles.fill();
-        });
-        requestAnimationFrame(drawParticles);
-    }
-    drawParticles();
-
-    // ==================== ЗМЕЙКА (Easter Egg) ====================
-    let snakeGame, ctxGame, snake, dir, food, gameInterval;
-
-    // Клики по логотипу
-    let logoClicks = 0;
-    document.getElementById('logoClick').addEventListener('click', () => {
-        logoClicks++;
-        setTimeout(() => logoClicks = 0, 1000);
-        if (logoClicks >= 5) {
-            logoClicks = 0;
-            startSnake();
-        }
-    });
-
-    function startSnake() {
-        const overlay = document.getElementById('snake');
-        overlay.style.display = 'flex';
-        const canvas = document.getElementById('game');
-        ctxGame = canvas.getContext('2d');
-
-        snake = [{ x: 10, y: 10 }];
-        dir = { x: 1, y: 0 };
-        spawnFood();
-
-        document.addEventListener('keydown', moveSnake);
-        clearInterval(gameInterval);
-        gameInterval = setInterval(updateSnake, 120);
-    }
-
-    function spawnFood() {
-        food = {
-            x: Math.floor(Math.random() * 20),
-            y: Math.floor(Math.random() * 20)
-        };
-        // Не даём еде появиться на змейке
-        while (snake.some(seg => seg.x === food.x && seg.y === food.y)) {
-            food = {
-                x: Math.floor(Math.random() * 20),
-                y: Math.floor(Math.random() * 20)
-            };
-        }
-    }
-
-    function moveSnake(e) {
-        if (e.key === 'ArrowUp' && dir.y === 0) dir = { x: 0, y: -1 };
-        else if (e.key === 'ArrowDown' && dir.y === 0) dir = { x: 0, y: 1 };
-        else if (e.key === 'ArrowLeft' && dir.x === 0) dir = { x: -1, y: 0 };
-        else if (e.key === 'ArrowRight' && dir.x === 0) dir = { x: 1, y: 0 };
-    }
-
-    function updateSnake() {
-        let head = { x: snake[0].x + dir.x, y: snake[0].y + dir.y };
-
-        if (head.x < 0 || head.x > 19 || head.y < 0 || head.y > 19) {
-            return gameOver();
-        }
-
-        if (snake.some(seg => seg.x === head.x && seg.y === head.y)) {
-            return gameOver();
-        }
-
-        snake.unshift(head);
-
-        if (head.x === food.x && head.y === food.y) {
-            spawnFood();
-        } else {
-            snake.pop();
-        }
-
-        drawSnake();
-    }
-
-    function drawSnake() {
-        ctxGame.clearRect(0, 0, 400, 400);
-        ctxGame.fillStyle = '#2ea043';
-        snake.forEach(seg => ctxGame.fillRect(seg.x * 20, seg.y * 20, 18, 18));
-        ctxGame.fillStyle = '#ff4444';
-        ctxGame.fillRect(food.x * 20, food.y * 20, 18, 18);
-    }
-
-    function gameOver() {
-        clearInterval(gameInterval);
-        alert('Game Over');
-    }
-
-    function restartSnake() {
-        clearInterval(gameInterval);
-        startSnake();
-    }
-
-    function closeSnake() {
-        clearInterval(gameInterval);
-        document.getElementById('snake').style.display = 'none';
-    }
+slider.addEventListener("mousedown", ()=>dragging=true);
+window.addEventListener("mouseup", ()=>dragging=false);
+window.addEventListener("mousemove",(e)=>{
+if(!dragging) return;
+let rect = compare.getBoundingClientRect();
+let x = e.clientX - rect.left;
+let percent = (x/rect.width)*100;
+if(percent<0) percent=0;
+if(percent>100) percent=100;
+before.style.width = percent+"%";
+slider.style.left = percent+"%";
+});
 </script>
-
-</body>
-</html>
