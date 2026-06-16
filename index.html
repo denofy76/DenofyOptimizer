@@ -1,313 +1,756 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DenofyOptimizer</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#0b0f14" />
+    <title>DenofyOptimizer v2</title>
+    <link rel="icon" href="logo3.ico" />
+    <style>
+        /* =========================
+           DENOFY OPTIMIZER v2 UI
+           CLEAN DESIGN SYSTEM
+        ========================= */
+        :root {
+            --bg: #0b0f14;
+            --panel: rgba(22, 27, 34, 0.75);
+            --panel-solid: #161b22;
+            --border: rgba(48, 54, 61, 0.7);
+            --text: #e6edf3;
+            --muted: #8b949e;
+            --accent: #2ea043;
+            --accent2: #6fdd8c;
+            --danger: #f85149;
+            --gold: #ffd700;
+            --radius: 16px;
+            --radius-lg: 24px;
+            --shadow: 0 20px 60px rgba(0,0,0,0.6);
+        }
 
-<style>
-body{
-    margin:0;
-    font-family:system-ui;
-    background:#0b0f14;
-    color:#e6edf3;
-}
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-.topbar{
-    position:fixed;
-    top:0;left:0;right:0;
-    display:flex;
-    justify-content:space-between;
-    padding:12px 18px;
-    background:rgba(0,0,0,0.6);
-    backdrop-filter:blur(12px);
-    z-index:10;
-}
+        html, body {
+            height: 100%;
+            background: var(--bg);
+            color: var(--text);
+            font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+        }
 
-.logo{font-weight:700;cursor:pointer;}
+        body {
+            background: radial-gradient(circle at 20% 20%, rgba(46,160,67,0.08), transparent 40%),
+                        radial-gradient(circle at 80% 80%, rgba(111,221,140,0.06), transparent 40%),
+                        var(--bg);
+            overflow-x: hidden;
+        }
 
-.container{
-    max-width:1000px;
-    margin:100px auto;
-    padding:20px;
-}
+        /* SPLASH */
+        #splash {
+            position: fixed;
+            inset: 0;
+            background: var(--bg);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+            transition: opacity .6s ease;
+        }
+        #splash.hide { opacity: 0; pointer-events: none; }
+        #splash .logoWrap { text-align: center; animation: fadeUp 1s ease; }
+        #splash img {
+            width: 140px;
+            margin-bottom: 12px;
+            filter: drop-shadow(0 0 20px rgba(46,160,67,0.4));
+        }
+        #splash h1 { font-size: 1.4rem; letter-spacing: 2px; }
+        #splash p { color: var(--muted); font-size: 0.9rem; margin-top: 6px; }
+        #splash .bar {
+            width: 200px;
+            height: 4px;
+            margin-top: 20px;
+            background: rgba(255,255,255,0.1);
+            overflow: hidden;
+            border-radius: 999px;
+            position: relative;
+        }
+        #splash .bar::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 40%;
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+            animation: load 1.5s infinite;
+        }
+        @keyframes load {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(250%); }
+        }
 
-/* TABS */
-.tabs{
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
-}
+        /* TOPBAR */
+        .topbar {
+            position: fixed;
+            top: 12px;
+            left: 12px;
+            right: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 50;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: var(--radius);
+            background: var(--panel);
+            border: 1px solid var(--border);
+            backdrop-filter: blur(10px);
+            cursor: pointer;
+            transition: .2s;
+            text-decoration: none;
+            color: var(--text);
+        }
+        .logo:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent);
+            box-shadow: 0 0 20px rgba(46,160,67,0.2);
+        }
+        .logo img { height: 34px; }
+        .lang { display: flex; gap: 6px; }
+        .lang button {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            color: var(--muted);
+            padding: 8px 14px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: .2s;
+            font-weight: 600;
+        }
+        .lang button.active {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
 
-.tab{
-    padding:8px 12px;
-    border:1px solid #2a2f3a;
-    border-radius:8px;
-    cursor:pointer;
-    color:#8b949e;
-}
+        /* APP CONTAINER */
+        .app {
+            max-width: 1100px;
+            margin: 100px auto 60px;
+            padding: 0 16px;
+        }
 
-.tab.active{
-    border-color:#2ea043;
-    color:#fff;
-}
+        /* TABS */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+        .tabs button {
+            padding: 10px 16px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: var(--panel);
+            color: var(--muted);
+            cursor: pointer;
+            transition: .2s;
+            font-weight: 600;
+        }
+        .tabs button:hover { border-color: var(--accent); color: var(--text); }
+        .tabs button.active {
+            background: rgba(46,160,67,0.15);
+            border-color: var(--accent);
+            color: var(--text);
+        }
 
-/* SECTIONS */
-.section{display:none;margin-top:20px;}
-.section.active{display:block;}
+        /* TAB SECTIONS */
+        .tab {
+            display: none;
+            animation: fadeUp .4s ease;
+        }
+        .tab.active { display: block; }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-/* CARDS */
-.grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-    gap:12px;
-}
+        /* CARDS */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+        .card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 18px;
+            transition: .2s;
+            text-align: center;
+        }
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+            box-shadow: var(--shadow);
+        }
+        .card h3 { margin-bottom: 6px; }
+        .card p { color: var(--muted); font-size: 0.9rem; margin-bottom: 12px; }
+        .card a {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 10px 20px;
+            background: var(--accent);
+            color: white;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: .2s;
+        }
+        .card a:hover { background: #3fb950; }
 
-.card{
-    padding:16px;
-    border:1px solid #2a2f3a;
-    border-radius:12px;
-    background:#111823;
-}
+        /* ACTIONS */
+        .actions {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+        .actions button, .actions a {
+            padding: 10px 16px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: var(--panel);
+            color: var(--text);
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .actions .donate {
+            background: rgba(255,215,0,0.08);
+            border-color: rgba(255,215,0,0.3);
+            color: var(--gold);
+        }
 
-.btn{
-    display:inline-block;
-    margin-top:10px;
-    padding:8px 12px;
-    background:#2ea043;
-    color:#fff;
-    border-radius:8px;
-    text-decoration:none;
-}
+        /* COMPARE SLIDER */
+        .compare {
+            position: relative;
+            max-width: 800px;
+            margin: 20px auto;
+            overflow: hidden;
+            border-radius: var(--radius-lg);
+            user-select: none;
+        }
+        .compare img { width: 100%; display: block; }
+        .compare .before {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            clip-path: inset(0 50% 0 0);
+        }
+        .slider {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 3px;
+            background: var(--accent);
+            cursor: ew-resize;
+            transform: translateX(-1.5px);
+        }
+        .slider::after {
+            content: "⟷";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--bg);
+            padding: 4px 8px;
+            border-radius: 999px;
+            border: 1px solid var(--accent);
+            font-size: 1.2rem;
+            color: var(--accent);
+            pointer-events: none;
+        }
 
-/* COMPARE */
-.compare{
-    position:relative;
-    max-width:700px;
-    margin:20px auto;
-    overflow:hidden;
-}
+        /* TOGGLE */
+        #toggle {
+            display: block;
+            margin: 15px auto 0;
+            padding: 8px 16px;
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text);
+            cursor: pointer;
+            font-weight: 600;
+        }
 
-.compare img{width:100%;display:block;}
+        /* LINKS */
+        .links {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        .links a {
+            padding: 10px 14px;
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .links a:hover { border-color: var(--accent); }
 
-.before{
-    position:absolute;
-    top:0;left:0;
-    width:50%;
-    overflow:hidden;
-}
+        /* MODAL */
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+        }
+        .modal.active { display: flex; }
+        .modal .box {
+            background: var(--panel-solid);
+            border: 1px solid var(--border);
+            padding: 20px;
+            border-radius: var(--radius-lg);
+            width: 320px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .modal input {
+            padding: 8px;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+        }
+        .modal button {
+            padding: 8px;
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            cursor: pointer;
+            font-weight: 600;
+        }
 
-.slider{
-    position:absolute;
-    top:0;bottom:0;
-    left:50%;
-    width:3px;
-    background:#2ea043;
-    cursor:ew-resize;
-}
+        /* SNAKE */
+        .snake {
+            position: fixed;
+            inset: 0;
+            display: none;
+            background: rgba(0,0,0,0.9);
+            z-index: 999;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .snake.active { display: flex; }
+        .snake canvas {
+            border: 2px solid var(--accent);
+            border-radius: 12px;
+            box-shadow: 0 0 30px rgba(46,160,67,0.5);
+        }
+        .snake-ui {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+        }
 
-/* MODAL */
-.modal{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,0.6);
-    display:none;
-    justify-content:center;
-    align-items:center;
-}
+        /* FEED */
+        #feed > div {
+            background: rgba(22,27,34,0.6);
+            border: 1px solid rgba(48,54,61,0.6);
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 12px;
+        }
+        #feed img {
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
 
-.modal.active{display:flex;}
-
-.box{
-    background:#111823;
-    padding:20px;
-    border-radius:12px;
-}
-
-/* SNAKE */
-.snake{
-    position:fixed;
-    inset:0;
-    display:none;
-    justify-content:center;
-    align-items:center;
-    flex-direction:column;
-    background:rgba(0,0,0,0.85);
-}
-
-canvas{
-    background:#000;
-    border:1px solid #2ea043;
-}
-</style>
+        /* MOBILE */
+        @media (max-width: 900px) {
+            .cards { grid-template-columns: 1fr; }
+            .tabs { flex-direction: column; }
+            .actions { flex-direction: column; align-items: center; }
+        }
+    </style>
 </head>
-
 <body>
 
-<div class="topbar">
-<div class="logo" id="logo">DenofyOptimizer</div>
-<div id="langBtn">RU / EN</div>
+<!-- SPLASH -->
+<div id="splash">
+    <div class="logoWrap">
+        <img src="logo2.png" alt="Logo" />
+        <h1>DENOFY OPTIMIZER</h1>
+        <p>system tuning suite</p>
+    </div>
+    <div class="bar"></div>
 </div>
 
-<div class="container">
+<!-- TOP BAR -->
+<header class="topbar">
+    <div class="logo" id="logoBtn">
+        <img src="logo.png" alt="DenofyOptimizer" />
+    </div>
+    <div class="lang">
+        <button data-lang="ru" class="active">RU</button>
+        <button data-lang="en">EN</button>
+    </div>
+</header>
 
-<div class="tabs">
-<div class="tab active" data-tab="home">📦 Пак</div>
-<div class="tab" data-tab="test">⚡ Тесты</div>
-<div class="tab" data-tab="updates">📝 Обновления</div>
-<div class="tab" data-tab="author">👤 Автор</div>
-</div>
+<!-- MAIN -->
+<main class="app">
+    <!-- NAV -->
+    <nav class="tabs">
+        <button data-tab="pack" class="active">📦 Pack</button>
+        <button data-tab="app">💻 App</button>
+        <button data-tab="tests">⚡ Tests</button>
+        <button data-tab="updates">📝 Updates</button>
+        <button data-tab="author">👤 Author</button>
+    </nav>
 
-<!-- HOME -->
-<div class="section active" id="home">
-<div class="grid">
-<div class="card">
-<h3>Optimizer Pack</h3>
-<p>Основной набор оптимизации Windows</p>
-<a class="btn" href="#">Скачать</a>
-</div>
+    <!-- PACK -->
+    <section id="pack" class="tab active">
+        <div class="cards">
+            <div class="card">
+                <h3>DenofyOptimizer</h3>
+                <p data-i18n="pack1">Tweaks + scripts bundle</p>
+                <a href="https://cloud.mail.ru/public/vtYr/X244pt7bn">Download</a>
+            </div>
+            <div class="card">
+                <h3>Denofy + ReviOS</h3>
+                <p data-i18n="pack2">ReviOS integrated build</p>
+                <a href="https://cloud.mail.ru/public/ZSBd/6FQTXMLFc">Download</a>
+            </div>
+            <div class="card">
+                <h3>PC Check</h3>
+                <p data-i18n="pack3">Diagnostics tool</p>
+                <a href="https://cloud.mail.ru/public/CcQd/vrYp5P71Y">Download</a>
+            </div>
+        </div>
+        <div class="actions">
+            <button class="share">Share</button>
+            <a class="donate" href="https://www.donationalerts.com/r/denofy336">Donate</a>
+        </div>
+    </section>
 
-<div class="card">
-<h3>ReviOS Pack</h3>
-<p>Максимальная производительность</p>
-<a class="btn" href="#">Скачать</a>
-</div>
-</div>
-</div>
+    <!-- APP -->
+    <section id="app" class="tab" style="text-align: center;">
+        <h2>Installer</h2>
+        <p style="color: var(--muted);">Coming soon</p>
+        <button disabled style="margin-top: 12px; padding: 10px 20px; background: #30363d; border: 1px solid #484f58; border-radius: 10px; color: var(--muted);">Unavailable</button>
+    </section>
 
-<!-- TEST -->
-<div class="section" id="test">
+    <!-- TESTS -->
+    <section id="tests" class="tab">
+        <h2>Before / After</h2>
+        <div class="compare">
+            <img src="after.png" class="after" alt="After" />
+            <img src="before.png" class="before" id="beforeImg" alt="Before" />
+            <div class="slider" id="slider"></div>
+        </div>
+        <button id="toggle">Toggle view</button>
+    </section>
 
-<h3>До / После</h3>
+    <!-- UPDATES -->
+    <section id="updates" class="tab">
+        <h2>Updates</h2>
+        <div id="feed"></div>
+    </section>
 
-<div class="compare" id="compare">
-<img src="after.png">
-<div class="before" id="before">
-<img src="before.png">
-</div>
-<div class="slider" id="slider"></div>
-</div>
-
-</div>
-
-<!-- UPDATES -->
-<div class="section" id="updates">
-<p>Обновления Telegram...</p>
-</div>
-
-<!-- AUTHOR -->
-<div class="section" id="author">
-<p>GitHub / VK / Steam</p>
-</div>
-
-</div>
+    <!-- AUTHOR -->
+    <section id="author" class="tab" style="text-align: center;">
+        <h2>Author</h2>
+        <div class="links">
+            <a href="https://github.com/denofy76">GitHub</a>
+            <a href="https://vk.com/denofy">VK</a>
+            <a href="https://t.me/denofyoptimizer">Telegram</a>
+            <a href="https://www.twitch.tv/denofy336/about">Twitch</a>
+        </div>
+    </section>
+</main>
 
 <!-- MODAL -->
-<div class="modal" id="modal">
-<div class="box">
-<p>Поделиться</p>
-<button onclick="closeModal()">Закрыть</button>
-</div>
+<div id="shareModal" class="modal">
+    <div class="box">
+        <input id="shareInput" readonly />
+        <button id="copy">Copy</button>
+        <button id="vk">VK</button>
+        <button id="tg">TG</button>
+    </div>
 </div>
 
 <!-- SNAKE -->
 <div class="snake" id="snake">
-<canvas width="400" height="400"></canvas>
-<button onclick="closeSnake()">Закрыть</button>
+    <canvas id="snakeCanvas" width="400" height="400"></canvas>
+    <div class="snake-ui">
+        <button class="btn-green" onclick="restartSnake()">Restart</button>
+        <button class="btn-dark" onclick="closeSnake()">Close</button>
+    </div>
 </div>
 
 <script>
-/* ========= TABS ========= */
-document.querySelectorAll(".tab").forEach(t=>{
-t.onclick=()=>{
-document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
-t.classList.add("active");
+    /* =========================
+       DENOFY OPTIMIZER v2 CORE
+       FULL LOGIC RESTORE + FIXES
+    ========================= */
 
-document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
-document.getElementById(t.dataset.tab).classList.add("active");
-}
-});
+    /* ========= SPLASH ========= */
+    window.addEventListener("DOMContentLoaded", () => {
+        setTimeout(() => {
+            const splash = document.getElementById("splash");
+            if (splash) splash.classList.add("hide");
+        }, 1400);
+    });
 
-/* ========= COMPARE ========= */
-const before=document.getElementById("before");
-const slider=document.getElementById("slider");
-const compare=document.getElementById("compare");
+    /* ========= TABS SYSTEM ========= */
+    const tabs = document.querySelectorAll(".tabs button");
+    const sections = document.querySelectorAll(".tab");
 
-let drag=false;
+    tabs.forEach(btn => {
+        btn.addEventListener("click", () => {
+            const id = btn.dataset.tab;
+            tabs.forEach(b => b.classList.remove("active"));
+            sections.forEach(s => s.classList.remove("active"));
+            btn.classList.add("active");
+            document.getElementById(id).classList.add("active");
+        });
+    });
 
-slider.onmousedown=()=>drag=true;
-window.onmouseup=()=>drag=false;
+    /* ========= LANGUAGE SYSTEM ========= */
+    const dict = {
+        ru: {
+            pack1: "Сборка с набором твиков и скриптов",
+            pack2: "Сборка с интеграцией ReviOS",
+            pack3: "Инструмент диагностики ПК"
+        },
+        en: {
+            pack1: "Tweaks and scripts bundle",
+            pack2: "ReviOS integrated build",
+            pack3: "PC diagnostics tool"
+        }
+    };
 
-window.onmousemove=(e)=>{
-if(!drag)return;
-let r=compare.getBoundingClientRect();
-let x=(e.clientX-r.left)/r.width*100;
-x=Math.max(0,Math.min(100,x));
-before.style.width=x+"%";
-slider.style.left=x+"%";
-};
+    let currentLang = "ru";
 
-/* ========= MODAL ========= */
-function openModal(){document.getElementById("modal").classList.add("active")}
-function closeModal(){document.getElementById("modal").classList.remove("active")}
+    function setLang(lang) {
+        currentLang = lang;
+        document.querySelectorAll("[data-i18n]").forEach(el => {
+            const key = el.dataset.i18n;
+            if (dict[lang]?.[key]) el.innerText = dict[lang][key];
+        });
+        document.querySelectorAll(".lang button").forEach(b => {
+            b.classList.toggle("active", b.dataset.lang === lang);
+        });
+        localStorage.setItem("lang", lang);
+    }
 
-/* ========= SNAKE EASTER EGG ========= */
-let clicks=0;
-document.getElementById("logo").onclick=()=>{
-clicks++;
-setTimeout(()=>clicks=0,800);
-if(clicks>=5) startSnake();
-};
+    document.querySelectorAll(".lang button").forEach(btn => {
+        btn.addEventListener("click", () => setLang(btn.dataset.lang));
+    });
 
-/* ========= SNAKE ========= */
-let snake,dir,food,ctx,loop;
+    setLang(localStorage.getItem("lang") || "ru");
 
-function startSnake(){
-document.getElementById("snake").style.display="flex";
-let c=document.querySelector("canvas");
-ctx=c.getContext("2d");
+    /* ========= SHARE MODAL ========= */
+    const modal = document.getElementById("shareModal");
+    const shareInput = document.getElementById("shareInput");
 
-snake=[{x:10,y:10}];
-dir={x:1,y:0};
-food={x:5,y:5};
+    function openShare() {
+        shareInput.value = window.location.href;
+        modal.classList.add("active");
+    }
+    function closeShare() { modal.classList.remove("active"); }
 
-loop=setInterval(game,120);
-}
+    document.querySelectorAll(".share").forEach(btn => {
+        btn.addEventListener("click", openShare);
+    });
 
-function game(){
-let head={x:snake[0].x+dir.x,y:snake[0].y+dir.y};
+    modal.addEventListener("click", (e) => {
+        if (e.target === modal) closeShare();
+    });
 
-if(head.x<0||head.y<0||head.x>19||head.y>19) return reset();
+    document.getElementById("copy").onclick = async () => {
+        await navigator.clipboard.writeText(shareInput.value);
+        alert("Скопировано!");
+    };
+    document.getElementById("vk").onclick = () => {
+        window.open(`https://vk.com/share.php?url=${encodeURIComponent(location.href)}`);
+    };
+    document.getElementById("tg").onclick = () => {
+        window.open(`https://t.me/share/url?url=${encodeURIComponent(location.href)}`);
+    };
 
-snake.unshift(head);
+    /* ========= TELEGRAM FEED ========= */
+    const feed = document.getElementById("feed");
 
-if(head.x==food.x&&head.y==food.y){
-food={x:Math.random()*20|0,y:Math.random()*20|0};
-}else snake.pop();
+    async function loadFeed() {
+        if (!feed) return;
+        feed.innerHTML = "Loading...";
+        try {
+            const res = await fetch("https://denofy-updates.denofy76.workers.dev");
+            const data = await res.json();
+            feed.innerHTML = "";
+            data.slice(0, 5).forEach(post => {
+                const div = document.createElement("div");
+                div.innerHTML = `
+                    ${post.photo ? `<img src="${post.photo}" style="width:100%;border-radius:8px;margin-bottom:8px;">` : ""}
+                    <div style="color:#e6edf3">${post.text || ""}</div>
+                    <div style="color:#8b949e;font-size:12px;margin-top:6px;">${new Date(post.date * 1000).toLocaleString()}</div>
+                `;
+                feed.appendChild(div);
+            });
+        } catch (e) {
+            feed.innerHTML = "Failed to load updates";
+        }
+    }
 
-ctx.clearRect(0,0,400,400);
+    /* ========= BEFORE / AFTER SLIDER ========= */
+    const slider = document.getElementById("slider");
+    const beforeImg = document.getElementById("beforeImg");
+    const compare = document.querySelector(".compare");
 
-ctx.fillStyle="#2ea043";
-snake.forEach(s=>ctx.fillRect(s.x*20,s.y*20,18,18));
+    if (slider && beforeImg && compare) {
+        let dragging = false;
 
-ctx.fillStyle="red";
-ctx.fillRect(food.x*20,food.y*20,18,18);
-}
+        function move(x) {
+            const rect = compare.getBoundingClientRect();
+            let percent = (x - rect.left) / rect.width * 100;
+            percent = Math.max(0, Math.min(100, percent));
+            slider.style.left = percent + "%";
+            beforeImg.style.clipPath = `inset(0 ${100 - percent}% 0 0)`;
+        }
 
-function reset(){
-clearInterval(loop);
-startSnake();
-}
+        slider.addEventListener("mousedown", () => dragging = true);
+        window.addEventListener("mouseup", () => dragging = false);
+        window.addEventListener("mousemove", e => dragging && move(e.clientX));
 
-function closeSnake(){
-clearInterval(loop);
-document.getElementById("snake").style.display="none";
-}
+        slider.addEventListener("touchstart", (e) => {
+            dragging = true;
+            e.preventDefault();
+        });
+        window.addEventListener("touchend", () => dragging = false);
+        window.addEventListener("touchmove", e => dragging && move(e.touches[0].clientX));
+    }
 
-/* init */
-slider.style.left="50%";
-before.style.width="50%";
+    /* Toggle button */
+    document.getElementById("toggle")?.addEventListener("click", () => {
+        const img = document.getElementById("beforeImg");
+        img.style.display = img.style.display === "none" ? "block" : "none";
+    });
+
+    /* ========= SNAKE EASTER EGG ========= */
+    const snakeContainer = document.getElementById("snake");
+    const snakeCanvas = document.getElementById("snakeCanvas");
+    const ctx = snakeCanvas.getContext("2d");
+
+    let snake, dir, food, interval;
+
+    function initSnake() {
+        snake = [{ x: 10, y: 10 }];
+        dir = { x: 1, y: 0 };
+        food = spawnFood();
+    }
+
+    function spawnFood() {
+        let f;
+        do {
+            f = { x: Math.floor(Math.random() * 20), y: Math.floor(Math.random() * 20) };
+        } while (snake.some(s => s.x === f.x && s.y === f.y));
+        return f;
+    }
+
+    function draw() {
+        ctx.clearRect(0, 0, snakeCanvas.width, snakeCanvas.height);
+        ctx.fillStyle = "#2ea043";
+        snake.forEach(s => ctx.fillRect(s.x * 20, s.y * 20, 18, 18));
+        ctx.fillStyle = "red";
+        ctx.fillRect(food.x * 20, food.y * 20, 18, 18);
+    }
+
+    function tick() {
+        const head = { x: snake[0].x + dir.x, y: snake[0].y + dir.y };
+        if (head.x < 0 || head.x > 19 || head.y < 0 || head.y > 19) {
+            clearInterval(interval);
+            alert("Game Over");
+            return;
+        }
+        if (snake.some(s => s.x === head.x && s.y === head.y)) {
+            clearInterval(interval);
+            alert("Game Over");
+            return;
+        }
+        snake.unshift(head);
+        if (head.x === food.x && head.y === food.y) {
+            food = spawnFood();
+        } else {
+            snake.pop();
+        }
+        draw();
+    }
+
+    function startSnake() {
+        snakeContainer.classList.add("active");
+        initSnake();
+        interval = setInterval(tick, 120);
+        document.addEventListener("keydown", handleKey);
+    }
+
+    function stopSnake() {
+        snakeContainer.classList.remove("active");
+        clearInterval(interval);
+        document.removeEventListener("keydown", handleKey);
+    }
+
+    function handleKey(e) {
+        if (e.key === "ArrowUp" && dir.y === 0) dir = { x: 0, y: -1 };
+        else if (e.key === "ArrowDown" && dir.y === 0) dir = { x: 0, y: 1 };
+        else if (e.key === "ArrowLeft" && dir.x === 0) dir = { x: -1, y: 0 };
+        else if (e.key === "ArrowRight" && dir.x === 0) dir = { x: 1, y: 0 };
+    }
+
+    function restartSnake() {
+        stopSnake();
+        startSnake();
+    }
+
+    function closeSnake() {
+        stopSnake();
+    }
+
+    /* LOGO EASTER EGG */
+    let clicks = 0;
+    document.getElementById("logoBtn").addEventListener("click", (e) => {
+        e.preventDefault();
+        clicks++;
+        setTimeout(() => clicks = 0, 1000);
+        if (clicks >= 5) {
+            startSnake();
+            clicks = 0;
+        }
+    });
+
+    /* ========= INIT ========= */
+    if (document.getElementById("updates")?.classList.contains("active")) {
+        loadFeed();
+    }
+    document.querySelector('[data-tab="updates"]')?.addEventListener("click", loadFeed);
 </script>
-
 </body>
 </html>
