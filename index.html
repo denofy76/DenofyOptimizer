@@ -1,94 +1,34 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<meta name="theme-color" content="#0b0f14"/>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DenofyOptimizer</title>
 
-<link rel="icon" href="logo3.ico">
-
 <style>
-:root{
-    --bg:#0b0f14;
-    --card:#111823;
-    --card2:#0f1620;
-    --green:#2ea043;
-    --green2:#6fdd8c;
-    --text:#e6edf3;
-    --muted:#8b949e;
-    --border:rgba(255,255,255,0.08);
-    --shadow:0 20px 60px rgba(0,0,0,0.6);
-}
-
-*{margin:0;padding:0;box-sizing:border-box;}
-
 body{
-    font-family: system-ui, -apple-system, Segoe UI, sans-serif;
-    background: radial-gradient(circle at top, #122018, var(--bg));
-    color:var(--text);
-    min-height:100vh;
+    margin:0;
+    font-family:system-ui;
+    background:#0b0f14;
+    color:#e6edf3;
 }
 
-/* TOP BAR */
 .topbar{
     position:fixed;
     top:0;left:0;right:0;
     display:flex;
     justify-content:space-between;
-    align-items:center;
-    padding:14px 22px;
-    backdrop-filter:blur(14px);
-    background:rgba(10,14,18,0.6);
-    border-bottom:1px solid var(--border);
-    z-index:100;
+    padding:12px 18px;
+    background:rgba(0,0,0,0.6);
+    backdrop-filter:blur(12px);
+    z-index:10;
 }
 
-.logo{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    font-weight:700;
-    color:var(--text);
-    text-decoration:none;
-}
+.logo{font-weight:700;cursor:pointer;}
 
-.logo img{height:38px;}
-
-.lang button{
-    background:transparent;
-    border:1px solid var(--border);
-    color:var(--muted);
-    padding:6px 10px;
-    border-radius:8px;
-    cursor:pointer;
-}
-
-.lang button.active{
-    color:#fff;
-    border-color:var(--green);
-}
-
-/* HERO */
-.hero{
-    padding:120px 20px 40px;
-    text-align:center;
-}
-
-.hero h1{
-    font-size:2.4rem;
-}
-
-.hero p{
-    color:var(--muted);
-    margin-top:10px;
-}
-
-/* GRID */
 .container{
-    max-width:1100px;
-    margin:auto;
+    max-width:1000px;
+    margin:100px auto;
     padding:20px;
 }
 
@@ -96,87 +36,59 @@ body{
 .tabs{
     display:flex;
     gap:10px;
-    justify-content:center;
     flex-wrap:wrap;
-    margin:30px 0;
 }
 
 .tab{
-    padding:10px 14px;
-    border:1px solid var(--border);
-    border-radius:10px;
+    padding:8px 12px;
+    border:1px solid #2a2f3a;
+    border-radius:8px;
     cursor:pointer;
-    color:var(--muted);
-    transition:.2s;
-    background:rgba(255,255,255,0.02);
+    color:#8b949e;
 }
 
 .tab.active{
-    border-color:var(--green);
+    border-color:#2ea043;
     color:#fff;
-    box-shadow:0 0 20px rgba(46,160,67,0.2);
 }
+
+/* SECTIONS */
+.section{display:none;margin-top:20px;}
+.section.active{display:block;}
 
 /* CARDS */
 .grid{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-    gap:16px;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:12px;
 }
 
 .card{
-    background:linear-gradient(145deg,var(--card),var(--card2));
-    border:1px solid var(--border);
-    border-radius:16px;
-    padding:18px;
-    box-shadow:var(--shadow);
-    transition:.2s;
-}
-
-.card:hover{
-    transform:translateY(-5px);
-    border-color:rgba(46,160,67,0.5);
-}
-
-.card h3{
-    margin-bottom:6px;
-}
-
-.card p{
-    color:var(--muted);
-    font-size:.9rem;
-    line-height:1.4;
+    padding:16px;
+    border:1px solid #2a2f3a;
+    border-radius:12px;
+    background:#111823;
 }
 
 .btn{
     display:inline-block;
-    margin-top:12px;
-    padding:10px 14px;
-    border-radius:10px;
-    background:var(--green);
+    margin-top:10px;
+    padding:8px 12px;
+    background:#2ea043;
     color:#fff;
+    border-radius:8px;
     text-decoration:none;
-    font-weight:600;
 }
 
-.btn:hover{
-    background:var(--green2);
-}
-
-/* BEFORE AFTER */
+/* COMPARE */
 .compare{
     position:relative;
-    max-width:800px;
-    margin:40px auto;
+    max-width:700px;
+    margin:20px auto;
     overflow:hidden;
-    border-radius:16px;
-    border:1px solid var(--border);
 }
 
-.compare img{
-    width:100%;
-    display:block;
-}
+.compare img{width:100%;display:block;}
 
 .before{
     position:absolute;
@@ -190,36 +102,42 @@ body{
     top:0;bottom:0;
     left:50%;
     width:3px;
-    background:var(--green);
+    background:#2ea043;
     cursor:ew-resize;
 }
 
-/* SNAKE */
-.snake-overlay{
+/* MODAL */
+.modal{
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,0.8);
+    background:rgba(0,0,0,0.6);
+    display:none;
+    justify-content:center;
+    align-items:center;
+}
+
+.modal.active{display:flex;}
+
+.box{
+    background:#111823;
+    padding:20px;
+    border-radius:12px;
+}
+
+/* SNAKE */
+.snake{
+    position:fixed;
+    inset:0;
     display:none;
     justify-content:center;
     align-items:center;
     flex-direction:column;
+    background:rgba(0,0,0,0.85);
 }
 
 canvas{
-    border:1px solid var(--green);
     background:#000;
-}
-
-/* FOOTER */
-footer{
-    text-align:center;
-    color:var(--muted);
-    padding:40px 10px;
-    font-size:.9rem;
-}
-
-@media(max-width:600px){
-.hero h1{font-size:1.8rem;}
+    border:1px solid #2ea043;
 }
 </style>
 </head>
@@ -227,274 +145,169 @@ footer{
 <body>
 
 <div class="topbar">
-    <a class="logo" href="#">
-        <img src="logo.png">
-        DenofyOptimizer
-    </a>
-
-    <div class="lang">
-        <button class="active">RU</button>
-        <button>EN</button>
-    </div>
-</div>
-
-<div class="hero">
-    <h1>Windows Optimization Toolkit</h1>
-    <p>Clean • Fast • Minimal • Powerful</p>
+<div class="logo" id="logo">DenofyOptimizer</div>
+<div id="langBtn">RU / EN</div>
 </div>
 
 <div class="container">
 
-<!-- TABS -->
 <div class="tabs">
-    <div class="tab active">📦 Downloads</div>
-    <div class="tab">⚡ Tests</div>
-    <div class="tab">📝 Updates</div>
-    <div class="tab">👤 Author</div>
+<div class="tab active" data-tab="home">📦 Пак</div>
+<div class="tab" data-tab="test">⚡ Тесты</div>
+<div class="tab" data-tab="updates">📝 Обновления</div>
+<div class="tab" data-tab="author">👤 Автор</div>
 </div>
 
-<!-- DOWNLOADS -->
+<!-- HOME -->
+<div class="section active" id="home">
 <div class="grid">
-    <div class="card">
-        <h3>DenofyOptimizer</h3>
-        <p>Основная сборка с твиками и оптимизацией.</p>
-        <a class="btn" href="#">Скачать</a>
-    </div>
-
-    <div class="card">
-        <h3>ReviOS Pack</h3>
-        <p>Оптимизированная система с ReviOS интеграцией.</p>
-        <a class="btn" href="#">Скачать</a>
-    </div>
-
-    <div class="card">
-        <h3>PC Test Tool</h3>
-        <p>Проверка производительности и стабильности.</p>
-        <a class="btn" href="#">Скачать</a>
-    </div>
+<div class="card">
+<h3>Optimizer Pack</h3>
+<p>Основной набор оптимизации Windows</p>
+<a class="btn" href="#">Скачать</a>
 </div>
 
-<!-- BEFORE AFTER -->
-<h2 style="text-align:center;margin-top:50px;">До / После</h2>
+<div class="card">
+<h3>ReviOS Pack</h3>
+<p>Максимальная производительность</p>
+<a class="btn" href="#">Скачать</a>
+</div>
+</div>
+</div>
+
+<!-- TEST -->
+<div class="section" id="test">
+
+<h3>До / После</h3>
 
 <div class="compare" id="compare">
-    <img src="after.png">
-    <div class="before" id="before">
-        <img src="before.png">
-    </div>
-    <div class="slider" id="slider"></div>
+<img src="after.png">
+<div class="before" id="before">
+<img src="before.png">
+</div>
+<div class="slider" id="slider"></div>
 </div>
 
-<button onclick="startSnake()">🎮 Секрет: Змейка</button>
+</div>
 
-<footer>
-DenofyOptimizer © 2026
-</footer>
+<!-- UPDATES -->
+<div class="section" id="updates">
+<p>Обновления Telegram...</p>
+</div>
 
+<!-- AUTHOR -->
+<div class="section" id="author">
+<p>GitHub / VK / Steam</p>
+</div>
+
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+<div class="box">
+<p>Поделиться</p>
+<button onclick="closeModal()">Закрыть</button>
+</div>
 </div>
 
 <!-- SNAKE -->
-<div class="snake-overlay" id="snake">
+<div class="snake" id="snake">
 <canvas width="400" height="400"></canvas>
 <button onclick="closeSnake()">Закрыть</button>
 </div>
 
 <script>
-let before = document.getElementById("before");
-let slider = document.getElementById("slider");
-let compare = document.getElementById("compare");
+/* ========= TABS ========= */
+document.querySelectorAll(".tab").forEach(t=>{
+t.onclick=()=>{
+document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+t.classList.add("active");
 
-let dragging = false;
-
-slider.addEventListener("mousedown", ()=>dragging=true);
-window.addEventListener("mouseup", ()=>dragging=false);
-window.addEventListener("mousemove",(e)=>{
-if(!dragging) return;
-let rect = compare.getBoundingClientRect();
-let x = e.clientX - rect.left;
-let percent = (x/rect.width)*100;
-if(percent<0) percent=0;
-if(percent>100) percent=100;
-before.style.width = percent+"%";
-slider.style.left = percent+"%";
-});
-</script>
-<script>
-// =======================
-// TABS SYSTEM
-// =======================
-const tabs = document.querySelectorAll(".tab");
-tabs.forEach(t=>{
-    t.addEventListener("click", ()=>{
-        tabs.forEach(x=>x.classList.remove("active"));
-        t.classList.add("active");
-    });
-});
-
-
-// =======================
-// BEFORE / AFTER (drag upgrade)
-// =======================
-const before = document.getElementById("before");
-const slider = document.getElementById("slider");
-const compare = document.getElementById("compare");
-
-let dragging = false;
-
-function moveSlider(x){
-    let rect = compare.getBoundingClientRect();
-    let percent = ((x - rect.left) / rect.width) * 100;
-
-    percent = Math.max(0, Math.min(100, percent));
-
-    before.style.width = percent + "%";
-    slider.style.left = percent + "%";
+document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+document.getElementById(t.dataset.tab).classList.add("active");
 }
-
-slider.addEventListener("mousedown", ()=>dragging=true);
-window.addEventListener("mouseup", ()=>dragging=false);
-window.addEventListener("mousemove",(e)=>{
-    if(dragging) moveSlider(e.clientX);
 });
 
-// touch
-slider.addEventListener("touchstart", ()=>dragging=true);
-window.addEventListener("touchend", ()=>dragging=false);
-window.addEventListener("touchmove",(e)=>{
-    if(dragging) moveSlider(e.touches[0].clientX);
-});
+/* ========= COMPARE ========= */
+const before=document.getElementById("before");
+const slider=document.getElementById("slider");
+const compare=document.getElementById("compare");
 
+let drag=false;
 
-// =======================
-// SIMPLE I18N
-// =======================
-const langData = {
-    ru:{
-        title:"Оптимизация Windows",
-        desc:"Быстро • Чисто • Эффективно",
-        dl:"Скачать",
-        tabs:["📦 Скачать","⚡ Тесты","📝 Обновления","👤 Автор"]
-    },
-    en:{
-        title:"Windows Optimization",
-        desc:"Fast • Clean • Powerful",
-        dl:"Download",
-        tabs:["📦 Downloads","⚡ Tests","📝 Updates","👤 Author"]
-    }
+slider.onmousedown=()=>drag=true;
+window.onmouseup=()=>drag=false;
+
+window.onmousemove=(e)=>{
+if(!drag)return;
+let r=compare.getBoundingClientRect();
+let x=(e.clientX-r.left)/r.width*100;
+x=Math.max(0,Math.min(100,x));
+before.style.width=x+"%";
+slider.style.left=x+"%";
 };
 
-let currentLang = "ru";
+/* ========= MODAL ========= */
+function openModal(){document.getElementById("modal").classList.add("active")}
+function closeModal(){document.getElementById("modal").classList.remove("active")}
 
-function setLang(lang){
-    currentLang = lang;
+/* ========= SNAKE EASTER EGG ========= */
+let clicks=0;
+document.getElementById("logo").onclick=()=>{
+clicks++;
+setTimeout(()=>clicks=0,800);
+if(clicks>=5) startSnake();
+};
 
-    document.querySelector(".hero h1").textContent = langData[lang].title;
-    document.querySelector(".hero p").textContent = langData[lang].desc;
-
-    document.querySelectorAll(".btn").forEach(b=>{
-        b.textContent = langData[lang].dl;
-    });
-
-    document.querySelectorAll(".tab").forEach((t,i)=>{
-        t.textContent = langData[lang].tabs[i];
-    });
-
-    document.querySelectorAll(".lang button").forEach(b=>b.classList.remove("active"));
-    document.querySelectorAll(".lang button")[lang==="ru"?0:1].classList.add("active");
-}
-
-
-// =======================
-// LANG BUTTONS
-// =======================
-document.querySelectorAll(".lang button").forEach((btn,i)=>{
-    btn.addEventListener("click", ()=>{
-        setLang(i===0?"ru":"en");
-    });
-});
-
-
-// =======================
-// SNAKE GAME (FULL SIMPLE VERSION)
-// =======================
-const snakeOverlay = document.getElementById("snake");
-const canvas = snakeOverlay.querySelector("canvas");
-const ctx = canvas.getContext("2d");
-
-let snake, dir, food, loop;
-
-function initSnake(){
-    snake = [{x:10,y:10}];
-    dir = {x:1,y:0};
-    food = {x:5,y:5};
-
-    if(loop) clearInterval(loop);
-
-    loop = setInterval(update, 120);
-}
-
-function draw(){
-    ctx.clearRect(0,0,400,400);
-
-    // snake
-    ctx.fillStyle="#2ea043";
-    snake.forEach(s=>{
-        ctx.fillRect(s.x*20,s.y*20,18,18);
-    });
-
-    // food
-    ctx.fillStyle="red";
-    ctx.fillRect(food.x*20,food.y*20,18,18);
-}
-
-function update(){
-    let head = {
-        x:snake[0].x + dir.x,
-        y:snake[0].y + dir.y
-    };
-
-    // wall
-    if(head.x<0||head.y<0||head.x>19||head.y>19){
-        return initSnake();
-    }
-
-    snake.unshift(head);
-
-    if(head.x===food.x && head.y===food.y){
-        food = {
-            x:Math.floor(Math.random()*20),
-            y:Math.floor(Math.random()*20)
-        };
-    } else {
-        snake.pop();
-    }
-
-    draw();
-}
-
-document.addEventListener("keydown",(e)=>{
-    if(e.key==="ArrowUp") dir={x:0,y:-1};
-    if(e.key==="ArrowDown") dir={x:0,y:1};
-    if(e.key==="ArrowLeft") dir={x:-1,y:0};
-    if(e.key==="ArrowRight") dir={x:1,y:0};
-});
+/* ========= SNAKE ========= */
+let snake,dir,food,ctx,loop;
 
 function startSnake(){
-    snakeOverlay.style.display="flex";
-    initSnake();
+document.getElementById("snake").style.display="flex";
+let c=document.querySelector("canvas");
+ctx=c.getContext("2d");
+
+snake=[{x:10,y:10}];
+dir={x:1,y:0};
+food={x:5,y:5};
+
+loop=setInterval(game,120);
+}
+
+function game(){
+let head={x:snake[0].x+dir.x,y:snake[0].y+dir.y};
+
+if(head.x<0||head.y<0||head.x>19||head.y>19) return reset();
+
+snake.unshift(head);
+
+if(head.x==food.x&&head.y==food.y){
+food={x:Math.random()*20|0,y:Math.random()*20|0};
+}else snake.pop();
+
+ctx.clearRect(0,0,400,400);
+
+ctx.fillStyle="#2ea043";
+snake.forEach(s=>ctx.fillRect(s.x*20,s.y*20,18,18));
+
+ctx.fillStyle="red";
+ctx.fillRect(food.x*20,food.y*20,18,18);
+}
+
+function reset(){
+clearInterval(loop);
+startSnake();
 }
 
 function closeSnake(){
-    snakeOverlay.style.display="none";
-    clearInterval(loop);
+clearInterval(loop);
+document.getElementById("snake").style.display="none";
 }
 
-
-// =======================
-// INIT DEFAULT
-// =======================
-setLang("ru");
-
+/* init */
+slider.style.left="50%";
+before.style.width="50%";
 </script>
+
 </body>
 </html>
