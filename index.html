@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="theme-color" content="#0b0f14">
+    <meta name="theme-color" content="#0d1117">
     <title>DenofyOptimizer</title>
     <link rel="icon" href="logo3.ico" type="image/x-icon">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { background: #0b0f14; }
+        html { background: #0d1117; }
 
         body {
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: radial-gradient(circle at 20% 20%, rgba(46,160,67,0.08), transparent 40%),
-                        radial-gradient(circle at 80% 80%, rgba(111,221,140,0.06), transparent 40%),
-                        #0b0f14;
+            background: linear-gradient(135deg, #0d1117, #1a2f1f, #0d1117, #16281b);
+            background-size: 400% 400%;
+            animation: gradientShift 12s ease infinite;
             color: #e6edf3;
             display: flex;
             justify-content: center;
@@ -23,25 +23,25 @@
             padding: 20px;
             padding-top: calc(20px + env(safe-area-inset-top, 0px));
             position: relative;
+            font-size: 16px; /* базовый размер для читаемости */
             line-height: 1.5;
         }
 
-        /* Фон с частицами */
-        #particlesCanvas {
-            position: fixed;
-            inset: 0;
-            z-index: -1;
+        body.loading .container,
+        body.loading .top-bar {
+            opacity: 0;
             pointer-events: none;
-            opacity: 0.6;
         }
 
-        body.loading .container,
-        body.loading .top-bar { opacity: 0; pointer-events: none; }
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
 
-        /* Сплеш-экран */
         .splash-screen {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background: #0b0f14; z-index: 100;
+            background: #0d1117; z-index: 100;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             opacity: 1; transition: opacity 0.6s ease; pointer-events: all;
             padding: 20px;
@@ -49,26 +49,33 @@
             padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px));
         }
         .splash-screen.hide { opacity: 0; pointer-events: none; }
+
         .splash-logo-img { 
-            width: 150px; height: auto;
+            width: 150px;
+            height: auto;
             animation: splashPulse 1.5s ease infinite; 
             margin-bottom: 16px; 
             filter: drop-shadow(0 0 20px rgba(46, 160, 67, 0.5));
         }
+
         @keyframes splashPulse {
             0% { transform: scale(0.95); opacity: 0.8; }
             50% { transform: scale(1.05); opacity: 1; }
             100% { transform: scale(0.95); opacity: 0.8; }
         }
+
         .splash-text {
             font-size: 1.4rem; font-weight: 600; letter-spacing: 0.2em;
             color: #2ea043; margin-bottom: 30px; animation: splashFadeText 1.5s ease infinite;
             word-break: break-word; text-align: center;
             text-shadow: 0 0 15px rgba(46, 160, 67, 0.6);
+            line-height: 1.3;
         }
+
         @keyframes splashFadeText {
             0% { opacity: 0.6; } 50% { opacity: 1; } 100% { opacity: 0.6; }
         }
+
         .splash-progress {
             width: 200px; height: 4px; background: rgba(255,255,255,0.15);
             border-radius: 2px; overflow: hidden;
@@ -81,77 +88,86 @@
         }
         @keyframes progressGrow { 0% { width: 0%; } 100% { width: 100%; } }
 
-        /* Контейнер */
         .container {
             opacity: 0;
             transform: translateY(40px);
             transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
             will-change: transform, opacity;
-            background: rgba(22, 27, 34, 0.75);
+            background: rgba(33, 38, 45, 0.75);
             backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(48, 54, 61, 0.6);
-            border-radius: 24px;
-            padding: 40px;
-            max-width: 1000px;
-            width: 100%;
-            margin-top: 60px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(46,160,67,0.15);
+            border: 1px solid rgba(48, 54, 61, 0.6); border-radius: 24px;
+            padding: 40px; max-width: 900px; width: 100%; margin-top: 60px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(46, 160, 67, 0.15);
         }
-        body.loaded .container { opacity: 1; transform: translateY(0); }
+        body.loaded .container {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
-        /* Верхняя панель */
         .top-bar {
             position: fixed; top: 22px; left: 28px; right: 28px; z-index: 10;
             display: flex; justify-content: space-between; align-items: center;
         }
         .logo {
             display: flex; align-items: center;
-            background: rgba(13, 17, 23, 0.7);
+            background: rgba(33, 38, 45, 0.65);
             backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(46, 160, 67, 0.25);
-            border-radius: 14px;
-            padding: 10px;
-            box-shadow: 0 6px 18px rgba(0,0,0,0.5);
-            transition: all 0.25s ease;
-            text-decoration: none;
-            cursor: pointer;
-            user-select: none;
+            border: 1px solid rgba(46, 160, 67, 0.25); border-radius: 14px;
+            padding: 10px; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+            transition: all 0.25s ease; text-decoration: none; cursor: pointer; user-select: none;
         }
         .logo:hover {
-            border-color: #2ea043;
-            box-shadow: 0 0 20px rgba(46,160,67,0.3);
-            transform: translateY(-1px);
+            background: rgba(33, 38, 45, 0.8); border-color: #2ea043;
+            box-shadow: 0 0 20px rgba(46, 160, 67, 0.3); transform: translateY(-1px);
         }
         .logo-img { height: 44px; width: auto; display: block; pointer-events: none; }
 
-        .lang-switcher { display: flex; gap: 8px; }
+        .lang-switcher {
+            display: flex; gap: 8px;
+        }
         .lang-btn {
-            background: rgba(13, 17, 23, 0.7);
+            background: rgba(33, 38, 45, 0.65);
             backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(46, 160, 67, 0.25);
             color: #8b949e;
             font-weight: 600; font-size: 0.9rem; padding: 10px 18px;
             border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.2s;
+            cursor: pointer; transition: all 0.2s; letter-spacing: 0.3px;
         }
         .lang-btn.active {
             background: #2ea043;
             border-color: #2ea043;
-            color: #fff;
-            box-shadow: 0 0 12px rgba(46,160,67,0.4);
+            color: #ffffff;
+            box-shadow: 0 0 12px rgba(46, 160, 67, 0.4);
         }
-        .lang-btn:hover:not(.active) { background: rgba(255,255,255,0.05); color: #c9d1d9; }
+        .lang-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.05);
+            color: #c9d1d9;
+        }
 
-        .main-title { text-align: center; margin-bottom: 15px; }
-        .main-title h1 { font-size: 2rem; font-weight: 700; color: #fff; margin-bottom: 2px; }
-        .main-title .subtitle { font-size: 1rem; color: #8b949e; }
+        .main-title {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .main-title h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 2px;
+            color: #ffffff;
+        }
+        .main-title .subtitle {
+            font-size: 1rem;
+            color: #8b949e;
+        }
 
-        /* Табы */
         .tabs {
-            display: flex; gap: 12px; margin-bottom: 35px;
-            border-bottom: 2px solid rgba(48, 54, 61, 0.8); padding-bottom: 15px;
-            flex-wrap: wrap; justify-content: center;
+            display: flex; 
+            gap: 12px; 
+            margin-bottom: 35px;
+            border-bottom: 2px solid rgba(48, 54, 61, 0.8); 
+            padding-bottom: 15px; 
+            flex-wrap: wrap;
+            justify-content: center;
         }
         .tab-btn {
             background: transparent; border: none; color: #8b949e;
@@ -160,37 +176,70 @@
             position: relative; letter-spacing: 0.3px; white-space: nowrap;
             transition: color 0.25s ease, background 0.25s ease;
         }
-        .tab-btn:hover { color: #c9d1d9; background: rgba(255,255,255,0.03); }
-        .tab-btn.active { color: #fff; background: rgba(46,160,67,0.12); }
+        .tab-btn:hover { color: #c9d1d9; background: rgba(255, 255, 255, 0.03); }
+        .tab-btn.active { color: #ffffff; background: rgba(46, 160, 67, 0.12); }
         .tab-btn.active::after {
             content: ''; position: absolute; bottom: -17px; left: 10%; right: 10%;
             height: 3px; background: linear-gradient(90deg, #2ea043, #6fdd8c);
-            border-radius: 3px 3px 0 0; box-shadow: 0 0 12px rgba(46,160,67,0.5);
+            border-radius: 3px 3px 0 0; box-shadow: 0 0 12px rgba(46, 160, 67, 0.5);
+        }
+        /* Фокус для доступности */
+        .tab-btn:focus-visible {
+            outline: 2px solid #2ea043;
+            outline-offset: -2px;
+        }
+        :focus-visible {
+            outline: 2px solid #2ea043;
+            outline-offset: 2px;
         }
 
-        .tab-content { display: none; animation: fadeSlide 0.4s ease-out; }
+        .tab-content {
+            display: none;
+            animation: fadeSlide 0.4s ease-out;
+            min-height: 450px;
+        }
         .tab-content.active { display: block; }
         @keyframes fadeSlide {
             from { opacity: 0; transform: translateY(12px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        .btn {
+            display: inline-block; background: #2ea043; color: #ffffff;
+            font-weight: 600; font-size: 1rem; padding: 12px 32px;
+            border-radius: 10px; text-decoration: none;
+            transition: all 0.25s ease; border: 1px solid #3fb950;
+            box-shadow: 0 4px 12px rgba(46, 160, 67, 0.3);
+            letter-spacing: 0.3px; cursor: pointer;
+        }
+        .btn:hover { background: #3fb950; transform: translateY(-2px); box-shadow: 0 8px 25px rgba(46, 160, 67, 0.6); }
+        .btn-outline { background: transparent; border: 1px solid #2ea043; color: #2ea043; box-shadow: 0 4px 12px rgba(46, 160, 67, 0.2); }
+        .btn-outline:hover { background: rgba(46, 160, 67, 0.1); box-shadow: 0 8px 25px rgba(46, 160, 67, 0.5); transform: translateY(-2px); }
+        .btn-disabled { background: #30363d; border-color: #484f58; color: #8b949e; cursor: not-allowed; pointer-events: none; box-shadow: none; }
 
-        /* Карточки пакетов */
-        .package-cards {
-            display: flex; gap: 20px; margin: 30px 0 10px;
-            flex-wrap: nowrap; overflow-x: auto; padding: 10px 5px;
+        .package-cards { 
+            display: flex; 
+            gap: 20px; 
+            margin: 30px 0 10px; 
+            flex-wrap: nowrap;
+            overflow: visible;
+            padding: 10px 5px;
         }
         .package-card {
-            flex: 1 1 200px; min-width: 180px;
-            background: rgba(26,31,38,0.85);
-            backdrop-filter: none; -webkit-backdrop-filter: none;
+            flex: 1 1 200px;
+            min-width: 180px;
+            background: rgba(26, 31, 38, 0.92);
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
             border: 1px solid rgba(48, 54, 61, 0.7);
-            border-radius: 16px; padding: 24px 18px;
+            border-radius: 16px;
+            padding: 24px 18px;
             text-align: center;
-            transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+            transition: transform 0.3s ease, border-color 0.3s, box-shadow 0.3s;
             box-shadow: 0 6px 18px rgba(0,0,0,0.4);
             display: flex; flex-direction: column; align-items: center; gap: 10px;
-            position: relative; z-index: 1;
+            position: relative;
+            z-index: 1;
+            will-change: transform;
         }
         .package-card:hover {
             transform: translateY(-4px);
@@ -199,95 +248,133 @@
             z-index: 2;
         }
         .package-icon { font-size: 2.4rem; }
-        .package-name {
+        .package-name { 
             font-weight: 700; font-size: 1.1rem; color: #f0f6fc;
-            height: 2.5em; overflow: hidden;
-            display: flex; align-items: center; justify-content: center;
+            height: 2.5em;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             width: 100%;
         }
-        .package-desc {
-            font-size: 0.85rem; color: #8b949e;
-            line-height: 1.4; height: 3em;
-            overflow: hidden; display: flex; align-items: center;
-            justify-content: center; width: 100%;
+        .package-desc { 
+            font-size: 0.85rem; 
+            color: #8b949e; 
+            line-height: 1.4; 
+            height: 3em;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
         }
-        .package-size { font-size: 0.8rem; color: #6e7681; }
+        .package-size { font-size: 0.8rem; color: #6e7681; margin-top: -2px; }
         .package-card .btn { margin-top: auto; }
 
-        /* Кнопки действий */
-        .action-buttons { display: flex; gap: 16px; margin-top: 20px; flex-wrap: wrap; justify-content: center; }
-        .share-btn, .donate-btn {
-            display: inline-flex; align-items: center; gap: 8px;
-            font-weight: 600; font-size: 0.9rem; padding: 8px 16px;
-            border-radius: 10px; cursor: pointer; transition: all 0.2s;
-        }
-        .share-btn {
-            background: rgba(46,160,67,0.1); border: 1px solid rgba(46,160,67,0.3);
-            color: #2ea043;
-        }
-        .share-btn:hover { background: rgba(46,160,67,0.2); box-shadow: 0 4px 15px rgba(46,160,67,0.4); }
-        .donate-btn {
-            background: rgba(255,215,0,0.1); border: 1px solid rgba(255,215,0,0.3);
-            color: #ffd700;
-        }
-        .donate-btn:hover { background: rgba(255,215,0,0.2); box-shadow: 0 4px 15px rgba(255,215,0,0.4); }
-
-        /* Слайдер сравнения */
+        /* Слайдер сравнения (исправленный) */
         .compare-container {
-            position: relative; width: 100%; max-width: 800px; margin: 30px auto;
-            border-radius: 16px; overflow: hidden;
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: 30px auto;
+            overflow: hidden;
+            border-radius: 16px;
             box-shadow: 0 12px 35px rgba(0,0,0,0.5);
             user-select: none;
         }
-        .compare-container img { display: block; width: 100%; height: auto; pointer-events: none; }
+        .compare-container img {
+            display: block;
+            width: 100%;
+            height: auto;
+            pointer-events: none;
+        }
         .img-before {
-            position: absolute; top: 0; left: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
             clip-path: inset(0 50% 0 0);
         }
         .compare-slider {
-            position: absolute; top: 0; bottom: 0;
-            width: 4px; background: #2ea043;
-            left: 50%; transform: translateX(-50%);
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: #2ea043;
+            left: 50%;
+            transform: translateX(-50%);
             cursor: ew-resize;
             box-shadow: 0 0 15px rgba(46,160,67,0.6);
             z-index: 2;
         }
         .compare-slider::after {
             content: "◀ ▶";
-            position: absolute; top: 50%; left: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
             transform: translate(-50%, -50%);
-            background: #0b0f14; color: #2ea043;
-            font-weight: bold; font-size: 1.2rem;
-            padding: 6px 14px; border-radius: 20px;
+            background: #0d1117;
+            color: #2ea043;
+            font-weight: bold;
+            font-size: 1.2rem;
+            padding: 6px 14px;
+            border-radius: 20px;
             white-space: nowrap;
             box-shadow: 0 0 10px rgba(0,0,0,0.6);
         }
         .compare-label {
-            position: absolute; bottom: 15px;
-            background: rgba(0,0,0,0.7); color: #fff;
-            padding: 4px 14px; border-radius: 8px;
-            font-size: 0.9rem; font-weight: 600;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.7);
+            color: #fff;
+            padding: 4px 14px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
             pointer-events: none;
+            z-index: 3;
         }
         .label-before { left: 15px; }
         .label-after  { right: 15px; }
 
-        /* Сетка ссылок (автор) */
         .links-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 18px; margin-top: 25px; }
         .social-link {
             display: flex; align-items: center; justify-content: center; gap: 10px;
             padding: 14px 18px;
-            background: rgba(26,31,38,0.85);
-            backdrop-filter: none; -webkit-backdrop-filter: none;
-            border: 1px solid rgba(48,54,61,0.7);
+            background: rgba(26, 31, 38, 0.85);
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+            border: 1px solid rgba(48, 54, 61, 0.7);
             border-radius: 14px;
-            color: #e6edf3; text-decoration: none;
-            font-weight: 600; font-size: 0.95rem;
+            color: #e6edf3; text-decoration: none; font-weight: 600; font-size: 0.95rem;
             transition: all 0.25s ease;
         }
-        .social-link:hover { background: rgba(46,160,67,0.08); border-color: #2ea043; transform: translateY(-3px); box-shadow: 0 8px 20px rgba(46,160,67,0.3); }
+        .social-link:hover { background: rgba(46, 160, 67, 0.08); border-color: #2ea043; transform: translateY(-3px); box-shadow: 0 8px 20px rgba(46, 160, 67, 0.3); }
+        .social-link .emoji { font-size: 1.3rem; }
 
-        /* Модалка */
+        .action-buttons {
+            display: flex;
+            gap: 16px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .share-btn, .donate-btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            font-weight: 600; font-size: 0.9rem; padding: 8px 16px;
+            border-radius: 10px; cursor: pointer; transition: all 0.2s;
+        }
+        .share-btn {
+            background: rgba(46, 160, 67, 0.1); border: 1px solid rgba(46, 160, 67, 0.3);
+            color: #2ea043;
+        }
+        .share-btn:hover { background: rgba(46, 160, 67, 0.2); box-shadow: 0 4px 15px rgba(46, 160, 67, 0.4); }
+        .donate-btn {
+            background: rgba(255, 215, 0, 0.1); border: 1px solid rgba(255, 215, 0, 0.3);
+            color: #ffd700;
+        }
+        .donate-btn:hover { background: rgba(255, 215, 0, 0.2); box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4); }
+
         .share-modal {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0,0,0,0.7); backdrop-filter: blur(6px);
@@ -296,7 +383,7 @@
         }
         .share-modal.active { opacity: 1; pointer-events: auto; }
         .share-dialog {
-            background: rgba(22,27,34,0.95); border: 1px solid rgba(46,160,67,0.4);
+            background: rgba(33, 38, 45, 0.95); border: 1px solid rgba(46, 160, 67, 0.4);
             border-radius: 20px; padding: 24px; max-width: 360px; width: 90%;
         }
         .share-option {
@@ -305,9 +392,8 @@
             padding: 12px; border-radius: 10px; margin-bottom: 8px;
             cursor: pointer; transition: background 0.2s;
         }
-        .share-option:hover { background: rgba(46,160,67,0.15); }
+        .share-option:hover { background: rgba(46, 160, 67, 0.15); }
 
-        /* Змейка */
         .snake-overlay {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0,0,0,0.85); backdrop-filter: blur(10px);
@@ -317,38 +403,100 @@
         }
         .snake-overlay.active { opacity: 1; pointer-events: auto; }
         .snake-overlay canvas {
-            border: 2px solid rgba(46,160,67,0.4); border-radius: 12px;
-            box-shadow: 0 0 30px rgba(46,160,67,0.3);
-            max-width: 95vw; max-height: 80vh;
+            border: 2px solid rgba(46, 160, 67, 0.4); border-radius: 12px;
+            box-shadow: 0 0 30px rgba(46, 160, 67, 0.3); max-width: 95vw; max-height: 80vh;
         }
         .snake-close, .snake-restart {
             margin-top: 20px; background: rgba(255,255,255,0.1);
             border: 1px solid rgba(255,255,255,0.2); color: #fff;
-            padding: 10px 24px; border-radius: 10px;
-            cursor: pointer; font-weight: 600;
+            padding: 10px 24px; border-radius: 10px; cursor: pointer; font-weight: 600;
             display: inline-block; margin-right: 10px;
         }
 
         @media (max-width: 700px) {
+            body { padding: 12px; padding-top: calc(12px + env(safe-area-inset-top, 0px)); }
+            .top-bar { top: 12px; left: 12px; right: 12px; flex-wrap: wrap; gap: 8px; }
+            .logo { padding: 8px; } .logo-img { height: 36px; }
+            .lang-btn { font-size: 0.8rem; padding: 8px 14px; }
             .container { margin-top: 90px; padding: 24px 16px; border-radius: 20px; }
-            .package-cards { flex-wrap: wrap; }
-            .package-card { flex: 1 1 250px; }
+            .main-title h1 { font-size: 1.6rem; }
+            .main-title .subtitle { font-size: 0.9rem; }
+            .tabs { 
+                flex-direction: column; 
+                gap: 8px; 
+                margin-bottom: 24px; 
+                padding-bottom: 12px; 
+                border-bottom: 2px solid rgba(48, 54, 61, 0.8); 
+                justify-content: flex-start;
+            }
+            .tab-btn {
+                width: 100%; text-align: center; padding: 14px 20px; font-size: 1rem;
+                border-radius: 12px; border: 1px solid rgba(48, 54, 61, 0.5);
+            }
+            .tab-btn.active { background: rgba(46, 160, 67, 0.15); border-color: #2ea043; }
+            .tab-btn.active::after { display: none; }
+            .tab-content {
+                min-height: 350px;
+            }
+            .package-cards {
+                flex-wrap: wrap;
+                overflow-x: auto;
+            }
+            .package-card {
+                flex: 1 1 250px;
+                padding: 24px 16px;
+            }
+            .package-icon { font-size: 2.4rem; } .package-name { font-size: 1.1rem; } .package-desc { font-size: 0.85rem; }
+            .btn { width: 100%; text-align: center; padding: 14px 24px; }
+            .links-grid { grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; }
+            .social-link { font-size: 0.85rem; padding: 12px 14px; }
+            h2 { font-size: 1.5rem !important; }
+            .action-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .share-btn, .donate-btn {
+                width: 100%;
+                justify-content: center;
+                padding: 12px 16px;
+            }
+
+            .splash-screen {
+                padding: 15px;
+                padding-top: calc(15px + env(safe-area-inset-top, 0px));
+                padding-bottom: calc(15px + env(safe-area-inset-bottom, 0px));
+            }
+            .splash-logo-img { 
+                width: 110px; 
+                margin-bottom: 12px; 
+                filter: drop-shadow(0 0 25px rgba(46, 160, 67, 0.7));
+            }
+            .splash-text { 
+                font-size: 1.5rem; 
+                letter-spacing: 0.15em; 
+                margin-bottom: 30px; 
+                padding: 0 10px;
+                text-shadow: 0 0 20px rgba(46, 160, 67, 0.8);
+            }
+            .splash-progress { 
+                width: 180px; 
+                height: 5px; 
+                background: rgba(255,255,255,0.2);
+            }
         }
     </style>
 </head>
 <body class="loading">
 
-    <canvas id="particlesCanvas"></canvas>
-
     <div class="splash-screen" id="splashScreen">
-        <img class="splash-logo-img" src="logo2.png" alt="Denofy Logo">
+        <img class="splash-logo-img" src="logo2.png" alt="Denofy Logo" loading="lazy">
         <div class="splash-text">СДЕЛАНО DENOFY</div>
         <div class="splash-progress"><div class="splash-progress-bar"></div></div>
     </div>
 
     <div class="top-bar">
         <a href="#" class="logo" id="logo">
-            <img src="logo.png" alt="DenofyOptimizer" class="logo-img">
+            <img src="logo.png" alt="DenofyOptimizer" class="logo-img" loading="lazy">
         </a>
         <div class="lang-switcher">
             <button class="lang-btn active" data-lang="ru">RU</button>
@@ -371,7 +519,7 @@
         </div>
 
         <!-- Вкладка Скачать пак -->
-        <div id="download-pack" class="tab-content active">
+        <section id="download-pack" class="tab-content active" aria-labelledby="download-pack-heading">
             <div class="package-cards">
                 <div class="package-card">
                     <div class="package-icon">💠</div>
@@ -399,11 +547,11 @@
                 <button class="share-btn" id="shareBtn1"><span>📤</span> <span data-i18n="share_btn">Поделиться</span></button>
                 <a href="https://www.donationalerts.com/r/denofy336" class="donate-btn" target="_blank"><span>💖</span> <span data-i18n="support">Поддержать</span></a>
             </div>
-        </div>
+        </section>
 
-        <!-- Остальные вкладки без изменений -->
-        <div id="download-app" class="tab-content" style="text-align: center;">
-            <h2 style="margin-bottom: 15px; font-size: 1.8rem;" data-i18n="app_title">🛠 Программа-установщик</h2>
+        <!-- Вкладка Программа -->
+        <section id="download-app" class="tab-content" style="text-align: center;" aria-labelledby="app-title">
+            <h2 id="app-title" style="margin-bottom: 15px; font-size: 1.8rem;" data-i18n="app_title">🛠 Программа-установщик</h2>
             <p style="color: #8b949e; margin-bottom: 20px; font-size: 1rem;" data-i18n="app_desc">Удобная оболочка для установки пакета в один клик. Сейчас в разработке.</p>
             <button class="btn btn-disabled" disabled data-i18n="app_btn">Скоро будет доступно</button>
             <p style="color: #484f58; font-size: 0.9rem; margin-top: 12px;" data-i18n="app_note">Ожидайте в следующих обновлениях</p>
@@ -411,26 +559,42 @@
                 <button class="share-btn" id="shareBtn2"><span>📤</span> <span data-i18n="share_btn">Поделиться</span></button>
                 <a href="https://www.donationalerts.com/r/denofy336" class="donate-btn" target="_blank"><span>💖</span> <span data-i18n="support">Поддержать</span></a>
             </div>
-        </div>
+        </section>
 
-        <div id="tests" class="tab-content" style="text-align: center;">
-            <h2 style="margin-bottom: 10px; font-size: 1.8rem;">⚡ До и после оптимизации</h2>
+        <!-- НОВАЯ ВКЛАДКА ТЕСТЫ (с улучшениями) -->
+        <section id="tests" class="tab-content" style="text-align: center;" aria-labelledby="tests-heading">
+            <h2 id="tests-heading" style="margin-bottom: 10px; font-size: 1.8rem;">⚡ До и после оптимизации</h2>
             <p style="color: #8b949e; margin-bottom: 20px; font-size: 1rem;">Двигайте ползунок, чтобы увидеть разницу</p>
+
             <div class="compare-container" id="compareContainer">
-                <img src="after.png" alt="После оптимизации" class="img-after">
-                <img src="before.png" alt="До оптимизации" class="img-before" id="imgBefore">
-                <div class="compare-slider" id="compareSlider"></div>
+                <img src="after.png" alt="После оптимизации" class="img-after" loading="lazy">
+                <img src="before.png" alt="До оптимизации" class="img-before" id="imgBefore" loading="lazy">
+                <div class="compare-slider" id="compareSlider"
+                     role="slider"
+                     tabindex="0"
+                     aria-valuemin="0"
+                     aria-valuemax="100"
+                     aria-valuenow="50"
+                     aria-label="Ползунок сравнения до и после">
+                </div>
                 <div class="compare-label label-before">До</div>
                 <div class="compare-label label-after">После</div>
             </div>
+
+            <!-- Переключатель До/После -->
+            <button id="toggleBeforeAfter" role="switch" aria-checked="false" aria-label="Показать после оптимизации" style="margin-top: 15px; background: rgba(46,160,67,0.1); border: 1px solid rgba(46,160,67,0.3); color: #2ea043; padding: 8px 16px; border-radius: 10px; cursor: pointer; font-weight: 600;">
+                👁️ Показать «После»
+            </button>
+
             <div class="action-buttons" style="margin-top: 25px;">
                 <button class="share-btn" id="shareBtnTests"><span>📤</span> <span data-i18n="share_btn">Поделиться</span></button>
                 <a href="https://www.donationalerts.com/r/denofy336" class="donate-btn" target="_blank"><span>💖</span> <span data-i18n="support">Поддержать</span></a>
             </div>
-        </div>
+        </section>
 
-        <div id="updates" class="tab-content" style="text-align: center;">
-            <h2 style="margin-bottom: 10px; font-size: 1.8rem;" data-i18n="updates_title">📝 Обновления</h2>
+        <!-- Вкладка Обновления -->
+        <section id="updates" class="tab-content" style="text-align: center;" aria-labelledby="updates-heading">
+            <h2 id="updates-heading" style="margin-bottom: 10px; font-size: 1.8rem;" data-i18n="updates_title">📝 Обновления</h2>
             <p style="color: #8b949e; margin-bottom: 20px; font-size: 1rem;" data-i18n="updates_desc">Все детали о версиях и изменениях публикуются в Telegram-канале.</p>
             <div id="telegram-feed" style="margin-top: 15px;"></div>
             <a href="https://t.me/denofyoptimizer" target="_blank" class="btn btn-outline" style="margin-top:15px;">📢 Telegram-канал с обновлениями</a>
@@ -438,10 +602,11 @@
                 <button class="share-btn" id="shareBtn3"><span>📤</span> <span data-i18n="share_btn">Поделиться</span></button>
                 <a href="https://www.donationalerts.com/r/denofy336" class="donate-btn" target="_blank"><span>💖</span> <span data-i18n="support">Поддержать</span></a>
             </div>
-        </div>
+        </section>
 
-        <div id="about-author" class="tab-content" style="text-align: center;">
-            <h2 style="margin-bottom: 15px; font-size: 1.8rem;" data-i18n="author_title">👤 Об авторе</h2>
+        <!-- Вкладка Автор -->
+        <section id="about-author" class="tab-content" style="text-align: center;" aria-labelledby="about-heading">
+            <h2 id="about-heading" style="margin-bottom: 15px; font-size: 1.8rem;" data-i18n="author_title">👤 Об авторе</h2>
             <p style="color: #8b949e; margin-bottom: 15px; font-size: 1rem;" data-i18n="author_desc">Связь со мной на разных площадках</p>
             <div class="links-grid">
                 <a href="https://github.com/denofy76" class="social-link" target="_blank"><span class="emoji">🐙</span> GitHub</a>
@@ -455,7 +620,7 @@
                 <button class="share-btn" id="shareBtn4"><span>📤</span> <span data-i18n="share_btn">Поделиться</span></button>
                 <a href="https://www.donationalerts.com/r/denofy336" class="donate-btn" target="_blank"><span>💖</span> <span data-i18n="support">Поддержать</span></a>
             </div>
-        </div>
+        </section>
     </div>
 
     <div class="share-modal" id="shareModal">
@@ -478,41 +643,7 @@
     </div>
 
     <script>
-        // Частицы на фоне
-        (function() {
-            const canvas = document.getElementById('particlesCanvas');
-            const ctx = canvas.getContext('2d');
-            let w, h, particles = [];
-            function resize() {
-                w = canvas.width = window.innerWidth;
-                h = canvas.height = window.innerHeight;
-            }
-            window.addEventListener('resize', resize);
-            resize();
-            for (let i = 0; i < 50; i++) {
-                particles.push({
-                    x: Math.random() * w,
-                    y: Math.random() * h,
-                    r: Math.random() * 2 + 0.5,
-                    speed: Math.random() * 0.5 + 0.2
-                });
-            }
-            function draw() {
-                ctx.clearRect(0, 0, w, h);
-                ctx.fillStyle = '#2ea043';
-                particles.forEach(p => {
-                    p.y += p.speed;
-                    if (p.y > h) { p.y = 0; p.x = Math.random() * w; }
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                    ctx.fill();
-                });
-                requestAnimationFrame(draw);
-            }
-            draw();
-        })();
-
-        // Сплеш-экран
+        // ===== ЗАСТАВКА =====
         window.addEventListener('DOMContentLoaded', () => {
             const splash = document.getElementById('splashScreen');
             const body = document.body;
@@ -520,15 +651,18 @@
                 splash.classList.add('hide');
                 body.classList.remove('loading');
                 body.classList.add('loaded');
-                setTimeout(() => { if (splash.parentNode) splash.remove(); }, 600);
+                setTimeout(() => {
+                    if (splash.parentNode) splash.parentNode.removeChild(splash);
+                }, 600);
             }, 1500);
 
-            // Слайдер сравнения
+            // ===== ИНИЦИАЛИЗАЦИЯ СЛАЙДЕРА СРАВНЕНИЯ =====
             const container = document.getElementById('compareContainer');
             const slider = document.getElementById('compareSlider');
             const imgBefore = document.getElementById('imgBefore');
             if (container && slider && imgBefore) {
                 let dragging = false;
+
                 const updateSlider = (clientX) => {
                     const rect = container.getBoundingClientRect();
                     let x = clientX - rect.left;
@@ -536,46 +670,91 @@
                     const percent = (x / rect.width) * 100;
                     imgBefore.style.clipPath = `inset(0 ${100 - percent}% 0 0)`;
                     slider.style.left = `${percent}%`;
+                    slider.setAttribute('aria-valuenow', Math.round(percent));
                 };
-                slider.addEventListener('mousedown', e => { dragging = true; e.preventDefault(); });
-                window.addEventListener('mousemove', e => dragging && updateSlider(e.clientX));
-                window.addEventListener('mouseup', () => dragging = false);
-                slider.addEventListener('touchstart', e => { dragging = true; e.preventDefault(); });
-                window.addEventListener('touchmove', e => dragging && updateSlider(e.touches[0].clientX));
-                window.addEventListener('touchend', () => dragging = false);
+
+                const onMouseDown = (e) => {
+                    e.preventDefault();
+                    dragging = true;
+                };
+
+                const onMouseMove = (e) => {
+                    if (!dragging) return;
+                    updateSlider(e.clientX);
+                };
+
+                const onMouseUp = () => {
+                    dragging = false;
+                };
+
+                slider.addEventListener('mousedown', onMouseDown);
+                window.addEventListener('mousemove', onMouseMove);
+                window.addEventListener('mouseup', onMouseUp);
+
+                // Сенсорное управление
+                slider.addEventListener('touchstart', (e) => {
+                    dragging = true;
+                    e.preventDefault();
+                });
+                window.addEventListener('touchmove', (e) => {
+                    if (!dragging) return;
+                    updateSlider(e.touches[0].clientX);
+                });
+                window.addEventListener('touchend', () => {
+                    dragging = false;
+                });
+
+                // Клавиатурное управление (стрелки)
+                slider.addEventListener('keydown', (e) => {
+                    let percent = parseFloat(slider.style.left) || 50;
+                    if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') percent = Math.max(0, percent - 2);
+                    else if (e.key === 'ArrowRight' || e.key === 'ArrowUp') percent = Math.min(100, percent + 2);
+                    else return;
+                    e.preventDefault();
+                    slider.style.left = `${percent}%`;
+                    imgBefore.style.clipPath = `inset(0 ${100 - percent}% 0 0)`;
+                    slider.setAttribute('aria-valuenow', Math.round(percent));
+                });
+
+                // По умолчанию 50%
                 imgBefore.style.clipPath = 'inset(0 50% 0 0)';
+            }
+
+            // ===== ПЕРЕКЛЮЧАТЕЛЬ ДО/ПОСЛЕ =====
+            const toggleBtn = document.getElementById('toggleBeforeAfter');
+            if (toggleBtn && imgBefore) {
+                toggleBtn.addEventListener('click', () => {
+                    const showingAfter = toggleBtn.getAttribute('aria-checked') === 'true';
+                    toggleBtn.setAttribute('aria-checked', String(!showingAfter));
+                    imgBefore.style.display = showingAfter ? 'block' : 'none';
+                    toggleBtn.textContent = showingAfter ? '👁️ Показать «После»' : '👁️ Показать «До»';
+                });
             }
         });
 
-        // Переводы
+        // ===== ПЕРЕВОДЫ =====
         const translations = {
             ru: {
                 tab_download: '📦 Скачать пак', tab_app: '💻 Программа', tab_tests: '⚡ Тесты',
                 tab_updates: '📝 Обновления', tab_author: '👤 Автор',
-                optimization_desc: 'Оптимизация Windows 11',
-                pack1_desc: 'Сборка с набором твиков и скриптов',
-                pack2_desc: 'Сборка с интеграцией ReviOS',
-                pack3_name: 'Проверка ПК', pack3_desc: 'Инструмент диагностики и тестов',
+                optimization_desc: 'Оптимизация Windows 11', pack1_desc: 'Сборка с набором твиков и скриптов',
+                pack2_desc: 'Сборка с интеграцией ReviOS', pack3_name: 'Проверка ПК', pack3_desc: 'Инструмент диагностики и тестов',
                 download_btn: '💾 Скачать',
                 app_title: '🛠 Программа-установщик', app_desc: 'Удобная оболочка для установки пакета в один клик. Сейчас в разработке.',
                 app_btn: 'Скоро будет доступно', app_note: 'Ожидайте в следующих обновлениях',
                 updates_title: '📝 Обновления', updates_desc: 'Все детали о версиях и изменениях публикуются в Telegram-канале.',
-                author_title: '👤 Об авторе', author_desc: 'Связь со мной на разных площадках',
-                support: 'Поддержать', share_btn: 'Поделиться'
+                author_title: '👤 Об авторе', author_desc: 'Связь со мной на разных площадках', support: 'Поддержать', share_btn: 'Поделиться'
             },
             en: {
                 tab_download: '📦 Download Pack', tab_app: '💻 App', tab_tests: '⚡ Tests',
                 tab_updates: '📝 Updates', tab_author: '👤 Author',
-                optimization_desc: 'Windows 11 Optimization',
-                pack1_desc: 'Tweaks and scripts bundle',
-                pack2_desc: 'ReviOS integrated build',
-                pack3_name: 'PC Check', pack3_desc: 'PC diagnostics tool',
+                optimization_desc: 'Windows 11 Optimization', pack1_desc: 'Bundle with tweaks and scripts',
+                pack2_desc: 'Bundle with ReviOS integration', pack3_name: 'PC Check', pack3_desc: 'PC diagnostic and testing tool',
                 download_btn: '💾 Download',
                 app_title: '🛠 Installer App', app_desc: 'A convenient shell for one-click package installation. Currently in development.',
                 app_btn: 'Coming soon', app_note: 'Expect in future updates',
                 updates_title: '📝 Updates', updates_desc: 'All version details and changes are published in the Telegram channel.',
-                author_title: '👤 About the Author', author_desc: 'Connect with me on various platforms',
-                support: 'Support', share_btn: 'Share'
+                author_title: '👤 About the Author', author_desc: 'Connect with me on various platforms', support: 'Support', share_btn: 'Share'
             }
         };
 
@@ -585,17 +764,15 @@
                 if (translations[lang] && translations[lang][key]) el.textContent = translations[lang][key];
             });
             document.querySelectorAll('.lang-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+                btn.classList.remove('active');
+                if (btn.getAttribute('data-lang') === lang) btn.classList.add('active');
             });
             localStorage.setItem('denofy-lang', lang);
+            document.documentElement.lang = lang;
         }
 
-        document.querySelectorAll('.lang-btn').forEach(btn => {
-            btn.addEventListener('click', () => applyLanguage(btn.getAttribute('data-lang')));
-        });
-        applyLanguage(localStorage.getItem('denofy-lang') || 'ru');
-
         let feedLoaded = false;
+
         function switchTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
@@ -610,125 +787,216 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        document.getElementById('tabsContainer').addEventListener('click', (e) => {
-            const btn = e.target.closest('.tab-btn');
-            if (!btn) return;
-            switchTab(btn.getAttribute('data-tab'));
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabsContainer = document.getElementById('tabsContainer');
+            if (tabsContainer) {
+                tabsContainer.addEventListener('click', (e) => {
+                    const btn = e.target.closest('.tab-btn');
+                    if (!btn) return;
+                    const tabId = btn.getAttribute('data-tab');
+                    if (tabId) switchTab(tabId);
+                });
+            }
         });
 
+        function initLanguage() {
+            let savedLang = localStorage.getItem('denofy-lang');
+            if (!savedLang) {
+                const browserLang = navigator.language || 'ru';
+                savedLang = browserLang.startsWith('en') ? 'en' : 'ru';
+            }
+            applyLanguage(savedLang);
+        }
+
+        const WORKER_URL = 'https://denofy-updates.denofy76.workers.dev';
         async function loadTelegramFeed() {
             const feed = document.getElementById('telegram-feed');
             if (!feed) return;
             feed.innerHTML = '<p style="color:#8b949e">Загрузка обновлений...</p>';
             try {
-                const res = await fetch('https://denofy-updates.denofy76.workers.dev');
-                const data = await res.json();
-                feed.innerHTML = '';
-                data.slice(0, 5).forEach(post => {
-                    const div = document.createElement('div');
-                    div.style.cssText = 'background:rgba(26,31,38,0.7);border:1px solid rgba(48,54,61,0.7);border-radius:12px;padding:15px;margin-bottom:12px;';
-                    div.innerHTML = `
-                        ${post.photo ? `<img src="${post.photo}" style="max-width:100%;border-radius:8px;margin-bottom:8px;">` : ''}
-                        <p style="color:#c9d1d9;">${post.text || ''}</p>
-                        <span style="color:#8b949e;font-size:0.85rem;">${new Date(post.date*1000).toLocaleString()}</span>
-                    `;
-                    feed.appendChild(div);
-                });
-            } catch (e) {
-                feed.innerHTML = '<p style="color:#f85149">Не удалось загрузить обновления</p>';
+                const res = await fetch(WORKER_URL);
+                if (!res.ok) throw new Error('Worker response error');
+                const posts = await res.json();
+                if (!Array.isArray(posts) || posts.length === 0) {
+                    feed.innerHTML = '<p style="color:#8b949e">Пока нет обновлений</p>';
+                    return;
+                }
+                feed.innerHTML = posts.slice(0, 5).map(p => {
+                    const date = new Date(p.date * 1000).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+                    const textHtml = (p.text || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>');
+                    return `<div style="background:rgba(26,31,38,0.7); border:1px solid rgba(48,54,61,0.7); border-radius:12px; padding:15px; margin-bottom:12px;">
+                        ${p.photo ? `<img src="${p.photo}" style="max-width:100%; border-radius:8px; margin-bottom:8px;" loading="lazy">` : ''}
+                        <p style="color:#c9d1d9; margin-bottom:8px; line-height:1.5;">${textHtml}</p>
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <span style="color:#8b949e; font-size:0.85rem;">${date}</span>
+                            <a href="${p.link}" target="_blank" style="color:#2ea043; font-size:0.85rem; text-decoration:none;">Читать в Telegram →</a>
+                        </div>
+                    </div>`;
+                }).join('');
+            } catch (error) {
+                feed.innerHTML = '<p style="color:#f85149">Не удалось загрузить обновления 😕</p>';
             }
         }
 
-        const shareUrl = location.href;
-        function openShareModal() {
-            document.getElementById('shareUrl').value = shareUrl;
-            document.getElementById('shareModal').classList.add('active');
+        const shareUrl = window.location.href;
+        const shareText = 'DenofyOptimizer — оптимизация Windows 11';
+        function openShareModal() { 
+            document.getElementById('shareUrl').value = shareUrl; 
+            document.getElementById('shareModal').classList.add('active'); 
         }
         function closeShareModal() { document.getElementById('shareModal').classList.remove('active'); }
-        document.querySelectorAll('.share-btn').forEach(b => b.addEventListener('click', openShareModal));
-        document.getElementById('shareModal').addEventListener('click', e => { if (e.target === e.currentTarget) closeShareModal(); });
-        document.getElementById('copyLinkBtn').addEventListener('click', () => {
-            navigator.clipboard.writeText(shareUrl).then(() => alert('Ссылка скопирована!'));
-        });
-        document.getElementById('shareVkBtn').addEventListener('click', () => {
-            window.open(`https://vk.com/share.php?url=${encodeURIComponent(shareUrl)}`);
-        });
-        document.getElementById('shareTgBtn').addEventListener('click', () => {
-            window.open(`https://t.me/share/url?url=${encodeURIComponent(shareUrl)}`);
+        function share() { openShareModal(); }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initLanguage();
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.addEventListener('click', () => applyLanguage(btn.getAttribute('data-lang'))));
+            document.querySelectorAll('.share-btn').forEach(btn => btn.addEventListener('click', share));
+            document.getElementById('copyLinkBtn').addEventListener('click', () => {
+                const input = document.getElementById('shareUrl');
+                input.select();
+                try {
+                    navigator.clipboard.writeText(input.value);
+                    alert('Ссылка скопирована!');
+                } catch (err) {
+                    document.execCommand('copy');
+                    alert('Ссылка скопирована!');
+                }
+            });
+            document.getElementById('shareVkBtn').addEventListener('click', () => window.open(`https://vk.com/share.php?url=${encodeURIComponent(shareUrl)}&title=${encodeURIComponent(shareText)}`, '_blank'));
+            document.getElementById('shareTgBtn').addEventListener('click', () => window.open(`https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}`, '_blank'));
+            document.getElementById('shareModal').addEventListener('click', function(e) { if (e.target === this) closeShareModal(); });
+            initSnakeEasterEgg();
+            if (document.getElementById('updates')?.classList.contains('active')) {
+                loadTelegramFeed();
+                feedLoaded = true;
+            }
         });
 
-        // Змейка
+        // ===== ЗМЕЙКА =====
         let snakeGame = null;
+
+        function initSnakeEasterEgg() {
+            const logo = document.getElementById('logo');
+            let clicks = 0, clickTimer = null;
+            logo.addEventListener('click', function(e) {
+                e.preventDefault();
+                clicks++;
+                clearTimeout(clickTimer);
+                clickTimer = setTimeout(() => { clicks = 0; }, 800);
+                if (clicks >= 5) { clicks = 0; startSnakeGame(); }
+                else switchTab('download-pack');
+            });
+        }
+
         function startSnakeGame() {
             if (snakeGame) snakeGame.cleanup();
             const overlay = document.getElementById('snakeOverlay');
             overlay.classList.add('active');
             const canvas = document.getElementById('snakeCanvas');
             const ctx = canvas.getContext('2d');
-            const grid = 20, w = canvas.width, h = canvas.height;
-            let snake = [{x:5,y:5}], dir = {x:1,y:0}, food, gameOver = false, interval;
+            const gridSize = 20, width = canvas.width, height = canvas.height;
+            let snake = [{x:5, y:5}], direction = {x:1, y:0}, food, gameOver = false, interval;
+
+            document.body.style.overflow = 'hidden';
+            const preventTouchMove = e => e.preventDefault();
+            overlay.addEventListener('touchmove', preventTouchMove, {passive: false});
+
             function spawnFood() {
-                let f;
-                do { f = { x: Math.floor(Math.random()*(w/grid)), y: Math.floor(Math.random()*(h/grid)) }; }
-                while (snake.some(s => s.x===f.x && s.y===f.y));
-                return f;
+                let newFood;
+                do {
+                    newFood = {
+                        x: Math.floor(Math.random() * (width / gridSize)),
+                        y: Math.floor(Math.random() * (height / gridSize))
+                    };
+                } while (snake.some(seg => seg.x === newFood.x && seg.y === newFood.y));
+                return newFood;
             }
             food = spawnFood();
+
             function draw() {
-                ctx.clearRect(0,0,w,h);
+                ctx.clearRect(0,0,width,height);
                 ctx.fillStyle = '#2ea043';
-                snake.forEach(s => ctx.fillRect(s.x*grid, s.y*grid, grid-2, grid-2));
-                ctx.fillStyle = '#ff4444';
-                ctx.fillRect(food.x*grid, food.y*grid, grid-2, grid-2);
+                snake.forEach(seg => ctx.fillRect(seg.x*gridSize, seg.y*gridSize, gridSize-2, gridSize-2));
+                ctx.fillStyle = '#ff6b6b';
+                ctx.fillRect(food.x*gridSize, food.y*gridSize, gridSize-2, gridSize-2);
                 if (gameOver) {
                     ctx.fillStyle = '#fff'; ctx.font = 'bold 24px "Segoe UI"'; ctx.textAlign = 'center';
-                    ctx.fillText('Game Over', w/2, h/2);
+                    ctx.shadowColor = 'rgba(0,0,0,0.8)'; ctx.shadowBlur = 8;
+                    ctx.fillText('Game Over', width/2, height/2 - 8);
+                    ctx.shadowColor = 'transparent'; ctx.shadowBlur = 0;
+                    ctx.font = '14px'; ctx.fillText('Тапни для рестарта', width/2, height/2 + 24);
                 }
             }
+
             function update() {
-                const head = {x: snake[0].x+dir.x, y: snake[0].y+dir.y};
-                if (head.x<0 || head.x>=w/grid || head.y<0 || head.y>=h/grid) { gameOver = true; clearInterval(interval); draw(); return; }
-                if (snake.some(s => s.x===head.x && s.y===head.y)) { gameOver = true; clearInterval(interval); draw(); return; }
+                const head = {x: snake[0].x + direction.x, y: snake[0].y + direction.y};
+                if (head.x < 0 || head.x >= width/gridSize || head.y < 0 || head.y >= height/gridSize) {
+                    gameOver = true; clearInterval(interval); draw(); return;
+                }
+                if (snake.some(s => s.x === head.x && s.y === head.y)) {
+                    gameOver = true; clearInterval(interval); draw(); return;
+                }
                 snake.unshift(head);
-                if (head.x===food.x && head.y===food.y) {
+                if (head.x === food.x && head.y === food.y) {
                     food = spawnFood();
                     if (navigator.vibrate) navigator.vibrate(20);
-                } else snake.pop();
+                } else {
+                    snake.pop();
+                }
                 draw();
             }
+
+            function changeDir(newDir) { if (newDir.x && direction.x === 0) direction = newDir; if (newDir.y && direction.y === 0) direction = newDir; }
+
             function keyHandler(e) {
                 if (gameOver) return;
                 const key = e.key.toLowerCase();
-                if ((key==='arrowup'||key==='w') && dir.y===0) dir={x:0,y:-1};
-                else if ((key==='arrowdown'||key==='s') && dir.y===0) dir={x:0,y:1};
-                else if ((key==='arrowleft'||key==='a') && dir.x===0) dir={x:-1,y:0};
-                else if ((key==='arrowright'||key==='d') && dir.x===0) dir={x:1,y:0};
-                if (['arrowup','arrowdown','arrowleft','arrowright','w','a','s','d'].includes(key)) e.preventDefault();
+                if (key === 'arrowup' || key === 'w' || key === 'ц') changeDir({x:0, y:-1});
+                else if (key === 'arrowdown' || key === 's' || key === 'ы') changeDir({x:0, y:1});
+                else if (key === 'arrowleft' || key === 'a' || key === 'ф') changeDir({x:-1, y:0});
+                else if (key === 'arrowright' || key === 'd' || key === 'в') changeDir({x:1, y:0});
+                if (['arrowup','arrowdown','arrowleft','arrowright','w','a','s','d','ц','ф','ы','в'].includes(key)) e.preventDefault();
             }
             window.addEventListener('keydown', keyHandler);
-            interval = setInterval(update, 150);
+
+            const touchArea = overlay;
+            let startX = 0, startY = 0;
+            function handleTouchStart(e) { startX = e.touches[0].clientX; startY = e.touches[0].clientY; }
+            function handleTouchEnd(e) {
+                if (gameOver) return;
+                const dx = e.changedTouches[0].clientX - startX, dy = e.changedTouches[0].clientY - startY;
+                if (Math.abs(dx) > Math.abs(dy)) changeDir({x: dx > 0 ? 1 : -1, y: 0});
+                else changeDir({x: 0, y: dy > 0 ? 1 : -1});
+            }
+            touchArea.addEventListener('touchstart', handleTouchStart, {passive: true});
+            touchArea.addEventListener('touchend', handleTouchEnd, {passive: true});
+
+            function canvasRestartHandler() { if (gameOver) restartSnake(); }
+            canvas.addEventListener('click', canvasRestartHandler);
+
+            if (navigator.vibrate) navigator.vibrate([30,30,30]);
+            interval = setInterval(update, 180);
+
             snakeGame = {
+                overlay, interval, keyHandler, preventTouchMove,
+                touchHandlers: { handleTouchStart, handleTouchEnd }, canvasRestartHandler,
                 cleanup: () => {
                     clearInterval(interval);
                     window.removeEventListener('keydown', keyHandler);
+                    touchArea.removeEventListener('touchstart', handleTouchStart);
+                    touchArea.removeEventListener('touchend', handleTouchEnd);
+                    overlay.removeEventListener('touchmove', preventTouchMove);
+                    canvas.removeEventListener('click', canvasRestartHandler);
+                    document.body.style.overflow = '';
                     overlay.classList.remove('active');
                     snakeGame = null;
                 }
             };
             draw();
         }
-        function restartSnake() { if (snakeGame) snakeGame.cleanup(); startSnakeGame(); }
-        function closeSnake() { if (snakeGame) snakeGame.cleanup(); }
 
-        // Пасхалка
-        let clicks = 0, clickTimer;
-        document.getElementById('logo').addEventListener('click', e => {
-            e.preventDefault();
-            clicks++;
-            clearTimeout(clickTimer);
-            clickTimer = setTimeout(() => clicks=0, 800);
-            if (clicks >= 5) { clicks=0; startSnakeGame(); }
-        });
+        function restartSnake() { if (snakeGame) { snakeGame.cleanup(); startSnakeGame(); } }
+        function closeSnake() { if (snakeGame) snakeGame.cleanup(); }
     </script>
 </body>
 </html>
