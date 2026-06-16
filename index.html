@@ -86,7 +86,6 @@
         }
         @keyframes progressGrow { 0% { width: 0%; } 100% { width: 100%; } }
 
-        /* Улучшенная плавность: longer transition, will-change */
         .container {
             opacity: 0;
             transform: translateY(40px);
@@ -436,25 +435,27 @@
         <div class="tabs" id="tabsContainer">
             <button class="tab-btn active" data-tab="download-pack" data-i18n="tab_download">📦 Скачать пак</button>
             <button class="tab-btn" data-tab="download-app" data-i18n="tab_app">💻 Программа</button>
+            <button class="tab-btn" data-tab="tests" data-i18n="tab_tests">⚡ Тесты</button>
             <button class="tab-btn" data-tab="updates" data-i18n="tab_updates">📝 Обновления</button>
             <button class="tab-btn" data-tab="about-author" data-i18n="tab_author">👤 Автор</button>
         </div>
 
+        <!-- Вкладка Скачать пак -->
         <div id="download-pack" class="tab-content active">
             <div class="package-cards">
                 <div class="package-card">
                     <div class="package-icon">💠</div>
                     <div class="package-name">DenofyOptimizer</div>
                     <div class="package-desc" data-i18n="pack1_desc">Сборка с набором твиков и скриптов</div>
-                    <div class="package-size">1.31 ГБ</div>
-                    <a href="https://cloud.mail.ru/public/ks8B/HbFasGot9" class="btn" data-i18n="download_btn">💾 Скачать</a>
+                    <div class="package-size">1,44 ГБ</div>
+                    <a href="https://cloud.mail.ru/public/vtYr/X244pt7bn" class="btn" data-i18n="download_btn">💾 Скачать</a>
                 </div>
                 <div class="package-card">
                     <div class="package-icon">🔹</div>
                     <div class="package-name">DenofyOptimizer + ReviOS</div>
                     <div class="package-desc" data-i18n="pack2_desc">Сборка с интеграцией ReviOS</div>
-                    <div class="package-size">1.37 ГБ</div>
-                    <a href="https://cloud.mail.ru/public/2dc4/G7yWb8tPh" class="btn" data-i18n="download_btn">💾 Скачать</a>
+                    <div class="package-size">1,50 ГБ</div>
+                    <a href="https://cloud.mail.ru/public/ZSBd/6FQTXMLFc" class="btn" data-i18n="download_btn">💾 Скачать</a>
                 </div>
                 <div class="package-card">
                     <div class="package-icon">🔧</div>
@@ -470,6 +471,7 @@
             </div>
         </div>
 
+        <!-- Остальные вкладки без изменений -->
         <div id="download-app" class="tab-content" style="text-align: center;">
             <h2 style="margin-bottom: 15px; font-size: 1.8rem;" data-i18n="app_title">🛠 Программа-установщик</h2>
             <p style="color: #8b949e; margin-bottom: 20px; font-size: 1rem;" data-i18n="app_desc">Удобная оболочка для установки пакета в один клик. Сейчас в разработке.</p>
@@ -477,6 +479,22 @@
             <p style="color: #484f58; font-size: 0.9rem; margin-top: 12px;" data-i18n="app_note">Ожидайте в следующих обновлениях</p>
             <div class="action-buttons">
                 <button class="share-btn" id="shareBtn2"><span>📤</span> <span data-i18n="share_btn">Поделиться</span></button>
+                <a href="https://www.donationalerts.com/r/denofy336" class="donate-btn" target="_blank"><span>💖</span> <span data-i18n="support">Поддержать</span></a>
+            </div>
+        </div>
+
+        <div id="tests" class="tab-content" style="text-align: center;">
+            <h2 style="margin-bottom: 10px; font-size: 1.8rem;">⚡ До и после оптимизации</h2>
+            <p style="color: #8b949e; margin-bottom: 20px; font-size: 1rem;">Двигайте ползунок, чтобы увидеть разницу</p>
+            <div class="compare-container" id="compareContainer">
+                <img src="after.png" alt="После оптимизации" class="img-after">
+                <img src="before.png" alt="До оптимизации" class="img-before" id="imgBefore">
+                <div class="compare-slider" id="compareSlider"></div>
+                <div class="compare-label label-before">До</div>
+                <div class="compare-label label-after">После</div>
+            </div>
+            <div class="action-buttons" style="margin-top: 25px;">
+                <button class="share-btn" id="shareBtnTests"><span>📤</span> <span data-i18n="share_btn">Поделиться</span></button>
                 <a href="https://www.donationalerts.com/r/denofy336" class="donate-btn" target="_blank"><span>💖</span> <span data-i18n="support">Поддержать</span></a>
             </div>
         </div>
@@ -530,6 +548,7 @@
     </div>
 
     <script>
+        // ===== ЗАСТАВКА =====
         window.addEventListener('DOMContentLoaded', () => {
             const splash = document.getElementById('splashScreen');
             const body = document.body;
@@ -541,11 +560,64 @@
                     if (splash.parentNode) splash.parentNode.removeChild(splash);
                 }, 600);
             }, 1500);
+
+            // ===== ИНИЦИАЛИЗАЦИЯ СЛАЙДЕРА СРАВНЕНИЯ =====
+            const container = document.getElementById('compareContainer');
+            const slider = document.getElementById('compareSlider');
+            const imgBefore = document.getElementById('imgBefore');
+            if (container && slider && imgBefore) {
+                let dragging = false;
+
+                const updateSlider = (clientX) => {
+                    const rect = container.getBoundingClientRect();
+                    let x = clientX - rect.left;
+                    x = Math.max(0, Math.min(x, rect.width));
+                    const percent = (x / rect.width) * 100;
+                    imgBefore.style.clipPath = `inset(0 ${100 - percent}% 0 0)`;
+                    slider.style.left = `${percent}%`;
+                };
+
+                const onMouseDown = (e) => {
+                    e.preventDefault();
+                    dragging = true;
+                };
+
+                const onMouseMove = (e) => {
+                    if (!dragging) return;
+                    updateSlider(e.clientX);
+                };
+
+                const onMouseUp = () => {
+                    dragging = false;
+                };
+
+                slider.addEventListener('mousedown', onMouseDown);
+                window.addEventListener('mousemove', onMouseMove);
+                window.addEventListener('mouseup', onMouseUp);
+
+                // Сенсорное управление
+                slider.addEventListener('touchstart', (e) => {
+                    dragging = true;
+                    e.preventDefault();
+                });
+                window.addEventListener('touchmove', (e) => {
+                    if (!dragging) return;
+                    updateSlider(e.touches[0].clientX);
+                });
+                window.addEventListener('touchend', () => {
+                    dragging = false;
+                });
+
+                // По умолчанию 50%
+                imgBefore.style.clipPath = 'inset(0 50% 0 0)';
+            }
         });
 
+        // ===== ПЕРЕВОДЫ (добавлен tab_tests) =====
         const translations = {
             ru: {
-                tab_download: '📦 Скачать пак', tab_app: '💻 Программа', tab_updates: '📝 Обновления', tab_author: '👤 Автор',
+                tab_download: '📦 Скачать пак', tab_app: '💻 Программа', tab_tests: '⚡ Тесты',
+                tab_updates: '📝 Обновления', tab_author: '👤 Автор',
                 optimization_desc: 'Оптимизация Windows 11', pack1_desc: 'Сборка с набором твиков и скриптов',
                 pack2_desc: 'Сборка с интеграцией ReviOS', pack3_name: 'Проверка ПК', pack3_desc: 'Инструмент диагностики и тестов',
                 download_btn: '💾 Скачать',
@@ -555,7 +627,8 @@
                 author_title: '👤 Об авторе', author_desc: 'Связь со мной на разных площадках', support: 'Поддержать', share_btn: 'Поделиться'
             },
             en: {
-                tab_download: '📦 Download Pack', tab_app: '💻 App', tab_updates: '📝 Updates', tab_author: '👤 Author',
+                tab_download: '📦 Download Pack', tab_app: '💻 App', tab_tests: '⚡ Tests',
+                tab_updates: '📝 Updates', tab_author: '👤 Author',
                 optimization_desc: 'Windows 11 Optimization', pack1_desc: 'Bundle with tweaks and scripts',
                 pack2_desc: 'Bundle with ReviOS integration', pack3_name: 'PC Check', pack3_desc: 'PC diagnostic and testing tool',
                 download_btn: '💾 Download',
@@ -680,6 +753,7 @@
             }
         });
 
+        // ===== ЗМЕЙКА =====
         let snakeGame = null;
 
         function initSnakeEasterEgg() {
