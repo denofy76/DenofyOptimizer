@@ -6,12 +6,14 @@
     <meta name="theme-color" content="#0b0f14">
     <title>DenofyOptimizer</title>
     <link rel="icon" href="logo3.ico" type="image/x-icon">
+    <!-- Шрифт Hack -->
+    <link href="https://fonts.googleapis.com/css2?family=Hack&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { background: #0b0f14; }
 
         body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            font-family: 'Hack', 'Segoe UI', system-ui, -apple-system, sans-serif;
             background: radial-gradient(circle at 20% 20%, rgba(46,160,67,0.08), transparent 40%),
                         radial-gradient(circle at 80% 80%, rgba(111,221,140,0.06), transparent 40%),
                         #0b0f14;
@@ -27,7 +29,13 @@
             line-height: 1.5;
         }
 
-        /* Частицы */
+        /* Кастомный скроллбар */
+        ::-webkit-scrollbar { width: 8px; height: 8px; background-color: #0b0f14; }
+        ::-webkit-scrollbar-track { background-color: #0b0f14; }
+        ::-webkit-scrollbar-thumb { background-color: #2ea043; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background-color: #3fb950; }
+
+        /* Фон с частицами */
         #particlesCanvas {
             position: fixed;
             inset: 0;
@@ -39,7 +47,6 @@
         body.loading .container,
         body.loading .top-bar { opacity: 0; pointer-events: none; }
 
-        /* Splash screen */
         .splash-screen {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             background: #0b0f14; z-index: 100;
@@ -89,7 +96,6 @@
         }
         @keyframes progressGrow { 0% { width: 0%; } 100% { width: 100%; } }
 
-        /* Контейнер */
         .container {
             opacity: 0;
             transform: translateY(40px);
@@ -103,7 +109,6 @@
         }
         body.loaded .container { opacity: 1; transform: translateY(0); }
 
-        /* Затемнённые менюшки */
         .top-bar {
             position: fixed; top: 22px; left: 28px; right: 28px; z-index: 10;
             display: flex; justify-content: space-between; align-items: center;
@@ -183,6 +188,20 @@
         .btn-outline:hover { background: rgba(46, 160, 67, 0.1); box-shadow: 0 8px 25px rgba(46, 160, 67, 0.5); transform: translateY(-2px); }
         .btn-disabled { background: #30363d; border-color: #484f58; color: #8b949e; cursor: not-allowed; pointer-events: none; box-shadow: none; }
 
+        /* Кнопки с анимированной иконкой-стрелкой */
+        .btn-icon {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-icon svg {
+            width: 16px; height: 16px;
+            transition: transform 0.2s ease;
+        }
+        .btn-icon:hover svg {
+            transform: translateX(4px);
+        }
+
         .package-cards { display: flex; gap: 20px; margin: 30px 0 10px; flex-wrap: nowrap; overflow: visible; padding: 10px 5px; }
         .package-card {
             flex: 1 1 200px; min-width: 180px;
@@ -213,6 +232,36 @@
         .compare-slider::after { content: "◀ ▶"; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #0b0f14; color: #2ea043; font-weight: bold; font-size: 1.2rem; padding: 6px 14px; border-radius: 20px; white-space: nowrap; box-shadow: 0 0 10px rgba(0,0,0,0.6); }
         .compare-label { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.7); color: #fff; padding: 4px 14px; border-radius: 8px; font-size: 0.9rem; font-weight: 600; pointer-events: none; z-index: 3; }
         .label-before { left: 15px; } .label-after { right: 15px; }
+
+        /* Социальные иконки-плитки */
+        .social-icons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+        .social-icons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            background: rgba(26,31,38,0.8);
+            border: 1px solid #2ea043;
+            transition: 0.2s;
+        }
+        .social-icons a:hover {
+            background: #2ea043;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(46,160,67,0.3);
+        }
+        .social-icons img {
+            width: 22px;
+            height: 22px;
+            filter: invert(1);
+        }
 
         .links-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 18px; margin-top: 25px; }
         .social-link { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 14px 18px; background: rgba(26, 31, 38, 0.85); backdrop-filter: none; -webkit-backdrop-filter: none; border: 1px solid rgba(48, 54, 61, 0.7); border-radius: 14px; color: #e6edf3; text-decoration: none; font-weight: 600; font-size: 0.95rem; transition: all 0.25s ease; }
@@ -301,39 +350,47 @@
             <button class="tab-btn" data-tab="about-author" data-i18n="tab_author">👤 Автор</button>
         </div>
 
-        <!-- Вкладка Скачать пак -->
-        <section id="download-pack" class="tab-content active">
+        <!-- Вкладки -->
+        <div id="download-pack" class="tab-content active">
             <div class="package-cards">
                 <div class="package-card">
                     <div class="package-icon">💠</div>
                     <div class="package-name">DenofyOptimizer</div>
                     <div class="package-desc" data-i18n="pack1_desc">Сборка с набором твиков и скриптов</div>
                     <div class="package-size">1,44 ГБ</div>
-                    <a href="https://cloud.mail.ru/public/vtYr/X244pt7bn" class="btn" data-i18n="download_btn">💾 Скачать</a>
+                    <a href="https://cloud.mail.ru/public/vtYr/X244pt7bn" class="btn btn-icon">
+                        💾 Скачать
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M8 11l4 4 4-4M4 21h16"/></svg>
+                    </a>
                 </div>
                 <div class="package-card">
                     <div class="package-icon">🔹</div>
                     <div class="package-name">DenofyOptimizer + ReviOS</div>
                     <div class="package-desc" data-i18n="pack2_desc">Сборка с интеграцией ReviOS</div>
                     <div class="package-size">1,50 ГБ</div>
-                    <a href="https://cloud.mail.ru/public/ZSBd/6FQTXMLFc" class="btn" data-i18n="download_btn">💾 Скачать</a>
+                    <a href="https://cloud.mail.ru/public/ZSBd/6FQTXMLFc" class="btn btn-icon">
+                        💾 Скачать
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M8 11l4 4 4-4M4 21h16"/></svg>
+                    </a>
                 </div>
                 <div class="package-card">
                     <div class="package-icon">🔧</div>
                     <div class="package-name" data-i18n="pack3_name">Проверка ПК</div>
                     <div class="package-desc" data-i18n="pack3_desc">Инструмент диагностики и тестов</div>
                     <div class="package-size">1.85 ГБ</div>
-                    <a href="https://cloud.mail.ru/public/CcQd/vrYp5P71Y" class="btn" data-i18n="download_btn">💾 Скачать</a>
+                    <a href="https://cloud.mail.ru/public/CcQd/vrYp5P71Y" class="btn btn-icon">
+                        💾 Скачать
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M8 11l4 4 4-4M4 21h16"/></svg>
+                    </a>
                 </div>
             </div>
             <div class="action-buttons">
                 <button class="share-btn" id="shareBtn1"><span>📤</span> <span data-i18n="share_btn">Поделиться</span></button>
                 <a href="https://www.donationalerts.com/r/denofy336" class="donate-btn" target="_blank"><span>💖</span> <span data-i18n="support">Поддержать</span></a>
             </div>
-        </section>
+        </div>
 
-        <!-- Вкладка Программа -->
-        <section id="download-app" class="tab-content" style="text-align: center;">
+        <div id="download-app" class="tab-content" style="text-align: center;">
             <h2 style="margin-bottom: 15px; font-size: 1.8rem;" data-i18n="app_title">🛠 Программа-установщик</h2>
             <p style="color: #8b949e; margin-bottom: 20px; font-size: 1rem;" data-i18n="app_desc">Удобная оболочка для установки пакета в один клик. Сейчас в разработке.</p>
             <button class="btn btn-disabled" disabled data-i18n="app_btn">Скоро будет доступно</button>
@@ -342,10 +399,9 @@
                 <button class="share-btn" id="shareBtn2"><span>📤</span> <span data-i18n="share_btn">Поделиться</span></button>
                 <a href="https://www.donationalerts.com/r/denofy336" class="donate-btn" target="_blank"><span>💖</span> <span data-i18n="support">Поддержать</span></a>
             </div>
-        </section>
+        </div>
 
-        <!-- Вкладка Тесты -->
-        <section id="tests" class="tab-content" style="text-align: center;">
+        <div id="tests" class="tab-content" style="text-align: center;">
             <h2 style="margin-bottom: 10px; font-size: 1.8rem;">⚡ До и после оптимизации</h2>
             <p style="color: #8b949e; margin-bottom: 20px; font-size: 1rem;">Двигайте ползунок, чтобы увидеть разницу</p>
             <div class="compare-container" id="compareContainer">
@@ -360,37 +416,38 @@
                 <button class="share-btn" id="shareBtnTests"><span>📤</span> <span data-i18n="share_btn">Поделиться</span></button>
                 <a href="https://www.donationalerts.com/r/denofy336" class="donate-btn" target="_blank"><span>💖</span> <span data-i18n="support">Поддержать</span></a>
             </div>
-        </section>
+        </div>
 
-        <!-- Вкладка Обновления -->
-        <section id="updates" class="tab-content" style="text-align: center;">
+        <div id="updates" class="tab-content" style="text-align: center;">
             <h2 style="margin-bottom: 10px; font-size: 1.8rem;" data-i18n="updates_title">📝 Обновления</h2>
             <p style="color: #8b949e; margin-bottom: 20px; font-size: 1rem;" data-i18n="updates_desc">Все детали о версиях и изменениях публикуются в Telegram-канале.</p>
             <div id="telegram-feed" style="margin-top: 15px;"></div>
-            <a href="https://t.me/denofyoptimizer" target="_blank" class="btn btn-outline" style="margin-top:15px;">📢 Telegram-канал с обновлениями</a>
+            <a href="https://t.me/denofyoptimizer" target="_blank" class="btn btn-outline btn-icon">
+                📢 Telegram-канал
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+            </a>
             <div class="action-buttons">
                 <button class="share-btn" id="shareBtn3"><span>📤</span> <span data-i18n="share_btn">Поделиться</span></button>
                 <a href="https://www.donationalerts.com/r/denofy336" class="donate-btn" target="_blank"><span>💖</span> <span data-i18n="support">Поддержать</span></a>
             </div>
-        </section>
+        </div>
 
-        <!-- Вкладка Автор -->
-        <section id="about-author" class="tab-content" style="text-align: center;">
+        <div id="about-author" class="tab-content" style="text-align: center;">
             <h2 style="margin-bottom: 15px; font-size: 1.8rem;" data-i18n="author_title">👤 Об авторе</h2>
             <p style="color: #8b949e; margin-bottom: 15px; font-size: 1rem;" data-i18n="author_desc">Связь со мной на разных площадках</p>
-            <div class="links-grid">
-                <a href="https://github.com/denofy76" class="social-link" target="_blank"><span class="emoji">🐙</span> GitHub</a>
-                <a href="https://vk.com/denofy" class="social-link" target="_blank"><span class="emoji">💬</span> VK</a>
-                <a href="https://www.faceit.com/ru/players/Denofy" class="social-link" target="_blank"><span class="emoji">🎮</span> Faceit</a>
-                <a href="https://steamcommunity.com/profiles/76561199140272909/" class="social-link" target="_blank"><span class="emoji">🔧</span> Steam</a>
-                <a href="https://www.twitch.tv/denofy336/about" class="social-link" target="_blank"><span class="emoji">🎥</span> Twitch</a>
-                <a href="https://www.tiktok.com/@denofy?clckid=e626169d" class="social-link" target="_blank"><span class="emoji">🎵</span> TikTok</a>
+            <div class="social-icons">
+                <a href="https://github.com/denofy76" target="_blank"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/github.svg" alt="GitHub"></a>
+                <a href="https://vk.com/denofy" target="_blank"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/vk.svg" alt="VK"></a>
+                <a href="https://t.me/denofyoptimizer" target="_blank"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/telegram.svg" alt="Telegram"></a>
+                <a href="https://www.twitch.tv/denofy336/about" target="_blank"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/twitch.svg" alt="Twitch"></a>
+                <a href="https://steamcommunity.com/profiles/76561199140272909/" target="_blank"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/steam.svg" alt="Steam"></a>
+                <a href="https://www.tiktok.com/@denofy" target="_blank"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/tiktok.svg" alt="TikTok"></a>
             </div>
             <div class="action-buttons">
                 <button class="share-btn" id="shareBtn4"><span>📤</span> <span data-i18n="share_btn">Поделиться</span></button>
                 <a href="https://www.donationalerts.com/r/denofy336" class="donate-btn" target="_blank"><span>💖</span> <span data-i18n="support">Поддержать</span></a>
             </div>
-        </section>
+        </div>
     </div>
 
     <div class="share-modal" id="shareModal">
@@ -418,11 +475,19 @@
             const canvas = document.getElementById('particlesCanvas');
             const ctx = canvas.getContext('2d');
             let w, h, particles = [];
-            function resize() { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; }
+            function resize() {
+                w = canvas.width = window.innerWidth;
+                h = canvas.height = window.innerHeight;
+            }
             window.addEventListener('resize', resize);
             resize();
             for (let i = 0; i < 50; i++) {
-                particles.push({ x: Math.random() * w, y: Math.random() * h, r: Math.random() * 2 + 0.5, speed: Math.random() * 0.5 + 0.2 });
+                particles.push({
+                    x: Math.random() * w,
+                    y: Math.random() * h,
+                    r: Math.random() * 2 + 0.5,
+                    speed: Math.random() * 0.5 + 0.2
+                });
             }
             function draw() {
                 ctx.clearRect(0, 0, w, h);
@@ -439,7 +504,7 @@
             draw();
         })();
 
-        // Splash screen
+        // Сплеш-экран
         window.addEventListener('DOMContentLoaded', () => {
             const splash = document.getElementById('splashScreen');
             const body = document.body;
@@ -450,7 +515,7 @@
                 setTimeout(() => { if (splash.parentNode) splash.remove(); }, 600);
             }, 1500);
 
-            // Slider
+            // Слайдер сравнения
             const container = document.getElementById('compareContainer');
             const slider = document.getElementById('compareSlider');
             const imgBefore = document.getElementById('imgBefore');
@@ -502,7 +567,8 @@
                 tab_download: '📦 Скачать пак', tab_app: '💻 Программа', tab_tests: '⚡ Тесты', tab_updates: '📝 Обновления', tab_author: '👤 Автор',
                 optimization_desc: 'Оптимизация Windows 11', pack1_desc: 'Сборка с набором твиков и скриптов',
                 pack2_desc: 'Сборка с интеграцией ReviOS', pack3_name: 'Проверка ПК', pack3_desc: 'Инструмент диагностики и тестов',
-                download_btn: '💾 Скачать', app_title: '🛠 Программа-установщик', app_desc: 'Удобная оболочка для установки пакета в один клик. Сейчас в разработке.',
+                download_btn: '💾 Скачать',
+                app_title: '🛠 Программа-установщик', app_desc: 'Удобная оболочка для установки пакета в один клик. Сейчас в разработке.',
                 app_btn: 'Скоро будет доступно', app_note: 'Ожидайте в следующих обновлениях',
                 updates_title: '📝 Обновления', updates_desc: 'Все детали о версиях и изменениях публикуются в Telegram-канале.',
                 author_title: '👤 Об авторе', author_desc: 'Связь со мной на разных площадках', support: 'Поддержать', share_btn: 'Поделиться'
@@ -511,7 +577,8 @@
                 tab_download: '📦 Download Pack', tab_app: '💻 App', tab_tests: '⚡ Tests', tab_updates: '📝 Updates', tab_author: '👤 Author',
                 optimization_desc: 'Windows 11 Optimization', pack1_desc: 'Bundle with tweaks and scripts',
                 pack2_desc: 'Bundle with ReviOS integration', pack3_name: 'PC Check', pack3_desc: 'PC diagnostic and testing tool',
-                download_btn: '💾 Download', app_title: '🛠 Installer App', app_desc: 'A convenient shell for one-click package installation. Currently in development.',
+                download_btn: '💾 Download',
+                app_title: '🛠 Installer App', app_desc: 'A convenient shell for one-click package installation. Currently in development.',
                 app_btn: 'Coming soon', app_note: 'Expect in future updates',
                 updates_title: '📝 Updates', updates_desc: 'All version details and changes are published in the Telegram channel.',
                 author_title: '👤 About the Author', author_desc: 'Connect with me on various platforms', support: 'Support', share_btn: 'Share'
@@ -574,7 +641,7 @@
         document.getElementById('shareVkBtn').addEventListener('click', () => { window.open(`https://vk.com/share.php?url=${encodeURIComponent(shareUrl)}`); });
         document.getElementById('shareTgBtn').addEventListener('click', () => { window.open(`https://t.me/share/url?url=${encodeURIComponent(shareUrl)}`); });
 
-        // Snake game
+        // Змейка
         let snakeGame = null;
         function startSnakeGame() {
             if (snakeGame) snakeGame.cleanup();
