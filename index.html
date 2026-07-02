@@ -322,7 +322,7 @@
 
     <div class="splash-screen" id="splashScreen">
         <img class="splash-logo-img" src="logo2.png" alt="Denofy Logo" loading="lazy">
-        <div class="splash-text">СДЕЛАНО DENOFY</div>
+        <div class="splash-text" data-i18n="splash_text">СДЕЛАНО DENOFY</div>
         <div class="splash-progress"><div class="splash-progress-bar"></div></div>
     </div>
 
@@ -353,32 +353,25 @@
         <!-- Вкладки -->
         <div id="download-pack" class="tab-content active">
             <div class="package-cards">
+                <!-- Первая карточка: DenofyOptimizer (ссылка обновлена) -->
                 <div class="package-card">
                     <div class="package-icon">💠</div>
                     <div class="package-name">DenofyOptimizer</div>
                     <div class="package-desc" data-i18n="pack1_desc">Сборка с набором твиков и скриптов</div>
                     <div class="package-size">1,44 ГБ</div>
-                    <a href="https://cloud.mail.ru/public/vtYr/X244pt7bn" class="btn btn-icon">
+                    <a href="https://cloud.mail.ru/public/d12f/HE1H1t5yj" class="btn btn-icon" data-i18n="download_btn">
                         💾 Скачать
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M8 11l4 4 4-4M4 21h16"/></svg>
                     </a>
                 </div>
-                <div class="package-card">
-                    <div class="package-icon">🔹</div>
-                    <div class="package-name">DenofyOptimizer + ReviOS</div>
-                    <div class="package-desc" data-i18n="pack2_desc">Сборка с интеграцией ReviOS</div>
-                    <div class="package-size">1,50 ГБ</div>
-                    <a href="https://cloud.mail.ru/public/ZSBd/6FQTXMLFc" class="btn btn-icon">
-                        💾 Скачать
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M8 11l4 4 4-4M4 21h16"/></svg>
-                    </a>
-                </div>
+                <!-- Вторая карточка удалена (DenofyOptimizer + ReviOS) -->
+                <!-- Третья карточка: Проверка ПК -->
                 <div class="package-card">
                     <div class="package-icon">🔧</div>
                     <div class="package-name" data-i18n="pack3_name">Проверка ПК</div>
                     <div class="package-desc" data-i18n="pack3_desc">Инструмент диагностики и тестов</div>
                     <div class="package-size">1.85 ГБ</div>
-                    <a href="https://cloud.mail.ru/public/CcQd/vrYp5P71Y" class="btn btn-icon">
+                    <a href="https://cloud.mail.ru/public/CcQd/vrYp5P71Y" class="btn btn-icon" data-i18n="download_btn">
                         💾 Скачать
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M8 11l4 4 4-4M4 21h16"/></svg>
                     </a>
@@ -402,16 +395,16 @@
         </div>
 
         <div id="tests" class="tab-content" style="text-align: center;">
-            <h2 style="margin-bottom: 10px; font-size: 1.8rem;">⚡ До и после оптимизации</h2>
-            <p style="color: #8b949e; margin-bottom: 20px; font-size: 1rem;">Двигайте ползунок, чтобы увидеть разницу</p>
+            <h2 style="margin-bottom: 10px; font-size: 1.8rem;" data-i18n="tests_title">⚡ До и после оптимизации</h2>
+            <p style="color: #8b949e; margin-bottom: 20px; font-size: 1rem;" data-i18n="tests_subtitle">Двигайте ползунок, чтобы увидеть разницу</p>
             <div class="compare-container" id="compareContainer">
                 <img src="after.png" alt="После оптимизации" class="img-after" loading="lazy">
                 <img src="before.png" alt="До оптимизации" class="img-before" id="imgBefore" loading="lazy">
                 <div class="compare-slider" id="compareSlider" role="slider" tabindex="0" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-label="Ползунок сравнения до и после"></div>
-                <div class="compare-label label-before">До</div>
-                <div class="compare-label label-after">После</div>
+                <div class="compare-label label-before" data-i18n="before_label">До</div>
+                <div class="compare-label label-after" data-i18n="after_label">После</div>
             </div>
-            <button id="toggleBeforeAfter" role="switch" aria-checked="false" aria-label="Показать после оптимизации" style="margin-top: 15px; background: rgba(46,160,67,0.1); border: 1px solid rgba(46,160,67,0.3); color: #2ea043; padding: 8px 16px; border-radius: 10px; cursor: pointer; font-weight: 600;">👁️ Показать «После»</button>
+            <!-- Кнопка "Показать после" удалена -->
             <div class="action-buttons" style="margin-top: 25px;">
                 <button class="share-btn" id="shareBtnTests"><span>📤</span> <span data-i18n="share_btn">Поделиться</span></button>
                 <a href="https://www.donationalerts.com/r/denofy336" class="donate-btn" target="_blank"><span>💖</span> <span data-i18n="support">Поддержать</span></a>
@@ -452,20 +445,20 @@
 
     <div class="share-modal" id="shareModal">
         <div class="share-dialog">
-            <h3 style="margin-bottom:16px;color:#f0f6fc;">Поделиться</h3>
+            <h3 style="margin-bottom:16px;color:#f0f6fc;" data-i18n="share_modal_title">Поделиться</h3>
             <input type="text" id="shareUrl" readonly style="width:100%;padding:8px;margin-bottom:12px;border-radius:8px;border:1px solid rgba(46,160,67,0.4);background:rgba(0,0,0,0.3);color:#fff;">
-            <button class="share-option" id="copyLinkBtn">📋 Копировать ссылку</button>
-            <button class="share-option" id="shareVkBtn">💬 Поделиться ВКонтакте</button>
-            <button class="share-option" id="shareTgBtn">📢 Поделиться в Telegram</button>
-            <button class="share-option" onclick="closeShareModal()" style="text-align:center;">Закрыть</button>
+            <button class="share-option" id="copyLinkBtn" data-i18n="copy_link">📋 Копировать ссылку</button>
+            <button class="share-option" id="shareVkBtn" data-i18n="share_vk">💬 Поделиться ВКонтакте</button>
+            <button class="share-option" id="shareTgBtn" data-i18n="share_tg">📢 Поделиться в Telegram</button>
+            <button class="share-option" onclick="closeShareModal()" data-i18n="close" style="text-align:center;">Закрыть</button>
         </div>
     </div>
 
     <div class="snake-overlay" id="snakeOverlay">
         <canvas id="snakeCanvas" width="400" height="400"></canvas>
         <div>
-            <button class="snake-restart" onclick="restartSnake()">🔄 Заново</button>
-            <button class="snake-close" onclick="closeSnake()">Закрыть</button>
+            <button class="snake-restart" onclick="restartSnake()" data-i18n="restart">🔄 Заново</button>
+            <button class="snake-close" onclick="closeSnake()" data-i18n="close_game">Закрыть</button>
         </div>
     </div>
 
@@ -548,17 +541,7 @@
                 });
                 imgBefore.style.clipPath = 'inset(0 50% 0 0)';
             }
-
-            // Toggle
-            const toggleBtn = document.getElementById('toggleBeforeAfter');
-            if (toggleBtn && imgBefore) {
-                toggleBtn.addEventListener('click', () => {
-                    const showingAfter = toggleBtn.getAttribute('aria-checked') === 'true';
-                    toggleBtn.setAttribute('aria-checked', String(!showingAfter));
-                    imgBefore.style.display = showingAfter ? 'block' : 'none';
-                    toggleBtn.textContent = showingAfter ? '👁️ Показать «После»' : '👁️ Показать «До»';
-                });
-            }
+            // Код для toggleBtn удалён
         });
 
         // Переводы
@@ -566,22 +549,30 @@
             ru: {
                 tab_download: '📦 Скачать пак', tab_app: '💻 Программа', tab_tests: '⚡ Тесты', tab_updates: '📝 Обновления', tab_author: '👤 Автор',
                 optimization_desc: 'Оптимизация Windows 11', pack1_desc: 'Сборка с набором твиков и скриптов',
-                pack2_desc: 'Сборка с интеграцией ReviOS', pack3_name: 'Проверка ПК', pack3_desc: 'Инструмент диагностики и тестов',
+                pack3_name: 'Проверка ПК', pack3_desc: 'Инструмент диагностики и тестов',
                 download_btn: '💾 Скачать',
                 app_title: '🛠 Программа-установщик', app_desc: 'Удобная оболочка для установки пакета в один клик. Сейчас в разработке.',
                 app_btn: 'Скоро будет доступно', app_note: 'Ожидайте в следующих обновлениях',
                 updates_title: '📝 Обновления', updates_desc: 'Все детали о версиях и изменениях публикуются в Telegram-канале.',
-                author_title: '👤 Об авторе', author_desc: 'Связь со мной на разных площадках', support: 'Поддержать', share_btn: 'Поделиться'
+                author_title: '👤 Об авторе', author_desc: 'Связь со мной на разных площадках', support: 'Поддержать', share_btn: 'Поделиться',
+                tests_title: '⚡ До и после оптимизации', tests_subtitle: 'Двигайте ползунок, чтобы увидеть разницу',
+                before_label: 'До', after_label: 'После',
+                share_modal_title: 'Поделиться', copy_link: '📋 Копировать ссылку', share_vk: '💬 Поделиться ВКонтакте', share_tg: '📢 Поделиться в Telegram', close: 'Закрыть',
+                splash_text: 'СДЕЛАНО DENOFY', restart: '🔄 Заново', close_game: 'Закрыть'
             },
             en: {
                 tab_download: '📦 Download Pack', tab_app: '💻 App', tab_tests: '⚡ Tests', tab_updates: '📝 Updates', tab_author: '👤 Author',
                 optimization_desc: 'Windows 11 Optimization', pack1_desc: 'Bundle with tweaks and scripts',
-                pack2_desc: 'Bundle with ReviOS integration', pack3_name: 'PC Check', pack3_desc: 'PC diagnostic and testing tool',
+                pack3_name: 'PC Check', pack3_desc: 'PC diagnostic and testing tool',
                 download_btn: '💾 Download',
                 app_title: '🛠 Installer App', app_desc: 'A convenient shell for one-click package installation. Currently in development.',
                 app_btn: 'Coming soon', app_note: 'Expect in future updates',
                 updates_title: '📝 Updates', updates_desc: 'All version details and changes are published in the Telegram channel.',
-                author_title: '👤 About the Author', author_desc: 'Connect with me on various platforms', support: 'Support', share_btn: 'Share'
+                author_title: '👤 About the Author', author_desc: 'Connect with me on various platforms', support: 'Support', share_btn: 'Share',
+                tests_title: '⚡ Before and After Optimization', tests_subtitle: 'Drag the slider to see the difference',
+                before_label: 'Before', after_label: 'After',
+                share_modal_title: 'Share', copy_link: '📋 Copy link', share_vk: '💬 Share on VK', share_tg: '📢 Share on Telegram', close: 'Close',
+                splash_text: 'MADE BY DENOFY', restart: '🔄 Restart', close_game: 'Close'
             }
         };
 
