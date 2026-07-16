@@ -51,39 +51,63 @@
             will-change: transform, opacity;
             background: rgba(22, 27, 34, 0.75);
             backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(48, 54, 61, 0.6); border-radius: 24px;
-            padding: 40px; max-width: 900px; width: 100%; margin-top: 60px;
+            border: 1px solid rgba(48, 54, 61, 0.6);
+            border-radius: 24px;
+            padding: 40px;
+            max-width: 900px;
+            width: 100%;
+            margin-top: 60px;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(46, 160, 67, 0.15);
         }
         body.loaded .container { opacity: 1; transform: translateY(0); }
 
         .top-bar {
-            position: fixed; top: 22px; left: 28px; right: 28px; z-index: 10;
-            display: flex; justify-content: space-between; align-items: center;
+            position: fixed;
+            top: 22px;
+            left: 28px;
+            right: 28px;
+            z-index: 10;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         .logo {
-            display: flex; align-items: center;
+            display: flex;
+            align-items: center;
             background: rgba(13, 17, 23, 0.7);
-            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(46, 160, 67, 0.25); border-radius: 14px;
-            padding: 10px; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
-            transition: all 0.25s ease; text-decoration: none; cursor: pointer; user-select: none;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(46, 160, 67, 0.25);
+            border-radius: 14px;
+            padding: 10px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+            transition: all 0.25s ease;
+            text-decoration: none;
+            cursor: pointer;
+            user-select: none;
         }
         .logo:hover {
-            background: rgba(13, 17, 23, 0.85); border-color: #2ea043;
-            box-shadow: 0 0 20px rgba(46, 160, 67, 0.3); transform: translateY(-1px);
+            background: rgba(13, 17, 23, 0.85);
+            border-color: #2ea043;
+            box-shadow: 0 0 20px rgba(46, 160, 67, 0.3);
+            transform: translateY(-1px);
         }
         .logo-img { height: 44px; width: auto; display: block; pointer-events: none; }
 
         .lang-switcher { display: flex; gap: 8px; }
         .lang-btn {
             background: rgba(13, 17, 23, 0.7);
-            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(46, 160, 67, 0.25);
             color: #8b949e;
-            font-weight: 600; font-size: 0.9rem; padding: 10px 18px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 10px 18px;
             border-radius: 12px;
-            cursor: pointer; transition: all 0.2s; letter-spacing: 0.3px;
+            cursor: pointer;
+            transition: all 0.2s;
+            letter-spacing: 0.3px;
         }
         .lang-btn.active {
             background: #2ea043;
@@ -98,23 +122,40 @@
         .main-title .subtitle { font-size: 1rem; color: #8b949e; }
 
         .tabs {
-            display: flex; gap: 12px; margin-bottom: 35px;
-            border-bottom: 2px solid rgba(48, 54, 61, 0.8); padding-bottom: 15px;
-            flex-wrap: wrap; justify-content: center;
+            display: flex;
+            gap: 12px;
+            margin-bottom: 35px;
+            border-bottom: 2px solid rgba(48, 54, 61, 0.8);
+            padding-bottom: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
         }
         .tab-btn {
-            background: transparent; border: none; color: #8b949e;
-            font-size: 1rem; font-weight: 600; padding: 10px 20px;
-            border-radius: 10px 10px 0 0; cursor: pointer;
-            position: relative; letter-spacing: 0.3px; white-space: nowrap;
+            background: transparent;
+            border: none;
+            color: #8b949e;
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 10px 10px 0 0;
+            cursor: pointer;
+            position: relative;
+            letter-spacing: 0.3px;
+            white-space: nowrap;
             transition: color 0.25s ease, background 0.25s ease;
         }
         .tab-btn:hover { color: #c9d1d9; background: rgba(255, 255, 255, 0.03); }
         .tab-btn.active { color: #ffffff; background: rgba(46, 160, 67, 0.12); }
         .tab-btn.active::after {
-            content: ''; position: absolute; bottom: -17px; left: 10%; right: 10%;
-            height: 3px; background: linear-gradient(90deg, #2ea043, #6fdd8c);
-            border-radius: 3px 3px 0 0; box-shadow: 0 0 12px rgba(46, 160, 67, 0.5);
+            content: '';
+            position: absolute;
+            bottom: -17px;
+            left: 10%;
+            right: 10%;
+            height: 3px;
+            background: linear-gradient(90deg, #2ea043, #6fdd8c);
+            border-radius: 3px 3px 0 0;
+            box-shadow: 0 0 12px rgba(46, 160, 67, 0.5);
         }
         .tab-btn:focus-visible { outline: 2px solid #2ea043; outline-offset: -2px; }
         :focus-visible { outline: 2px solid #2ea043; outline-offset: 2px; }
@@ -124,46 +165,61 @@
         @keyframes fadeSlide { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 
         .btn {
-            display: inline-block; background: #2ea043; color: #ffffff;
-            font-weight: 600; font-size: 1rem; padding: 12px 32px;
-            border-radius: 10px; text-decoration: none;
-            transition: all 0.25s ease; border: 1px solid #3fb950;
+            display: inline-block;
+            background: #2ea043;
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 12px 32px;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: all 0.25s ease;
+            border: 1px solid #3fb950;
             box-shadow: 0 4px 12px rgba(46, 160, 67, 0.3);
-            letter-spacing: 0.3px; cursor: pointer;
+            letter-spacing: 0.3px;
+            cursor: pointer;
         }
         .btn:hover { background: #3fb950; transform: translateY(-2px); box-shadow: 0 8px 25px rgba(46, 160, 67, 0.6); }
         .btn-outline { background: transparent; border: 1px solid #2ea043; color: #2ea043; box-shadow: 0 4px 12px rgba(46, 160, 67, 0.2); }
         .btn-outline:hover { background: rgba(46, 160, 67, 0.1); box-shadow: 0 8px 25px rgba(46, 160, 67, 0.5); transform: translateY(-2px); }
         .btn-disabled { background: #30363d; border-color: #484f58; color: #8b949e; cursor: not-allowed; pointer-events: none; box-shadow: none; }
 
-        /* Кнопки с анимированной иконкой-стрелкой */
         .btn-icon {
             display: inline-flex;
             align-items: center;
             gap: 8px;
         }
         .btn-icon svg {
-            width: 16px; height: 16px;
+            width: 16px;
+            height: 16px;
             transition: transform 0.2s ease;
         }
-        .btn-icon:hover svg {
-            transform: translateX(4px);
-        }
+        .btn-icon:hover svg { transform: translateX(4px); }
 
         .package-cards { display: flex; gap: 20px; margin: 30px 0 10px; flex-wrap: nowrap; overflow: visible; padding: 10px 5px; }
         .package-card {
-            flex: 1 1 200px; min-width: 180px;
+            flex: 1 1 200px;
+            min-width: 180px;
             background: rgba(26, 31, 38, 0.92);
-            backdrop-filter: none; -webkit-backdrop-filter: none;
-            border: 1px solid rgba(48, 54, 61, 0.7); border-radius: 16px;
-            padding: 24px 18px; text-align: center;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+            border: 1px solid rgba(48, 54, 61, 0.7);
+            border-radius: 16px;
+            padding: 24px 18px;
+            text-align: center;
             transition: transform 0.3s ease, border-color 0.3s, box-shadow 0.3s;
             box-shadow: 0 6px 18px rgba(0,0,0,0.4);
-            display: flex; flex-direction: column; align-items: center; gap: 10px;
-            position: relative; z-index: 1; will-change: transform;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+            z-index: 1;
+            will-change: transform;
         }
         .package-card:hover {
-            transform: translateY(-4px); border: 2px solid #2ea043;
+            transform: translateY(-4px);
+            border: 2px solid #2ea043;
             box-shadow: 0 12px 30px rgba(0,0,0,0.6), 0 0 15px rgba(46,160,67,0.5);
             z-index: 2;
         }
@@ -173,6 +229,52 @@
         .package-size { font-size: 0.8rem; color: #6e7681; margin-top: -2px; }
         .package-card .btn { margin-top: auto; }
 
+        /* Стили для карточек расширений */
+        .ext-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0 10px;
+        }
+        .ext-card {
+            background: rgba(26, 31, 38, 0.92);
+            border: 1px solid rgba(48, 54, 61, 0.7);
+            border-radius: 16px;
+            padding: 24px 18px;
+            text-align: center;
+            transition: transform 0.3s ease, border-color 0.3s, box-shadow 0.3s;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        .ext-card:hover {
+            transform: translateY(-4px);
+            border: 2px solid #2ea043;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.6), 0 0 15px rgba(46,160,67,0.5);
+        }
+        .ext-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            background: rgba(46, 160, 67, 0.12);
+            border: 1px solid rgba(46, 160, 67, 0.2);
+        }
+        .ext-icon img {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            object-fit: contain;
+        }
+        .ext-name { font-weight: 700; font-size: 1rem; color: #f0f6fc; }
+        .ext-desc { font-size: 0.8rem; color: #8b949e; line-height: 1.4; }
+        .ext-card .btn { margin-top: auto; }
+
         .compare-container { position: relative; width: 100%; max-width: 800px; margin: 30px auto; overflow: hidden; border-radius: 16px; box-shadow: 0 12px 35px rgba(0,0,0,0.5); user-select: none; }
         .compare-container img { display: block; width: 100%; height: auto; pointer-events: none; }
         .img-before { position: absolute; top: 0; left: 0; clip-path: inset(0 50% 0 0); }
@@ -181,7 +283,6 @@
         .compare-label { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.7); color: #fff; padding: 4px 14px; border-radius: 8px; font-size: 0.9rem; font-weight: 600; pointer-events: none; z-index: 3; }
         .label-before { left: 15px; } .label-after { right: 15px; }
 
-        /* Социальные иконки-плитки */
         .social-icons {
             display: flex;
             gap: 12px;
@@ -211,11 +312,6 @@
             filter: invert(1);
         }
 
-        .links-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 18px; margin-top: 25px; }
-        .social-link { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 14px 18px; background: rgba(26, 31, 38, 0.85); backdrop-filter: none; -webkit-backdrop-filter: none; border: 1px solid rgba(48, 54, 61, 0.7); border-radius: 14px; color: #e6edf3; text-decoration: none; font-weight: 600; font-size: 0.95rem; transition: all 0.25s ease; }
-        .social-link:hover { background: rgba(46, 160, 67, 0.08); border-color: #2ea043; transform: translateY(-3px); box-shadow: 0 8px 20px rgba(46, 160, 67, 0.3); }
-        .social-link .emoji { font-size: 1.3rem; }
-
         .action-buttons { display: flex; gap: 16px; margin-top: 20px; flex-wrap: wrap; justify-content: center; }
         .share-btn, .donate-btn { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; font-size: 0.9rem; padding: 8px 16px; border-radius: 10px; cursor: pointer; transition: all 0.2s; }
         .share-btn { background: rgba(46, 160, 67, 0.1); border: 1px solid rgba(46, 160, 67, 0.3); color: #2ea043; }
@@ -229,10 +325,7 @@
         .share-option { display: block; width: 100%; text-align: left; background: rgba(255,255,255,0.05); border: none; color: #e6edf3; padding: 12px; border-radius: 10px; margin-bottom: 8px; cursor: pointer; transition: background 0.2s; }
         .share-option:hover { background: rgba(46, 160, 67, 0.15); }
 
-        .snake-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); z-index: 30; display: flex; flex-direction: column; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.4s; }
-        .snake-overlay.active { opacity: 1; pointer-events: auto; }
-        .snake-overlay canvas { border: 2px solid rgba(46, 160, 67, 0.4); border-radius: 12px; box-shadow: 0 0 30px rgba(46, 160, 67, 0.3); max-width: 95vw; max-height: 80vh; }
-        .snake-close, .snake-restart { margin-top: 20px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 10px 24px; border-radius: 10px; cursor: pointer; font-weight: 600; display: inline-block; margin-right: 10px; }
+        .snake-overlay { display: none; }
 
         @media (max-width: 700px) {
             body { padding: 12px; padding-top: calc(12px + env(safe-area-inset-top, 0px)); }
@@ -251,8 +344,7 @@
             .package-card { flex: 1 1 250px; padding: 24px 16px; }
             .package-icon { font-size: 2.4rem; } .package-name { font-size: 1.1rem; } .package-desc { font-size: 0.85rem; }
             .btn { width: 100%; text-align: center; padding: 14px 24px; }
-            .links-grid { grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; }
-            .social-link { font-size: 0.85rem; padding: 12px 14px; }
+            .ext-cards { grid-template-columns: 1fr; }
             h2 { font-size: 1.5rem !important; }
             .action-buttons { flex-direction: column; gap: 10px; }
             .share-btn, .donate-btn { width: 100%; justify-content: center; padding: 12px 16px; }
@@ -281,15 +373,14 @@
 
         <div class="tabs" id="tabsContainer">
             <button class="tab-btn active" data-tab="download-pack" data-i18n="tab_download">📦 Скачать пак</button>
-            <button class="tab-btn" data-tab="download-app" data-i18n="tab_app">💻 Программа</button>
+            <button class="tab-btn" data-tab="extensions" data-i18n="tab_extensions">🧩 Расширения</button>
             <button class="tab-btn" data-tab="tests" data-i18n="tab_tests">⚡ Тесты</button>
             <button class="tab-btn" data-tab="about-author" data-i18n="tab_author">👤 Автор</button>
         </div>
 
-        <!-- Вкладки -->
+        <!-- Вкладка: Скачать пак -->
         <div id="download-pack" class="tab-content active">
             <div class="package-cards">
-                <!-- Первая карточка: DenofyOptimizer (ссылка обновлена) -->
                 <div class="package-card">
                     <div class="package-icon">💠</div>
                     <div class="package-name">DenofyOptimizer</div>
@@ -300,8 +391,6 @@
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M8 11l4 4 4-4M4 21h16"/></svg>
                     </a>
                 </div>
-
-                <!-- Вторая карточка: Проверка ПК -->
                 <div class="package-card">
                     <div class="package-icon">🔧</div>
                     <div class="package-name" data-i18n="pack3_name">Проверка ПК</div>
@@ -312,8 +401,6 @@
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M8 11l4 4 4-4M4 21h16"/></svg>
                     </a>
                 </div>
-
-                <!-- Третья карточка: D336PvP -->
                 <div class="package-card">
                     <div class="package-icon">⚔️</div>
                     <div class="package-name" data-i18n="pack4_name">D336PvP</div>
@@ -331,17 +418,104 @@
             </div>
         </div>
 
-        <div id="download-app" class="tab-content" style="text-align: center;">
-            <h2 style="margin-bottom: 15px; font-size: 1.8rem;" data-i18n="app_title">🛠 Программа-установщик</h2>
-            <p style="color: #8b949e; margin-bottom: 20px; font-size: 1rem;" data-i18n="app_desc">Удобная оболочка для установки пакета в один клик. Сейчас в разработке.</p>
-            <button class="btn btn-disabled" disabled data-i18n="app_btn">Скоро будет доступно</button>
-            <p style="color: #484f58; font-size: 0.9rem; margin-top: 12px;" data-i18n="app_note">Ожидайте в следующих обновлениях</p>
+        <!-- Вкладка: Расширения -->
+        <div id="extensions" class="tab-content">
+            <h2 style="text-align:center; margin-bottom:10px; font-size:1.8rem;" data-i18n="ext_title">🧩 Расширения для Chrome</h2>
+            <p style="text-align:center; color:#8b949e; margin-bottom:20px;" data-i18n="ext_subtitle">Полезные расширения для работы и развлечений</p>
+            <div class="ext-cards">
+                <!-- 1. Faceit EGO Enhancer -->
+                <div class="ext-card">
+                    <div class="ext-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#2ea043" stroke-width="1.5">
+                            <rect x="2" y="2" width="20" height="20" rx="4" stroke="currentColor"/>
+                            <path d="M8 7h8M8 12h6M8 17h4" stroke="currentColor" stroke-linecap="round"/>
+                            <circle cx="17" cy="7" r="1.5" fill="#2ea043" stroke="none"/>
+                            <circle cx="17" cy="12" r="1.5" fill="#2ea043" stroke="none"/>
+                            <circle cx="17" cy="17" r="1.5" fill="#2ea043" stroke="none"/>
+                        </svg>
+                    </div>
+                    <div class="ext-name">Faceit EGO Enhancer</div>
+                    <div class="ext-desc">Профессиональный набор инструментов для CS2 на FACEIT</div>
+                    <a href="https://chromewebstore.google.com/detail/faceit-ego-enhancer/iabcbcabiglccadhckmpaddefafgbiem" target="_blank" class="btn btn-icon">
+                        🧩 Установить
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M8 11l4 4 4-4M4 21h16"/></svg>
+                    </a>
+                </div>
+
+                <!-- 2. FACEIT FORECAST -->
+                <div class="ext-card">
+                    <div class="ext-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#2ea043" stroke-width="1.5">
+                            <path d="M3 12h3l2-4 2 8 2-6 2 4 3-6 2 4h3" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                            <rect x="2" y="2" width="20" height="20" rx="4" stroke="currentColor"/>
+                        </svg>
+                    </div>
+                    <div class="ext-name">FACEIT FORECAST</div>
+                    <div class="ext-desc">Детальная статистика для матчей и игроков на Faceit</div>
+                    <a href="https://chromewebstore.google.com/detail/faceit-forecast/mpkkcddegpblmobincjkbpgfcbejjbcp" target="_blank" class="btn btn-icon">
+                        🧩 Установить
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M8 11l4 4 4-4M4 21h16"/></svg>
+                    </a>
+                </div>
+
+                <!-- 3. ЮБуст - VPN для YouTube -->
+                <div class="ext-card">
+                    <div class="ext-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#2ea043" stroke-width="1.5">
+                            <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z" stroke="currentColor"/>
+                            <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="#2ea043" stroke="none"/>
+                        </svg>
+                    </div>
+                    <div class="ext-name">ЮБуст — VPN для YouTube</div>
+                    <div class="ext-desc">Обход блокировки YouTube, ускоритель без VPN</div>
+                    <a href="https://chromewebstore.google.com/detail/%D1%8E%D0%B1%D1%83%D1%81%D1%82-vpn-%D0%B4%D0%BB%D1%8F-youtube-%D0%BE%D0%B1%D1%85/jddgbeighonaipjikdnfdpiefhoomlae" target="_blank" class="btn btn-icon">
+                        🧩 Установить
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M8 11l4 4 4-4M4 21h16"/></svg>
+                    </a>
+                </div>
+
+                <!-- 4. ReYohoho Twitch Proxy -->
+                <div class="ext-card">
+                    <div class="ext-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#2ea043" stroke-width="1.5">
+                            <path d="M4 4l4-2h10l4 2v12l-4 2-10 2-4-2V4z" stroke="currentColor"/>
+                            <path d="M8 8h8M8 12h6M8 16h4" stroke="currentColor" stroke-linecap="round"/>
+                            <circle cx="18" cy="8" r="1.5" fill="#2ea043" stroke="none"/>
+                            <circle cx="18" cy="12" r="1.5" fill="#2ea043" stroke="none"/>
+                            <circle cx="18" cy="16" r="1.5" fill="#2ea043" stroke="none"/>
+                        </svg>
+                    </div>
+                    <div class="ext-name">ReYohoho Twitch Proxy</div>
+                    <div class="ext-desc">Прокси для Twitch с поддержкой 1080p/1440p (РФ)</div>
+                    <a href="https://chromewebstore.google.com/detail/reyohoho-twitch-proxy-108/ohgphcndclpcmbglhldmnagagdbmkoef" target="_blank" class="btn btn-icon">
+                        🧩 Установить
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M8 11l4 4 4-4M4 21h16"/></svg>
+                    </a>
+                </div>
+
+                <!-- 5. Browsec VPN -->
+                <div class="ext-card">
+                    <div class="ext-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#2ea043" stroke-width="1.5">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor"/>
+                            <path d="M9 12l2 2 4-4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div class="ext-name">Browsec VPN — Free VPN</div>
+                    <div class="ext-desc">Бесплатный VPN для Chrome, защита IP и обход блокировок</div>
+                    <a href="https://chromewebstore.google.com/detail/browsec-vpn-free-vpn-for/omghfjlpggmjjaagoclmmobgdodcjboh" target="_blank" class="btn btn-icon">
+                        🧩 Установить
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M8 11l4 4 4-4M4 21h16"/></svg>
+                    </a>
+                </div>
+            </div>
             <div class="action-buttons">
-                <button class="share-btn" id="shareBtn2"><span>📤</span> <span data-i18n="share_btn">Поделиться</span></button>
+                <button class="share-btn" id="shareBtnExt"><span>📤</span> <span data-i18n="share_btn">Поделиться</span></button>
                 <a href="https://www.donationalerts.com/r/denofy336" class="donate-btn" target="_blank"><span>💖</span> <span data-i18n="support">Поддержать</span></a>
             </div>
         </div>
 
+        <!-- Вкладка: Тесты -->
         <div id="tests" class="tab-content" style="text-align: center;">
             <h2 style="margin-bottom: 10px; font-size: 1.8rem;" data-i18n="tests_title">⚡ До и после оптимизации</h2>
             <p style="color: #8b949e; margin-bottom: 20px; font-size: 1rem;" data-i18n="tests_subtitle">Двигайте ползунок, чтобы увидеть разницу</p>
@@ -358,6 +532,7 @@
             </div>
         </div>
 
+        <!-- Вкладка: Автор -->
         <div id="about-author" class="tab-content" style="text-align: center;">
             <h2 style="margin-bottom: 15px; font-size: 1.8rem;" data-i18n="author_title">👤 Об авторе</h2>
             <p style="color: #8b949e; margin-bottom: 15px; font-size: 1rem;" data-i18n="author_desc">Связь со мной на разных площадках</p>
@@ -430,11 +605,9 @@
             draw();
         })();
 
-        // Показываем контент сразу после загрузки
         window.addEventListener('DOMContentLoaded', () => {
             document.body.classList.add('loaded');
 
-            // Слайдер сравнения
             const container = document.getElementById('compareContainer');
             const slider = document.getElementById('compareSlider');
             const imgBefore = document.getElementById('imgBefore');
@@ -469,35 +642,66 @@
             }
         });
 
-        // Переводы
         const translations = {
             ru: {
-                tab_download: '📦 Скачать пак', tab_app: '💻 Программа', tab_tests: '⚡ Тесты', tab_author: '👤 Автор',
-                optimization_desc: 'Оптимизация Windows 11', pack1_desc: 'Сборка с набором твиков и скриптов',
-                pack3_name: 'Проверка ПК', pack3_desc: 'Инструмент диагностики и тестов',
-                pack4_name: 'D336PvP', pack4_desc: 'Сборка для pvp 1.21.11 fabric',
+                tab_download: '📦 Скачать пак',
+                tab_extensions: '🧩 Расширения',
+                tab_tests: '⚡ Тесты',
+                tab_author: '👤 Автор',
+                optimization_desc: 'Оптимизация Windows 11',
+                pack1_desc: 'Сборка с набором твиков и скриптов',
+                pack3_name: 'Проверка ПК',
+                pack3_desc: 'Инструмент диагностики и тестов',
+                pack4_name: 'D336PvP',
+                pack4_desc: 'Сборка для pvp 1.21.11 fabric',
                 download_btn: '💾 Скачать',
-                app_title: '🛠 Программа-установщик', app_desc: 'Удобная оболочка для установки пакета в один клик. Сейчас в разработке.',
-                app_btn: 'Скоро будет доступно', app_note: 'Ожидайте в следующих обновлениях',
-                author_title: '👤 Об авторе', author_desc: 'Связь со мной на разных площадках', support: 'Поддержать', share_btn: 'Поделиться',
-                tests_title: '⚡ До и после оптимизации', tests_subtitle: 'Двигайте ползунок, чтобы увидеть разницу',
-                before_label: 'До', after_label: 'После',
-                share_modal_title: 'Поделиться', copy_link: '📋 Копировать ссылку', share_vk: '💬 Поделиться ВКонтакте', share_tg: '📢 Поделиться в Telegram', close: 'Закрыть',
-                restart: '🔄 Заново', close_game: 'Закрыть'
+                ext_title: '🧩 Расширения для Chrome',
+                ext_subtitle: 'Полезные расширения для работы и развлечений',
+                author_title: '👤 Об авторе',
+                author_desc: 'Связь со мной на разных площадках',
+                support: 'Поддержать',
+                share_btn: 'Поделиться',
+                tests_title: '⚡ До и после оптимизации',
+                tests_subtitle: 'Двигайте ползунок, чтобы увидеть разницу',
+                before_label: 'До',
+                after_label: 'После',
+                share_modal_title: 'Поделиться',
+                copy_link: '📋 Копировать ссылку',
+                share_vk: '💬 Поделиться ВКонтакте',
+                share_tg: '📢 Поделиться в Telegram',
+                close: 'Закрыть',
+                restart: '🔄 Заново',
+                close_game: 'Закрыть'
             },
             en: {
-                tab_download: '📦 Download Pack', tab_app: '💻 App', tab_tests: '⚡ Tests', tab_author: '👤 Author',
-                optimization_desc: 'Windows 11 Optimization', pack1_desc: 'Bundle with tweaks and scripts',
-                pack3_name: 'PC Check', pack3_desc: 'PC diagnostic and testing tool',
-                pack4_name: 'D336PvP', pack4_desc: 'Build for pvp 1.21.11 fabric',
+                tab_download: '📦 Download Pack',
+                tab_extensions: '🧩 Extensions',
+                tab_tests: '⚡ Tests',
+                tab_author: '👤 Author',
+                optimization_desc: 'Windows 11 Optimization',
+                pack1_desc: 'Bundle with tweaks and scripts',
+                pack3_name: 'PC Check',
+                pack3_desc: 'PC diagnostic and testing tool',
+                pack4_name: 'D336PvP',
+                pack4_desc: 'Build for pvp 1.21.11 fabric',
                 download_btn: '💾 Download',
-                app_title: '🛠 Installer App', app_desc: 'A convenient shell for one-click package installation. Currently in development.',
-                app_btn: 'Coming soon', app_note: 'Expect in future updates',
-                author_title: '👤 About the Author', author_desc: 'Connect with me on various platforms', support: 'Support', share_btn: 'Share',
-                tests_title: '⚡ Before and After Optimization', tests_subtitle: 'Drag the slider to see the difference',
-                before_label: 'Before', after_label: 'After',
-                share_modal_title: 'Share', copy_link: '📋 Copy link', share_vk: '💬 Share on VK', share_tg: '📢 Share on Telegram', close: 'Close',
-                restart: '🔄 Restart', close_game: 'Close'
+                ext_title: '🧩 Chrome Extensions',
+                ext_subtitle: 'Useful extensions for work and entertainment',
+                author_title: '👤 About the Author',
+                author_desc: 'Connect with me on various platforms',
+                support: 'Support',
+                share_btn: 'Share',
+                tests_title: '⚡ Before and After Optimization',
+                tests_subtitle: 'Drag the slider to see the difference',
+                before_label: 'Before',
+                after_label: 'After',
+                share_modal_title: 'Share',
+                copy_link: '📋 Copy link',
+                share_vk: '💬 Share on VK',
+                share_tg: '📢 Share on Telegram',
+                close: 'Close',
+                restart: '🔄 Restart',
+                close_game: 'Close'
             }
         };
 
@@ -538,56 +742,10 @@
         document.getElementById('shareVkBtn').addEventListener('click', () => { window.open(`https://vk.com/share.php?url=${encodeURIComponent(shareUrl)}`); });
         document.getElementById('shareTgBtn').addEventListener('click', () => { window.open(`https://t.me/share/url?url=${encodeURIComponent(shareUrl)}`); });
 
-        // Змейка
-        let snakeGame = null;
-        function startSnakeGame() {
-            if (snakeGame) snakeGame.cleanup();
-            const overlay = document.getElementById('snakeOverlay');
-            overlay.classList.add('active');
-            const canvas = document.getElementById('snakeCanvas');
-            const ctx = canvas.getContext('2d');
-            const grid = 20, w = canvas.width, h = canvas.height;
-            let snake = [{x:5,y:5}], dir = {x:1,y:0}, food, gameOver = false, interval;
-            function spawnFood() { let f; do { f = { x: Math.floor(Math.random()*(w/grid)), y: Math.floor(Math.random()*(h/grid)) }; } while (snake.some(s => s.x===f.x && s.y===f.y)); return f; }
-            food = spawnFood();
-            function draw() {
-                ctx.clearRect(0,0,w,h);
-                ctx.fillStyle = '#2ea043'; snake.forEach(s => ctx.fillRect(s.x*grid, s.y*grid, grid-2, grid-2));
-                ctx.fillStyle = '#ff4444'; ctx.fillRect(food.x*grid, food.y*grid, grid-2, grid-2);
-                if (gameOver) { ctx.fillStyle = '#fff'; ctx.font = 'bold 24px "Segoe UI"'; ctx.textAlign = 'center'; ctx.fillText('Game Over', w/2, h/2); }
-            }
-            function update() {
-                const head = {x: snake[0].x+dir.x, y: snake[0].y+dir.y};
-                if (head.x<0 || head.x>=w/grid || head.y<0 || head.y>=h/grid) { gameOver = true; clearInterval(interval); draw(); return; }
-                if (snake.some(s => s.x===head.x && s.y===head.y)) { gameOver = true; clearInterval(interval); draw(); return; }
-                snake.unshift(head);
-                if (head.x===food.x && head.y===food.y) { food = spawnFood(); if (navigator.vibrate) navigator.vibrate(20); } else snake.pop();
-                draw();
-            }
-            function keyHandler(e) {
-                if (gameOver) return;
-                const key = e.key.toLowerCase();
-                if ((key==='arrowup'||key==='w') && dir.y===0) dir={x:0,y:-1};
-                else if ((key==='arrowdown'||key==='s') && dir.y===0) dir={x:0,y:1};
-                else if ((key==='arrowleft'||key==='a') && dir.x===0) dir={x:-1,y:0};
-                else if ((key==='arrowright'||key==='d') && dir.x===0) dir={x:1,y:0};
-                if (['arrowup','arrowdown','arrowleft','arrowright','w','a','s','d'].includes(key)) e.preventDefault();
-            }
-            window.addEventListener('keydown', keyHandler);
-            interval = setInterval(update, 150);
-            snakeGame = { cleanup: () => { clearInterval(interval); window.removeEventListener('keydown', keyHandler); overlay.classList.remove('active'); snakeGame = null; } };
-            draw();
-        }
-        function restartSnake() { if (snakeGame) snakeGame.cleanup(); startSnakeGame(); }
-        function closeSnake() { if (snakeGame) snakeGame.cleanup(); }
-
-        let clicks = 0, clickTimer;
-        document.getElementById('logo').addEventListener('click', e => {
+        // Перезагрузка по клику на логотип
+        document.getElementById('logo').addEventListener('click', function(e) {
             e.preventDefault();
-            clicks++;
-            clearTimeout(clickTimer);
-            clickTimer = setTimeout(() => clicks=0, 800);
-            if (clicks >= 5) { clicks=0; startSnakeGame(); }
+            location.reload();
         });
     </script>
 </body>
