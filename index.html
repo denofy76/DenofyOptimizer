@@ -44,58 +44,6 @@
             opacity: 0.6;
         }
 
-        body.loading .container,
-        body.loading .top-bar { opacity: 0; pointer-events: none; }
-
-        .splash-screen {
-            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background: #0b0f14; z-index: 100;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            opacity: 1; transition: opacity 0.6s ease; pointer-events: all;
-            padding: 20px;
-            padding-top: calc(20px + env(safe-area-inset-top, 0px));
-            padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px));
-        }
-        .splash-screen.hide { opacity: 0; pointer-events: none; }
-
-        .splash-logo-img { 
-            width: 150px;
-            height: auto;
-            animation: splashPulse 1.5s ease infinite; 
-            margin-bottom: 16px; 
-            filter: drop-shadow(0 0 20px rgba(46, 160, 67, 0.5));
-        }
-
-        @keyframes splashPulse {
-            0% { transform: scale(0.95); opacity: 0.8; }
-            50% { transform: scale(1.05); opacity: 1; }
-            100% { transform: scale(0.95); opacity: 0.8; }
-        }
-
-        .splash-text {
-            font-size: 1.4rem; font-weight: 600; letter-spacing: 0.2em;
-            color: #2ea043; margin-bottom: 30px; animation: splashFadeText 1.5s ease infinite;
-            word-break: break-word; text-align: center;
-            text-shadow: 0 0 15px rgba(46, 160, 67, 0.6);
-            line-height: 1.3;
-        }
-
-        @keyframes splashFadeText {
-            0% { opacity: 0.6; } 50% { opacity: 1; } 100% { opacity: 0.6; }
-        }
-
-        .splash-progress {
-            width: 200px; height: 4px; background: rgba(255,255,255,0.15);
-            border-radius: 2px; overflow: hidden;
-        }
-        .splash-progress-bar {
-            height: 100%; width: 0%;
-            background: linear-gradient(90deg, #2ea043, #6fdd8c);
-            border-radius: 2px;
-            animation: progressGrow 1.8s ease forwards;
-        }
-        @keyframes progressGrow { 0% { width: 0%; } 100% { width: 100%; } }
-
         .container {
             opacity: 0;
             transform: translateY(40px);
@@ -308,23 +256,12 @@
             h2 { font-size: 1.5rem !important; }
             .action-buttons { flex-direction: column; gap: 10px; }
             .share-btn, .donate-btn { width: 100%; justify-content: center; padding: 12px 16px; }
-
-            .splash-screen { padding: 15px; padding-top: calc(15px + env(safe-area-inset-top, 0px)); padding-bottom: calc(15px + env(safe-area-inset-bottom, 0px)); }
-            .splash-logo-img { width: 110px; margin-bottom: 12px; filter: drop-shadow(0 0 25px rgba(46, 160, 67, 0.7)); }
-            .splash-text { font-size: 1.5rem; letter-spacing: 0.15em; margin-bottom: 30px; padding: 0 10px; text-shadow: 0 0 20px rgba(46, 160, 67, 0.8); }
-            .splash-progress { width: 180px; height: 5px; background: rgba(255,255,255,0.2); }
         }
     </style>
 </head>
-<body class="loading">
+<body>
 
     <canvas id="particlesCanvas"></canvas>
-
-    <div class="splash-screen" id="splashScreen">
-        <img class="splash-logo-img" src="logo2.png" alt="Denofy Logo" loading="lazy">
-        <div class="splash-text" data-i18n="splash_text">СДЕЛАНО DENOFY</div>
-        <div class="splash-progress"><div class="splash-progress-bar"></div></div>
-    </div>
 
     <div class="top-bar">
         <a href="#" class="logo" id="logo">
@@ -346,7 +283,6 @@
             <button class="tab-btn active" data-tab="download-pack" data-i18n="tab_download">📦 Скачать пак</button>
             <button class="tab-btn" data-tab="download-app" data-i18n="tab_app">💻 Программа</button>
             <button class="tab-btn" data-tab="tests" data-i18n="tab_tests">⚡ Тесты</button>
-            <button class="tab-btn" data-tab="updates" data-i18n="tab_updates">📝 Обновления</button>
             <button class="tab-btn" data-tab="about-author" data-i18n="tab_author">👤 Автор</button>
         </div>
 
@@ -359,13 +295,13 @@
                     <div class="package-name">DenofyOptimizer</div>
                     <div class="package-desc" data-i18n="pack1_desc">Сборка с набором твиков и скриптов</div>
                     <div class="package-size">1,44 ГБ</div>
-                    <a href="https://cloud.mail.ru/public/6CuZ/Vu6RPzFi2" class="btn btn-icon" data-i18n="download_btn">
+                    <a href="https://cloud.mail.ru/public/qB9H/3HmAwzxP7" class="btn btn-icon" data-i18n="download_btn">
                         💾 Скачать
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M8 11l4 4 4-4M4 21h16"/></svg>
                     </a>
                 </div>
 
-                <!-- Вторая карточка: Проверка ПК (по центру) -->
+                <!-- Вторая карточка: Проверка ПК -->
                 <div class="package-card">
                     <div class="package-icon">🔧</div>
                     <div class="package-name" data-i18n="pack3_name">Проверка ПК</div>
@@ -377,7 +313,7 @@
                     </a>
                 </div>
 
-                <!-- Третья карточка: D336PvP (справа) -->
+                <!-- Третья карточка: D336PvP -->
                 <div class="package-card">
                     <div class="package-icon">⚔️</div>
                     <div class="package-name" data-i18n="pack4_name">D336PvP</div>
@@ -418,20 +354,6 @@
             </div>
             <div class="action-buttons" style="margin-top: 25px;">
                 <button class="share-btn" id="shareBtnTests"><span>📤</span> <span data-i18n="share_btn">Поделиться</span></button>
-                <a href="https://www.donationalerts.com/r/denofy336" class="donate-btn" target="_blank"><span>💖</span> <span data-i18n="support">Поддержать</span></a>
-            </div>
-        </div>
-
-        <div id="updates" class="tab-content" style="text-align: center;">
-            <h2 style="margin-bottom: 10px; font-size: 1.8rem;" data-i18n="updates_title">📝 Обновления</h2>
-            <p style="color: #8b949e; margin-bottom: 20px; font-size: 1rem;" data-i18n="updates_desc">Все детали о версиях и изменениях публикуются в Telegram-канале.</p>
-            <div id="telegram-feed" style="margin-top: 15px;"></div>
-            <a href="https://t.me/denofyoptimizer" target="_blank" class="btn btn-outline btn-icon">
-                📢 Telegram-канал
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
-            </a>
-            <div class="action-buttons">
-                <button class="share-btn" id="shareBtn3"><span>📤</span> <span data-i18n="share_btn">Поделиться</span></button>
                 <a href="https://www.donationalerts.com/r/denofy336" class="donate-btn" target="_blank"><span>💖</span> <span data-i18n="support">Поддержать</span></a>
             </div>
         </div>
@@ -508,16 +430,9 @@
             draw();
         })();
 
-        // Сплеш-экран
+        // Показываем контент сразу после загрузки
         window.addEventListener('DOMContentLoaded', () => {
-            const splash = document.getElementById('splashScreen');
-            const body = document.body;
-            setTimeout(() => {
-                splash.classList.add('hide');
-                body.classList.remove('loading');
-                body.classList.add('loaded');
-                setTimeout(() => { if (splash.parentNode) splash.remove(); }, 600);
-            }, 1500);
+            document.body.classList.add('loaded');
 
             // Слайдер сравнения
             const container = document.getElementById('compareContainer');
@@ -557,34 +472,32 @@
         // Переводы
         const translations = {
             ru: {
-                tab_download: '📦 Скачать пак', tab_app: '💻 Программа', tab_tests: '⚡ Тесты', tab_updates: '📝 Обновления', tab_author: '👤 Автор',
+                tab_download: '📦 Скачать пак', tab_app: '💻 Программа', tab_tests: '⚡ Тесты', tab_author: '👤 Автор',
                 optimization_desc: 'Оптимизация Windows 11', pack1_desc: 'Сборка с набором твиков и скриптов',
                 pack3_name: 'Проверка ПК', pack3_desc: 'Инструмент диагностики и тестов',
                 pack4_name: 'D336PvP', pack4_desc: 'Сборка для pvp 1.21.11 fabric',
                 download_btn: '💾 Скачать',
                 app_title: '🛠 Программа-установщик', app_desc: 'Удобная оболочка для установки пакета в один клик. Сейчас в разработке.',
                 app_btn: 'Скоро будет доступно', app_note: 'Ожидайте в следующих обновлениях',
-                updates_title: '📝 Обновления', updates_desc: 'Все детали о версиях и изменениях публикуются в Telegram-канале.',
                 author_title: '👤 Об авторе', author_desc: 'Связь со мной на разных площадках', support: 'Поддержать', share_btn: 'Поделиться',
                 tests_title: '⚡ До и после оптимизации', tests_subtitle: 'Двигайте ползунок, чтобы увидеть разницу',
                 before_label: 'До', after_label: 'После',
                 share_modal_title: 'Поделиться', copy_link: '📋 Копировать ссылку', share_vk: '💬 Поделиться ВКонтакте', share_tg: '📢 Поделиться в Telegram', close: 'Закрыть',
-                splash_text: 'СДЕЛАНО DENOFY', restart: '🔄 Заново', close_game: 'Закрыть'
+                restart: '🔄 Заново', close_game: 'Закрыть'
             },
             en: {
-                tab_download: '📦 Download Pack', tab_app: '💻 App', tab_tests: '⚡ Tests', tab_updates: '📝 Updates', tab_author: '👤 Author',
+                tab_download: '📦 Download Pack', tab_app: '💻 App', tab_tests: '⚡ Tests', tab_author: '👤 Author',
                 optimization_desc: 'Windows 11 Optimization', pack1_desc: 'Bundle with tweaks and scripts',
                 pack3_name: 'PC Check', pack3_desc: 'PC diagnostic and testing tool',
                 pack4_name: 'D336PvP', pack4_desc: 'Build for pvp 1.21.11 fabric',
                 download_btn: '💾 Download',
                 app_title: '🛠 Installer App', app_desc: 'A convenient shell for one-click package installation. Currently in development.',
                 app_btn: 'Coming soon', app_note: 'Expect in future updates',
-                updates_title: '📝 Updates', updates_desc: 'All version details and changes are published in the Telegram channel.',
                 author_title: '👤 About the Author', author_desc: 'Connect with me on various platforms', support: 'Support', share_btn: 'Share',
                 tests_title: '⚡ Before and After Optimization', tests_subtitle: 'Drag the slider to see the difference',
                 before_label: 'Before', after_label: 'After',
                 share_modal_title: 'Share', copy_link: '📋 Copy link', share_vk: '💬 Share on VK', share_tg: '📢 Share on Telegram', close: 'Close',
-                splash_text: 'MADE BY DENOFY', restart: '🔄 Restart', close_game: 'Close'
+                restart: '🔄 Restart', close_game: 'Close'
             }
         };
 
@@ -601,7 +514,6 @@
         document.querySelectorAll('.lang-btn').forEach(btn => btn.addEventListener('click', () => applyLanguage(btn.getAttribute('data-lang'))));
         applyLanguage(localStorage.getItem('denofy-lang') || 'ru');
 
-        let feedLoaded = false;
         function switchTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
@@ -609,7 +521,6 @@
             if (content) content.classList.add('active');
             const activeBtn = document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
             if (activeBtn) activeBtn.classList.add('active');
-            if (tabId === 'updates' && !feedLoaded) { loadTelegramFeed(); feedLoaded = true; }
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
         document.getElementById('tabsContainer').addEventListener('click', e => {
@@ -617,23 +528,6 @@
             if (!btn) return;
             switchTab(btn.getAttribute('data-tab'));
         });
-
-        async function loadTelegramFeed() {
-            const feed = document.getElementById('telegram-feed');
-            if (!feed) return;
-            feed.innerHTML = '<p style="color:#8b949e">Загрузка обновлений...</p>';
-            try {
-                const res = await fetch('https://denofy-updates.denofy76.workers.dev');
-                const data = await res.json();
-                feed.innerHTML = '';
-                data.slice(0, 5).forEach(post => {
-                    const div = document.createElement('div');
-                    div.style.cssText = 'background:rgba(26,31,38,0.7);border:1px solid rgba(48,54,61,0.7);border-radius:12px;padding:15px;margin-bottom:12px;';
-                    div.innerHTML = `${post.photo ? `<img src="${post.photo}" style="max-width:100%;border-radius:8px;margin-bottom:8px;">` : ''}<p style="color:#c9d1d9;">${post.text || ''}</p><span style="color:#8b949e;font-size:0.85rem;">${new Date(post.date*1000).toLocaleString()}</span>`;
-                    feed.appendChild(div);
-                });
-            } catch (e) { feed.innerHTML = '<p style="color:#f85149">Не удалось загрузить обновления</p>'; }
-        }
 
         const shareUrl = location.href;
         function openShareModal() { document.getElementById('shareUrl').value = shareUrl; document.getElementById('shareModal').classList.add('active'); }
