@@ -6,12 +6,10 @@
     <meta name="theme-color" content="#0b0f14">
     <title>DenofyOptimizer</title>
     <link rel="icon" href="logo3.ico" type="image/x-icon">
-    <!-- Шрифт Hack -->
     <link href="https://fonts.googleapis.com/css2?family=Hack&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { background: #0b0f14; }
-
         body {
             font-family: 'Hack', 'Segoe UI', system-ui, -apple-system, sans-serif;
             background: radial-gradient(circle at 20% 20%, rgba(46,160,67,0.08), transparent 40%),
@@ -27,15 +25,12 @@
             position: relative;
             font-size: 16px;
             line-height: 1.5;
+            overflow-y: auto;
         }
+        /* Убираем скроллбар */
+        ::-webkit-scrollbar { display: none; }
+        body { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* Кастомный скроллбар */
-        ::-webkit-scrollbar { width: 8px; height: 8px; background-color: #0b0f14; }
-        ::-webkit-scrollbar-track { background-color: #0b0f14; }
-        ::-webkit-scrollbar-thumb { background-color: #2ea043; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background-color: #3fb950; }
-
-        /* Фон с частицами */
         #particlesCanvas {
             position: fixed;
             inset: 0;
@@ -43,14 +38,14 @@
             pointer-events: none;
             opacity: 0.6;
         }
-
         .container {
             opacity: 0;
             transform: translateY(40px);
             transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
             will-change: transform, opacity;
             background: rgba(22, 27, 34, 0.75);
-            backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(48, 54, 61, 0.6);
             border-radius: 24px;
             padding: 40px;
@@ -60,7 +55,6 @@
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(46, 160, 67, 0.15);
         }
         body.loaded .container { opacity: 1; transform: translateY(0); }
-
         .top-bar {
             position: fixed;
             top: 22px;
@@ -94,7 +88,11 @@
         }
         .logo-img { height: 44px; width: auto; display: block; pointer-events: none; }
 
-        .lang-switcher { display: flex; gap: 8px; }
+        /* ===== ВЫПАДАЮЩИЙ ПЕРЕКЛЮЧАТЕЛЬ ЯЗЫКОВ ===== */
+        .lang-dropdown {
+            position: relative;
+            display: inline-block;
+        }
         .lang-btn {
             background: rgba(13, 17, 23, 0.7);
             backdrop-filter: blur(12px);
@@ -108,19 +106,63 @@
             cursor: pointer;
             transition: all 0.2s;
             letter-spacing: 0.3px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-        .lang-btn.active {
-            background: #2ea043;
-            border-color: #2ea043;
+        .lang-btn:hover { background: rgba(255, 255, 255, 0.05); color: #c9d1d9; }
+        .lang-btn .arrow { font-size: 0.7rem; transition: transform 0.3s; }
+        .lang-dropdown.active .lang-btn .arrow { transform: rotate(180deg); }
+        .lang-dropdown-content {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 6px;
+            background: rgba(22, 27, 34, 0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(46, 160, 67, 0.3);
+            border-radius: 12px;
+            min-width: 100px;
+            overflow: hidden;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(-8px);
+            transition: all 0.25s ease;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.6);
+            z-index: 20;
+        }
+        .lang-dropdown.active .lang-dropdown-content {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+        .lang-dropdown-content button {
+            display: block;
+            width: 100%;
+            padding: 10px 18px;
+            background: transparent;
+            border: none;
+            color: #c9d1d9;
+            font-weight: 500;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background 0.2s;
+            text-align: left;
+            font-family: inherit;
+        }
+        .lang-dropdown-content button:hover {
+            background: rgba(46, 160, 67, 0.15);
             color: #ffffff;
-            box-shadow: 0 0 12px rgba(46, 160, 67, 0.4);
         }
-        .lang-btn:hover:not(.active) { background: rgba(255, 255, 255, 0.05); color: #c9d1d9; }
+        .lang-dropdown-content button.active-lang {
+            background: rgba(46, 160, 67, 0.2);
+            color: #2ea043;
+        }
 
         .main-title { text-align: center; margin-bottom: 15px; }
         .main-title h1 { font-size: 2rem; font-weight: 700; margin-bottom: 2px; color: #ffffff; }
         .main-title .subtitle { font-size: 1rem; color: #8b949e; }
-
         .tabs {
             display: flex;
             gap: 12px;
@@ -159,8 +201,7 @@
         }
         .tab-btn:focus-visible { outline: 2px solid #2ea043; outline-offset: -2px; }
         :focus-visible { outline: 2px solid #2ea043; outline-offset: 2px; }
-
-        .tab-content { display: none; animation: fadeSlide 0.4s ease-out; min-height: 450px; }
+        .tab-content { display: none; animation: fadeSlide 0.4s ease-out; min-height: 400px; }
         .tab-content.active { display: block; }
         @keyframes fadeSlide { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -182,8 +223,6 @@
         .btn:hover { background: #3fb950; transform: translateY(-2px); box-shadow: 0 8px 25px rgba(46, 160, 67, 0.6); }
         .btn-outline { background: transparent; border: 1px solid #2ea043; color: #2ea043; box-shadow: 0 4px 12px rgba(46, 160, 67, 0.2); }
         .btn-outline:hover { background: rgba(46, 160, 67, 0.1); box-shadow: 0 8px 25px rgba(46, 160, 67, 0.5); transform: translateY(-2px); }
-        .btn-disabled { background: #30363d; border-color: #484f58; color: #8b949e; cursor: not-allowed; pointer-events: none; box-shadow: none; }
-
         .btn-icon {
             display: inline-flex;
             align-items: center;
@@ -196,47 +235,14 @@
         }
         .btn-icon:hover svg { transform: translateX(4px); }
 
-        .package-cards { display: flex; gap: 20px; margin: 30px 0 10px; flex-wrap: nowrap; overflow: visible; padding: 10px 5px; }
-        .package-card {
-            flex: 1 1 200px;
-            min-width: 180px;
-            background: rgba(26, 31, 38, 0.92);
-            backdrop-filter: none;
-            -webkit-backdrop-filter: none;
-            border: 1px solid rgba(48, 54, 61, 0.7);
-            border-radius: 16px;
-            padding: 24px 18px;
-            text-align: center;
-            transition: transform 0.3s ease, border-color 0.3s, box-shadow 0.3s;
-            box-shadow: 0 6px 18px rgba(0,0,0,0.4);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            position: relative;
-            z-index: 1;
-            will-change: transform;
-        }
-        .package-card:hover {
-            transform: translateY(-4px);
-            border: 2px solid #2ea043;
-            box-shadow: 0 12px 30px rgba(0,0,0,0.6), 0 0 15px rgba(46,160,67,0.5);
-            z-index: 2;
-        }
-        .package-icon { font-size: 2.4rem; }
-        .package-name { font-weight: 700; font-size: 1.1rem; color: #f0f6fc; height: 2.5em; overflow: hidden; display: flex; align-items: center; justify-content: center; width: 100%; }
-        .package-desc { font-size: 0.85rem; color: #8b949e; line-height: 1.4; height: 3em; overflow: hidden; display: flex; align-items: center; justify-content: center; width: 100%; }
-        .package-size { font-size: 0.8rem; color: #6e7681; margin-top: -2px; }
-        .package-card .btn { margin-top: auto; }
-
-        /* Стили для карточек расширений */
-        .ext-cards {
+        /* ===== ЕДИНЫЙ СТИЛЬ ДЛЯ КАРТОЧЕК (пакеты + расширения) ===== */
+        .cards-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
             margin: 30px 0 10px;
         }
-        .ext-card {
+        .card {
             background: rgba(26, 31, 38, 0.92);
             border: 1px solid rgba(48, 54, 61, 0.7);
             border-radius: 16px;
@@ -249,12 +255,12 @@
             align-items: center;
             gap: 10px;
         }
-        .ext-card:hover {
+        .card:hover {
             transform: translateY(-4px);
             border: 2px solid #2ea043;
             box-shadow: 0 12px 30px rgba(0,0,0,0.6), 0 0 15px rgba(46,160,67,0.5);
         }
-        .ext-icon {
+        .card-icon {
             width: 56px;
             height: 56px;
             border-radius: 12px;
@@ -265,15 +271,16 @@
             background: rgba(46, 160, 67, 0.12);
             border: 1px solid rgba(46, 160, 67, 0.2);
         }
-        .ext-icon img {
+        .card-icon img {
             width: 40px;
             height: 40px;
             border-radius: 8px;
             object-fit: contain;
         }
-        .ext-name { font-weight: 700; font-size: 1rem; color: #f0f6fc; }
-        .ext-desc { font-size: 0.8rem; color: #8b949e; line-height: 1.4; }
-        .ext-card .btn { margin-top: auto; }
+        .card-name { font-weight: 700; font-size: 1rem; color: #f0f6fc; }
+        .card-desc { font-size: 0.8rem; color: #8b949e; line-height: 1.4; }
+        .card-size { font-size: 0.75rem; color: #6e7681; margin-top: -2px; }
+        .card .btn { margin-top: auto; }
 
         .compare-container { position: relative; width: 100%; max-width: 800px; margin: 30px auto; overflow: hidden; border-radius: 16px; box-shadow: 0 12px 35px rgba(0,0,0,0.5); user-select: none; }
         .compare-container img { display: block; width: 100%; height: auto; pointer-events: none; }
@@ -311,7 +318,6 @@
             height: 22px;
             filter: invert(1);
         }
-
         .action-buttons { display: flex; gap: 16px; margin-top: 20px; flex-wrap: wrap; justify-content: center; }
         .share-btn, .donate-btn { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; font-size: 0.9rem; padding: 8px 16px; border-radius: 10px; cursor: pointer; transition: all 0.2s; }
         .share-btn { background: rgba(46, 160, 67, 0.1); border: 1px solid rgba(46, 160, 67, 0.3); color: #2ea043; }
@@ -325,8 +331,6 @@
         .share-option { display: block; width: 100%; text-align: left; background: rgba(255,255,255,0.05); border: none; color: #e6edf3; padding: 12px; border-radius: 10px; margin-bottom: 8px; cursor: pointer; transition: background 0.2s; }
         .share-option:hover { background: rgba(46, 160, 67, 0.15); }
 
-        .snake-overlay { display: none; }
-
         @media (max-width: 700px) {
             body { padding: 12px; padding-top: calc(12px + env(safe-area-inset-top, 0px)); }
             .top-bar { top: 12px; left: 12px; right: 12px; flex-wrap: wrap; gap: 8px; }
@@ -339,15 +343,13 @@
             .tab-btn { width: 100%; text-align: center; padding: 14px 20px; font-size: 1rem; border-radius: 12px; border: 1px solid rgba(48, 54, 61, 0.5); }
             .tab-btn.active { background: rgba(46, 160, 67, 0.15); border-color: #2ea043; }
             .tab-btn.active::after { display: none; }
-            .tab-content { min-height: 350px; }
-            .package-cards { flex-wrap: wrap; overflow-x: auto; }
-            .package-card { flex: 1 1 250px; padding: 24px 16px; }
-            .package-icon { font-size: 2.4rem; } .package-name { font-size: 1.1rem; } .package-desc { font-size: 0.85rem; }
+            .tab-content { min-height: 300px; }
+            .cards-grid { grid-template-columns: 1fr; }
             .btn { width: 100%; text-align: center; padding: 14px 24px; }
-            .ext-cards { grid-template-columns: 1fr; }
             h2 { font-size: 1.5rem !important; }
             .action-buttons { flex-direction: column; gap: 10px; }
             .share-btn, .donate-btn { width: 100%; justify-content: center; padding: 12px 16px; }
+            .lang-dropdown-content { right: 0; left: auto; min-width: 100px; }
         }
     </style>
 </head>
@@ -359,9 +361,17 @@
         <a href="#" class="logo" id="logo">
             <img src="logo.png" alt="DenofyOptimizer" class="logo-img" loading="lazy">
         </a>
-        <div class="lang-switcher">
-            <button class="lang-btn active" data-lang="ru">RU</button>
-            <button class="lang-btn" data-lang="en">EN</button>
+        <!-- ВЫПАДАЮЩИЙ ПЕРЕКЛЮЧАТЕЛЬ ЯЗЫКОВ -->
+        <div class="lang-dropdown" id="langDropdown">
+            <button class="lang-btn" id="langToggle">
+                <span id="currentLangLabel">RU</span>
+                <span class="arrow">▾</span>
+            </button>
+            <div class="lang-dropdown-content">
+                <button data-lang="ru" class="active-lang">🇷🇺 Русский</button>
+                <button data-lang="en">🇬🇧 English</button>
+                <button data-lang="ua">🇺🇦 Українська</button>
+            </div>
         </div>
     </div>
 
@@ -378,34 +388,34 @@
             <button class="tab-btn" data-tab="about-author" data-i18n="tab_author">👤 Автор</button>
         </div>
 
-        <!-- Вкладка: Скачать пак -->
+        <!-- ===== ВКЛАДКА: Скачать пак ===== -->
         <div id="download-pack" class="tab-content active">
-            <div class="package-cards">
-                <div class="package-card">
-                    <div class="package-icon">💠</div>
-                    <div class="package-name">DenofyOptimizer</div>
-                    <div class="package-desc" data-i18n="pack1_desc">Сборка с набором твиков и скриптов</div>
-                    <div class="package-size">1,44 ГБ</div>
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-icon">💠</div>
+                    <div class="card-name">DenofyOptimizer</div>
+                    <div class="card-desc" data-i18n="pack1_desc">Сборка с набором твиков и скриптов</div>
+                    <div class="card-size">1,44 ГБ</div>
                     <a href="https://cloud.mail.ru/public/qB9H/3HmAwzxP7" class="btn btn-icon" data-i18n="download_btn">
                         💾 Скачать
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M8 11l4 4 4-4M4 21h16"/></svg>
                     </a>
                 </div>
-                <div class="package-card">
-                    <div class="package-icon">🔧</div>
-                    <div class="package-name" data-i18n="pack3_name">Проверка ПК</div>
-                    <div class="package-desc" data-i18n="pack3_desc">Инструмент диагностики и тестов</div>
-                    <div class="package-size">1.85 ГБ</div>
+                <div class="card">
+                    <div class="card-icon">🔧</div>
+                    <div class="card-name" data-i18n="pack3_name">Проверка ПК</div>
+                    <div class="card-desc" data-i18n="pack3_desc">Инструмент диагностики и тестов</div>
+                    <div class="card-size">1.85 ГБ</div>
                     <a href="https://cloud.mail.ru/public/CcQd/vrYp5P71Y" class="btn btn-icon" data-i18n="download_btn">
                         💾 Скачать
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M8 11l4 4 4-4M4 21h16"/></svg>
                     </a>
                 </div>
-                <div class="package-card">
-                    <div class="package-icon">⚔️</div>
-                    <div class="package-name" data-i18n="pack4_name">D336PvP</div>
-                    <div class="package-desc" data-i18n="pack4_desc">Сборка для pvp 1.21.11 fabric</div>
-                    <div class="package-size">218 МБ</div>
+                <div class="card">
+                    <div class="card-icon">⚔️</div>
+                    <div class="card-name" data-i18n="pack4_name">D336PvP</div>
+                    <div class="card-desc" data-i18n="pack4_desc">Сборка для pvp 1.21.11 fabric</div>
+                    <div class="card-size">218 МБ</div>
                     <a href="https://cloud.mail.ru/public/q4hb/DzTd8TFUf" class="btn btn-icon" data-i18n="download_btn">
                         💾 Скачать
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M8 11l4 4 4-4M4 21h16"/></svg>
@@ -418,14 +428,14 @@
             </div>
         </div>
 
-        <!-- Вкладка: Расширения -->
+        <!-- ===== ВКЛАДКА: Расширения ===== -->
         <div id="extensions" class="tab-content">
             <h2 style="text-align:center; margin-bottom:10px; font-size:1.8rem;" data-i18n="ext_title">🧩 Расширения для Chrome</h2>
             <p style="text-align:center; color:#8b949e; margin-bottom:20px;" data-i18n="ext_subtitle">Полезные расширения для работы и развлечений</p>
-            <div class="ext-cards">
+            <div class="cards-grid">
                 <!-- 1. Faceit EGO Enhancer -->
-                <div class="ext-card">
-                    <div class="ext-icon">
+                <div class="card">
+                    <div class="card-icon">
                         <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#2ea043" stroke-width="1.5">
                             <rect x="2" y="2" width="20" height="20" rx="4" stroke="currentColor"/>
                             <path d="M8 7h8M8 12h6M8 17h4" stroke="currentColor" stroke-linecap="round"/>
@@ -434,49 +444,46 @@
                             <circle cx="17" cy="17" r="1.5" fill="#2ea043" stroke="none"/>
                         </svg>
                     </div>
-                    <div class="ext-name">Faceit EGO Enhancer</div>
-                    <div class="ext-desc">Профессиональный набор инструментов для CS2 на FACEIT</div>
-                    <a href="https://chromewebstore.google.com/detail/faceit-ego-enhancer/iabcbcabiglccadhckmpaddefafgbiem" target="_blank" class="btn btn-icon">
+                    <div class="card-name" data-i18n="ext1_name">Faceit EGO Enhancer</div>
+                    <div class="card-desc" data-i18n="ext1_desc">Профессиональный набор инструментов для CS2 на FACEIT</div>
+                    <a href="https://chromewebstore.google.com/detail/faceit-ego-enhancer/iabcbcabiglccadhckmpaddefafgbiem" target="_blank" class="btn btn-icon" data-i18n="install_btn">
                         🧩 Установить
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M8 11l4 4 4-4M4 21h16"/></svg>
                     </a>
                 </div>
-
                 <!-- 2. FACEIT FORECAST -->
-                <div class="ext-card">
-                    <div class="ext-icon">
+                <div class="card">
+                    <div class="card-icon">
                         <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#2ea043" stroke-width="1.5">
                             <path d="M3 12h3l2-4 2 8 2-6 2 4 3-6 2 4h3" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
                             <rect x="2" y="2" width="20" height="20" rx="4" stroke="currentColor"/>
                         </svg>
                     </div>
-                    <div class="ext-name">FACEIT FORECAST</div>
-                    <div class="ext-desc">Детальная статистика для матчей и игроков на Faceit</div>
-                    <a href="https://chromewebstore.google.com/detail/faceit-forecast/mpkkcddegpblmobincjkbpgfcbejjbcp" target="_blank" class="btn btn-icon">
+                    <div class="card-name" data-i18n="ext2_name">FACEIT FORECAST</div>
+                    <div class="card-desc" data-i18n="ext2_desc">Детальная статистика для матчей и игроков на Faceit</div>
+                    <a href="https://chromewebstore.google.com/detail/faceit-forecast/mpkkcddegpblmobincjkbpgfcbejjbcp" target="_blank" class="btn btn-icon" data-i18n="install_btn">
                         🧩 Установить
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M8 11l4 4 4-4M4 21h16"/></svg>
                     </a>
                 </div>
-
-                <!-- 3. ЮБуст - VPN для YouTube -->
-                <div class="ext-card">
-                    <div class="ext-icon">
+                <!-- 3. ЮБуст -->
+                <div class="card">
+                    <div class="card-icon">
                         <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#2ea043" stroke-width="1.5">
                             <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z" stroke="currentColor"/>
                             <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="#2ea043" stroke="none"/>
                         </svg>
                     </div>
-                    <div class="ext-name">ЮБуст — VPN для YouTube</div>
-                    <div class="ext-desc">Обход блокировки YouTube, ускоритель без VPN</div>
-                    <a href="https://chromewebstore.google.com/detail/%D1%8E%D0%B1%D1%83%D1%81%D1%82-vpn-%D0%B4%D0%BB%D1%8F-youtube-%D0%BE%D0%B1%D1%85/jddgbeighonaipjikdnfdpiefhoomlae" target="_blank" class="btn btn-icon">
+                    <div class="card-name" data-i18n="ext3_name">ЮБуст — VPN для YouTube</div>
+                    <div class="card-desc" data-i18n="ext3_desc">Обход блокировки YouTube, ускоритель без VPN</div>
+                    <a href="https://chromewebstore.google.com/detail/%D1%8E%D0%B1%D1%83%D1%81%D1%82-vpn-%D0%B4%D0%BB%D1%8F-youtube-%D0%BE%D0%B1%D1%85/jddgbeighonaipjikdnfdpiefhoomlae" target="_blank" class="btn btn-icon" data-i18n="install_btn">
                         🧩 Установить
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M8 11l4 4 4-4M4 21h16"/></svg>
                     </a>
                 </div>
-
-                <!-- 4. ReYohoho Twitch Proxy -->
-                <div class="ext-card">
-                    <div class="ext-icon">
+                <!-- 4. TurboStream (НОВОЕ) -->
+                <div class="card">
+                    <div class="card-icon">
                         <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#2ea043" stroke-width="1.5">
                             <path d="M4 4l4-2h10l4 2v12l-4 2-10 2-4-2V4z" stroke="currentColor"/>
                             <path d="M8 8h8M8 12h6M8 16h4" stroke="currentColor" stroke-linecap="round"/>
@@ -485,25 +492,24 @@
                             <circle cx="18" cy="16" r="1.5" fill="#2ea043" stroke="none"/>
                         </svg>
                     </div>
-                    <div class="ext-name">ReYohoho Twitch Proxy</div>
-                    <div class="ext-desc">Прокси для Twitch с поддержкой 1080p/1440p (РФ)</div>
-                    <a href="https://chromewebstore.google.com/detail/reyohoho-twitch-proxy-108/ohgphcndclpcmbglhldmnagagdbmkoef" target="_blank" class="btn btn-icon">
+                    <div class="card-name" data-i18n="ext4_name">TurboStream | Вернуть 1080/1440</div>
+                    <div class="card-desc" data-i18n="ext4_desc">Возвращает 1080p/1440p на Twitch для зрителей из РФ</div>
+                    <a href="https://chromewebstore.google.com/detail/turboStream-вернуть-качество-для-twitch-1080р-и-1440р/glbkjheoolikhdollknciblfgncbpcnf" target="_blank" class="btn btn-icon" data-i18n="install_btn">
                         🧩 Установить
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M8 11l4 4 4-4M4 21h16"/></svg>
                     </a>
                 </div>
-
                 <!-- 5. Browsec VPN -->
-                <div class="ext-card">
-                    <div class="ext-icon">
+                <div class="card">
+                    <div class="card-icon">
                         <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#2ea043" stroke-width="1.5">
                             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor"/>
                             <path d="M9 12l2 2 4-4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </div>
-                    <div class="ext-name">Browsec VPN — Free VPN</div>
-                    <div class="ext-desc">Бесплатный VPN для Chrome, защита IP и обход блокировок</div>
-                    <a href="https://chromewebstore.google.com/detail/browsec-vpn-free-vpn-for/omghfjlpggmjjaagoclmmobgdodcjboh" target="_blank" class="btn btn-icon">
+                    <div class="card-name" data-i18n="ext5_name">Browsec VPN — Free VPN</div>
+                    <div class="card-desc" data-i18n="ext5_desc">Бесплатный VPN для Chrome, защита IP и обход блокировок</div>
+                    <a href="https://chromewebstore.google.com/detail/browsec-vpn-free-vpn-for/omghfjlpggmjjaagoclmmobgdodcjboh" target="_blank" class="btn btn-icon" data-i18n="install_btn">
                         🧩 Установить
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M8 11l4 4 4-4M4 21h16"/></svg>
                     </a>
@@ -515,7 +521,7 @@
             </div>
         </div>
 
-        <!-- Вкладка: Тесты -->
+        <!-- ===== ВКЛАДКА: Тесты ===== -->
         <div id="tests" class="tab-content" style="text-align: center;">
             <h2 style="margin-bottom: 10px; font-size: 1.8rem;" data-i18n="tests_title">⚡ До и после оптимизации</h2>
             <p style="color: #8b949e; margin-bottom: 20px; font-size: 1rem;" data-i18n="tests_subtitle">Двигайте ползунок, чтобы увидеть разницу</p>
@@ -532,7 +538,7 @@
             </div>
         </div>
 
-        <!-- Вкладка: Автор -->
+        <!-- ===== ВКЛАДКА: Автор ===== -->
         <div id="about-author" class="tab-content" style="text-align: center;">
             <h2 style="margin-bottom: 15px; font-size: 1.8rem;" data-i18n="author_title">👤 Об авторе</h2>
             <p style="color: #8b949e; margin-bottom: 15px; font-size: 1rem;" data-i18n="author_desc">Связь со мной на разных площадках</p>
@@ -551,6 +557,7 @@
         </div>
     </div>
 
+    <!-- ===== МОДАЛЬНОЕ ОКНО ===== -->
     <div class="share-modal" id="shareModal">
         <div class="share-dialog">
             <h3 style="margin-bottom:16px;color:#f0f6fc;" data-i18n="share_modal_title">Поделиться</h3>
@@ -562,16 +569,8 @@
         </div>
     </div>
 
-    <div class="snake-overlay" id="snakeOverlay">
-        <canvas id="snakeCanvas" width="400" height="400"></canvas>
-        <div>
-            <button class="snake-restart" onclick="restartSnake()" data-i18n="restart">🔄 Заново</button>
-            <button class="snake-close" onclick="closeSnake()" data-i18n="close_game">Закрыть</button>
-        </div>
-    </div>
-
     <script>
-        // Частицы на фоне
+        // ===== ЧАСТИЦЫ =====
         (function() {
             const canvas = document.getElementById('particlesCanvas');
             const ctx = canvas.getContext('2d');
@@ -605,9 +604,9 @@
             draw();
         })();
 
+        // ===== СЛАЙДЕР =====
         window.addEventListener('DOMContentLoaded', () => {
             document.body.classList.add('loaded');
-
             const container = document.getElementById('compareContainer');
             const slider = document.getElementById('compareSlider');
             const imgBefore = document.getElementById('imgBefore');
@@ -642,6 +641,7 @@
             }
         });
 
+        // ===== ПЕРЕВОДЫ (RU, EN, UA) =====
         const translations = {
             ru: {
                 tab_download: '📦 Скачать пак',
@@ -657,6 +657,17 @@
                 download_btn: '💾 Скачать',
                 ext_title: '🧩 Расширения для Chrome',
                 ext_subtitle: 'Полезные расширения для работы и развлечений',
+                ext1_name: 'Faceit EGO Enhancer',
+                ext1_desc: 'Профессиональный набор инструментов для CS2 на FACEIT',
+                ext2_name: 'FACEIT FORECAST',
+                ext2_desc: 'Детальная статистика для матчей и игроков на Faceit',
+                ext3_name: 'ЮБуст — VPN для YouTube',
+                ext3_desc: 'Обход блокировки YouTube, ускоритель без VPN',
+                ext4_name: 'TurboStream | Вернуть 1080/1440',
+                ext4_desc: 'Возвращает 1080p/1440p на Twitch для зрителей из РФ',
+                ext5_name: 'Browsec VPN — Free VPN',
+                ext5_desc: 'Бесплатный VPN для Chrome, защита IP и обход блокировок',
+                install_btn: '🧩 Установить',
                 author_title: '👤 Об авторе',
                 author_desc: 'Связь со мной на разных площадках',
                 support: 'Поддержать',
@@ -669,9 +680,7 @@
                 copy_link: '📋 Копировать ссылку',
                 share_vk: '💬 Поделиться ВКонтакте',
                 share_tg: '📢 Поделиться в Telegram',
-                close: 'Закрыть',
-                restart: '🔄 Заново',
-                close_game: 'Закрыть'
+                close: 'Закрыть'
             },
             en: {
                 tab_download: '📦 Download Pack',
@@ -687,6 +696,17 @@
                 download_btn: '💾 Download',
                 ext_title: '🧩 Chrome Extensions',
                 ext_subtitle: 'Useful extensions for work and entertainment',
+                ext1_name: 'Faceit EGO Enhancer',
+                ext1_desc: 'Professional toolkit for CS2 on FACEIT',
+                ext2_name: 'FACEIT FORECAST',
+                ext2_desc: 'Detailed match and player statistics on Faceit',
+                ext3_name: 'YuBoost — VPN for YouTube',
+                ext3_desc: 'Bypass YouTube blocking, accelerator without VPN',
+                ext4_name: 'TurboStream | Restore 1080/1440',
+                ext4_desc: 'Restores 1080p/1440p on Twitch for viewers from Russia',
+                ext5_name: 'Browsec VPN — Free VPN',
+                ext5_desc: 'Free VPN for Chrome, IP protection and unblocking',
+                install_btn: '🧩 Install',
                 author_title: '👤 About the Author',
                 author_desc: 'Connect with me on various platforms',
                 support: 'Support',
@@ -699,25 +719,102 @@
                 copy_link: '📋 Copy link',
                 share_vk: '💬 Share on VK',
                 share_tg: '📢 Share on Telegram',
-                close: 'Close',
-                restart: '🔄 Restart',
-                close_game: 'Close'
+                close: 'Close'
+            },
+            ua: {
+                tab_download: '📦 Завантажити пак',
+                tab_extensions: '🧩 Розширення',
+                tab_tests: '⚡ Тести',
+                tab_author: '👤 Автор',
+                optimization_desc: 'Оптимізація Windows 11',
+                pack1_desc: 'Збірка з набором твіків та скриптів',
+                pack3_name: 'Перевірка ПК',
+                pack3_desc: 'Інструмент діагностики та тестів',
+                pack4_name: 'D336PvP',
+                pack4_desc: 'Збірка для pvp 1.21.11 fabric',
+                download_btn: '💾 Завантажити',
+                ext_title: '🧩 Розширення для Chrome',
+                ext_subtitle: 'Корисні розширення для роботи та розваг',
+                ext1_name: 'Faceit EGO Enhancer',
+                ext1_desc: 'Професійний набір інструментів для CS2 на FACEIT',
+                ext2_name: 'FACEIT FORECAST',
+                ext2_desc: 'Детальна статистика для матчів та гравців на Faceit',
+                ext3_name: 'ЮБуст — VPN для YouTube',
+                ext3_desc: 'Обхід блокування YouTube, прискорювач без VPN',
+                ext4_name: 'TurboStream | Повернути 1080/1440',
+                ext4_desc: 'Повертає 1080p/1440p на Twitch для глядачів з РФ',
+                ext5_name: 'Browsec VPN — Free VPN',
+                ext5_desc: 'Безкоштовний VPN для Chrome, захист IP та обхід блокувань',
+                install_btn: '🧩 Встановити',
+                author_title: '👤 Про автора',
+                author_desc: "Зв'язок зі мною на різних платформах",
+                support: 'Підтримати',
+                share_btn: 'Поділитися',
+                tests_title: '⚡ До та після оптимізації',
+                tests_subtitle: 'Пересувайте повзунок, щоб побачити різницю',
+                before_label: 'До',
+                after_label: 'Після',
+                share_modal_title: 'Поділитися',
+                copy_link: '📋 Копіювати посилання',
+                share_vk: '💬 Поділитися ВКонтакте',
+                share_tg: '📢 Поділитися в Telegram',
+                close: 'Закрити'
             }
         };
 
+        // ===== ВЫПАДАЮЩИЙ СПИСОК ЯЗЫКОВ =====
+        const langDropdown = document.getElementById('langDropdown');
+        const langToggle = document.getElementById('langToggle');
+        const currentLangLabel = document.getElementById('currentLangLabel');
+        const langOptions = langDropdown.querySelectorAll('.lang-dropdown-content button');
+
+        // Открытие/закрытие дропдауна
+        langToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            langDropdown.classList.toggle('active');
+        });
+
+        // Закрытие при клике вне
+        document.addEventListener('click', () => {
+            langDropdown.classList.remove('active');
+        });
+
+        // Выбор языка
+        langOptions.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const lang = btn.getAttribute('data-lang');
+                applyLanguage(lang);
+                langDropdown.classList.remove('active');
+            });
+        });
+
         function applyLanguage(lang) {
+            // Обновляем все тексты
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
-                if (translations[lang] && translations[lang][key]) el.textContent = translations[lang][key];
+                if (translations[lang] && translations[lang][key]) {
+                    el.textContent = translations[lang][key];
+                }
             });
-            document.querySelectorAll('.lang-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+
+            // Обновляем активный язык в кнопке
+            const langMap = { ru: 'RU', en: 'EN', ua: 'UA' };
+            currentLangLabel.textContent = langMap[lang] || 'RU';
+
+            // Обновляем активный класс в списке
+            langOptions.forEach(btn => {
+                btn.classList.toggle('active-lang', btn.getAttribute('data-lang') === lang);
             });
+
             localStorage.setItem('denofy-lang', lang);
         }
-        document.querySelectorAll('.lang-btn').forEach(btn => btn.addEventListener('click', () => applyLanguage(btn.getAttribute('data-lang'))));
-        applyLanguage(localStorage.getItem('denofy-lang') || 'ru');
 
+        // Загружаем сохранённый язык или русский по умолчанию
+        const savedLang = localStorage.getItem('denofy-lang') || 'ru';
+        applyLanguage(savedLang);
+
+        // ===== ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК =====
         function switchTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
@@ -733,6 +830,7 @@
             switchTab(btn.getAttribute('data-tab'));
         });
 
+        // ===== МОДАЛЬНОЕ ОКНО "ПОДЕЛИТЬСЯ" =====
         const shareUrl = location.href;
         function openShareModal() { document.getElementById('shareUrl').value = shareUrl; document.getElementById('shareModal').classList.add('active'); }
         function closeShareModal() { document.getElementById('shareModal').classList.remove('active'); }
@@ -742,7 +840,7 @@
         document.getElementById('shareVkBtn').addEventListener('click', () => { window.open(`https://vk.com/share.php?url=${encodeURIComponent(shareUrl)}`); });
         document.getElementById('shareTgBtn').addEventListener('click', () => { window.open(`https://t.me/share/url?url=${encodeURIComponent(shareUrl)}`); });
 
-        // Перезагрузка по клику на логотип
+        // ===== ЛОГОТИП: ПЕРЕЗАГРУЗКА =====
         document.getElementById('logo').addEventListener('click', function(e) {
             e.preventDefault();
             location.reload();
