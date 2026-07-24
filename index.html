@@ -11,7 +11,6 @@
     <link rel="icon" href="logo3.ico" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Hack&display=swap" rel="stylesheet">
     <style>
-        /* Все стили без изменений, кроме social-icons — возвращаем старые размеры и стиль */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html, body { height: 100%; overflow: hidden; }
         html { background: #0b0f14; }
@@ -393,7 +392,7 @@
         }
         .label-before { left: 14px; } .label-after { right: 14px; }
 
-        /* Стили для социальных иконок (старые, с картинками) */
+        /* Возвращаем старые стили для social-icons */
         .social-icons {
             display: flex;
             gap: 12px;
@@ -405,9 +404,9 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 46px;
-            height: 46px;
-            border-radius: 12px;
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
             background: rgba(26,31,38,0.8);
             border: 1px solid #2ea043;
             transition: 0.2s;
@@ -418,8 +417,8 @@
             box-shadow: 0 4px 12px rgba(46,160,67,0.3);
         }
         .social-icons img {
-            width: 24px;
-            height: 24px;
+            width: 22px;
+            height: 22px;
             filter: invert(1);
         }
 
@@ -714,7 +713,7 @@
             </div>
         </div>
 
-        <!-- Вкладка: Автор со старыми иконками -->
+        <!-- Вкладка: Автор с возвращёнными старыми иконками -->
         <div id="about-author" class="tab-content tab-content-center">
             <h2 style="margin-bottom: 6px; font-size: 1.6rem;" data-i18n="author_title">👤 Об авторе</h2>
             <p style="color: #8b949e; margin-bottom: 14px; font-size: 1rem;" data-i18n="author_desc">Связь со мной на разных площадках</p>
@@ -745,7 +744,6 @@
     </div>
 
     <script>
-        // ... весь JavaScript без изменений ...
         (function() {
             const canvas = document.getElementById('particlesCanvas');
             const ctx = canvas.getContext('2d');
