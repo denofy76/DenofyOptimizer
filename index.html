@@ -4,21 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#0b0f14">
-    
-    <!-- Мета-теги для SEO -->
     <title>DenofyOptimizer — оптимизация Windows 11</title>
     <meta name="description" content="DenofyOptimizer — готовый пак для оптимизации Windows 11. Скачать сборку твиков и скриптов для повышения производительности ПК.">
     <meta name="keywords" content="DenofyOptimizer, оптимизация Windows 11, сборка твиков, Denofy, denofy76">
     <link rel="canonical" href="https://denofy76.github.io/DenofyOptimizer/">
-    
     <link rel="icon" href="logo3.ico" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Hack&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html, body {
-            height: 100%;
-            overflow: hidden;
-        }
+        html, body { height: 100%; overflow: hidden; }
         html { background: #0b0f14; }
 
         body {
@@ -35,12 +29,11 @@
             padding: 20px;
             padding-top: calc(20px + env(safe-area-inset-top, 0px));
             position: relative;
-            font-size: 18px; /* Увеличен базовый размер */
+            font-size: 18px;
             line-height: 1.5;
             overflow: hidden;
         }
 
-        /* Убираем скроллбар */
         ::-webkit-scrollbar { display: none; }
         * { scrollbar-width: none; }
 
@@ -261,7 +254,6 @@
         }
         .btn-icon:hover svg { transform: translateX(4px); }
 
-        /* Карточки — единый стиль для всех вкладок */
         .cards-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -345,7 +337,6 @@
         .donate-btn { background: rgba(255, 215, 0, 0.1); border: 1px solid rgba(255, 215, 0, 0.3); color: #ffd700; }
         .donate-btn:hover { background: rgba(255, 215, 0, 0.2); box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4); }
 
-        /* Сравнение */
         .compare-container {
             position: relative;
             width: 100%;
@@ -401,10 +392,9 @@
         }
         .label-before { left: 14px; } .label-after { right: 14px; }
 
-        /* Социальные иконки */
         .social-icons {
             display: flex;
-            gap: 12px;
+            gap: 14px;
             justify-content: center;
             flex-wrap: wrap;
             margin-top: 12px;
@@ -413,22 +403,32 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 46px;
-            height: 46px;
-            border-radius: 12px;
-            background: rgba(26,31,38,0.8);
-            border: 1px solid #2ea043;
-            transition: 0.2s;
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            background: rgba(46, 160, 67, 0.08);
+            border: 1px solid rgba(46, 160, 67, 0.2);
+            transition: all 0.25s ease;
+            text-decoration: none;
         }
         .social-icons a:hover {
-            background: #2ea043;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(46,160,67,0.3);
+            background: rgba(46, 160, 67, 0.2);
+            border-color: #2ea043;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(46, 160, 67, 0.3);
         }
-        .social-icons img {
-            width: 24px;
-            height: 24px;
-            filter: invert(1);
+        .social-icons svg {
+            width: 28px;
+            height: 28px;
+            stroke: #2ea043;
+            stroke-width: 1.8;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            transition: stroke 0.2s;
+        }
+        .social-icons a:hover svg {
+            stroke: #6fdd8c;
         }
 
         .share-modal {
@@ -501,8 +501,8 @@
             .btn { font-size: 0.85rem; padding: 8px 18px; }
             .share-btn, .donate-btn { font-size: 0.8rem; padding: 6px 14px; }
             .compare-container { max-width: 100%; }
-            .social-icons a { width: 40px; height: 40px; }
-            .social-icons img { width: 20px; height: 20px; }
+            .social-icons a { width: 48px; height: 48px; }
+            .social-icons svg { width: 24px; height: 24px; }
         }
         @media (max-width: 520px) {
             body { font-size: 14px; padding: 8px; }
@@ -515,6 +515,8 @@
             .card-icon { width: 44px; height: 44px; }
             .card-icon svg { width: 24px; height: 24px; }
             .lang-dropdown-btn { font-size: 0.75rem; padding: 8px 12px; min-width: 60px; }
+            .social-icons a { width: 42px; height: 42px; }
+            .social-icons svg { width: 20px; height: 20px; }
         }
     </style>
 </head>
@@ -555,7 +557,6 @@
         <!-- Вкладка: Скачать пак -->
         <div id="download-pack" class="tab-content active">
             <div class="cards-grid">
-                <!-- DenofyOptimizer -->
                 <div class="card">
                     <div class="card-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="#2ea043" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -571,15 +572,19 @@
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M8 11l4 4 4-4M4 21h16"/></svg>
                     </a>
                 </div>
-                <!-- Проверка ПК -->
                 <div class="card">
                     <div class="card-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="#2ea043" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="2" y="3" width="20" height="14" rx="2"/>
-                            <line x1="8" y1="21" x2="16" y2="21"/>
-                            <line x1="12" y1="17" x2="12" y2="21"/>
-                            <circle cx="12" cy="10" r="2"/>
-                            <path d="M6 8l2 2M18 8l-2 2M6 14l2-2M18 14l-2-2"/>
+                            <rect x="3" y="4" width="18" height="12" rx="2" />
+                            <path d="M7 20h10" />
+                            <path d="M9 16v4" />
+                            <path d="M15 16v4" />
+                            <rect x="10" y="18" width="4" height="2" fill="#2ea043" stroke="none" />
+                            <path d="M3 8h18" stroke="#2ea043" stroke-width="1.5" opacity="0.4"/>
+                            <path d="M5 6h14" stroke="#2ea043" stroke-width="1" opacity="0.2"/>
+                            <line x1="8" y1="4" x2="16" y2="4" stroke-width="1.5" />
+                            <line x1="12" y1="4" x2="12" y2="2" stroke-width="1.5" />
+                            <circle cx="12" cy="2" r="1.5" fill="#2ea043" stroke="none" />
                         </svg>
                     </div>
                     <div class="card-name" data-i18n="pack3_name">Проверка ПК</div>
@@ -590,7 +595,6 @@
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M8 11l4 4 4-4M4 21h16"/></svg>
                     </a>
                 </div>
-                <!-- D336PvP -->
                 <div class="card">
                     <div class="card-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="#2ea043" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -618,7 +622,6 @@
         <!-- Вкладка: Расширения -->
         <div id="extensions" class="tab-content">
             <div class="cards-grid">
-                <!-- 1. Faceit EGO Enhancer -->
                 <div class="card">
                     <div class="card-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="#2ea043" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -636,7 +639,6 @@
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M8 11l4 4 4-4M4 21h16"/></svg>
                     </a>
                 </div>
-                <!-- 2. FACEIT FORECAST -->
                 <div class="card">
                     <div class="card-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="#2ea043" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -651,7 +653,6 @@
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M8 11l4 4 4-4M4 21h16"/></svg>
                     </a>
                 </div>
-                <!-- 3. ЮБуст -->
                 <div class="card">
                     <div class="card-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="#2ea043" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -666,7 +667,6 @@
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M8 11l4 4 4-4M4 21h16"/></svg>
                     </a>
                 </div>
-                <!-- 4. Твич 1080 и 1440 -->
                 <div class="card">
                     <div class="card-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="#2ea043" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -684,7 +684,6 @@
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M8 11l4 4 4-4M4 21h16"/></svg>
                     </a>
                 </div>
-                <!-- 5. Browsec VPN -->
                 <div class="card">
                     <div class="card-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="#2ea043" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -723,17 +722,61 @@
             </div>
         </div>
 
-        <!-- Вкладка: Автор -->
+        <!-- Вкладка: Автор с новыми иконками -->
         <div id="about-author" class="tab-content tab-content-center">
             <h2 style="margin-bottom: 6px; font-size: 1.6rem;" data-i18n="author_title">👤 Об авторе</h2>
-            <p style="color: #8b949e; margin-bottom: 12px; font-size: 1rem;" data-i18n="author_desc">Связь со мной на разных площадках</p>
+            <p style="color: #8b949e; margin-bottom: 14px; font-size: 1rem;" data-i18n="author_desc">Связь со мной на разных площадках</p>
             <div class="social-icons">
-                <a href="https://github.com/denofy76" target="_blank"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/github.svg" alt="GitHub"></a>
-                <a href="https://vk.com/denofy" target="_blank"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/vk.svg" alt="VK"></a>
-                <a href="https://t.me/denofyoptimizer" target="_blank"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/telegram.svg" alt="Telegram"></a>
-                <a href="https://www.twitch.tv/denofy336/about" target="_blank"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/twitch.svg" alt="Twitch"></a>
-                <a href="https://steamcommunity.com/profiles/76561199140272909/" target="_blank"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/steam.svg" alt="Steam"></a>
-                <a href="https://www.tiktok.com/@denofy" target="_blank"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/tiktok.svg" alt="TikTok"></a>
+                <!-- GitHub -->
+                <a href="https://github.com/denofy76" target="_blank" aria-label="GitHub">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#2ea043" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.03-2.682-.103-.253-.446-1.27.098-2.646 0 0 .84-.269 2.75 1.025.8-.223 1.65-.334 2.5-.334.85 0 1.7.111 2.5.334 1.91-1.294 2.75-1.025 2.75-1.025.544 1.376.201 2.393.099 2.646.64.698 1.03 1.591 1.03 2.682 0 3.841-2.337 4.687-4.565 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.161 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
+                    </svg>
+                </a>
+                <!-- VK -->
+                <a href="https://vk.com/denofy" target="_blank" aria-label="VK">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#2ea043" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 4h16v16H4z" />
+                        <path d="M8 9h8M8 12h6M8 15h4" />
+                        <circle cx="18" cy="9" r="1" fill="#2ea043" stroke="none" />
+                        <circle cx="18" cy="12" r="1" fill="#2ea043" stroke="none" />
+                        <circle cx="18" cy="15" r="1" fill="#2ea043" stroke="none" />
+                    </svg>
+                </a>
+                <!-- Telegram -->
+                <a href="https://t.me/denofyoptimizer" target="_blank" aria-label="Telegram">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#2ea043" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M2 12h4l2-4 2 8 2-6 2 4 3-6 2 4h3" />
+                        <rect x="2" y="2" width="20" height="20" rx="4" />
+                    </svg>
+                </a>
+                <!-- Twitch -->
+                <a href="https://www.twitch.tv/denofy336/about" target="_blank" aria-label="Twitch">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#2ea043" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 4l4-2h10l4 2v12l-4 2-10 2-4-2V4z" />
+                        <path d="M8 8h8M8 12h6M8 16h4" />
+                        <circle cx="18" cy="8" r="1.5" fill="#2ea043" stroke="none" />
+                        <circle cx="18" cy="12" r="1.5" fill="#2ea043" stroke="none" />
+                        <circle cx="18" cy="16" r="1.5" fill="#2ea043" stroke="none" />
+                    </svg>
+                </a>
+                <!-- Steam -->
+                <a href="https://steamcommunity.com/profiles/76561199140272909/" target="_blank" aria-label="Steam">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#2ea043" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="9" />
+                        <path d="M7.5 13.5l3 3" />
+                        <circle cx="6" cy="6" r="1.5" fill="#2ea043" stroke="none" />
+                        <circle cx="18" cy="18" r="1.5" fill="#2ea043" stroke="none" />
+                    </svg>
+                </a>
+                <!-- TikTok -->
+                <a href="https://www.tiktok.com/@denofy" target="_blank" aria-label="TikTok">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#2ea043" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 3v12a3 3 0 11-3-3h2" />
+                        <path d="M16 8a4 4 0 01-4-4" />
+                        <rect x="2" y="2" width="20" height="20" rx="4" />
+                    </svg>
+                </a>
             </div>
             <div class="action-buttons">
                 <button class="share-btn" id="shareBtn4"><span>📤</span> <span data-i18n="share_btn">Поделиться</span></button>
@@ -742,7 +785,6 @@
         </div>
     </div>
 
-    <!-- Модалка шаринга -->
     <div class="share-modal" id="shareModal">
         <div class="share-dialog">
             <h3 style="margin-bottom:14px;color:#f0f6fc;font-size:1.2rem;" data-i18n="share_modal_title">Поделиться</h3>
@@ -755,7 +797,6 @@
     </div>
 
     <script>
-        // Частицы
         (function() {
             const canvas = document.getElementById('particlesCanvas');
             const ctx = canvas.getContext('2d');
@@ -826,7 +867,6 @@
             }
         });
 
-        // ===== ПЕРЕВОДЫ (3 языка) =====
         const translations = {
             ru: {
                 tab_download: '📦 Скачать пак',
@@ -941,7 +981,6 @@
             }
         };
 
-        // ===== ВЫПАДАЮЩИЙ СПИСОК ЯЗЫКОВ =====
         const dropdownBtn = document.getElementById('langDropdownBtn');
         const dropdownMenu = document.getElementById('langDropdownMenu');
         const currentLangLabel = document.getElementById('currentLangLabel');
@@ -989,7 +1028,6 @@
 
         applyLanguage(currentLang);
 
-        // Переключение вкладок
         function switchTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
@@ -1004,7 +1042,6 @@
             switchTab(btn.getAttribute('data-tab'));
         });
 
-        // Шаринг
         const shareUrl = location.href;
         function openShareModal() { document.getElementById('shareUrl').value = shareUrl; document.getElementById('shareModal').classList.add('active'); }
         function closeShareModal() { document.getElementById('shareModal').classList.remove('active'); }
@@ -1014,7 +1051,6 @@
         document.getElementById('shareVkBtn').addEventListener('click', () => { window.open(`https://vk.com/share.php?url=${encodeURIComponent(shareUrl)}`); });
         document.getElementById('shareTgBtn').addEventListener('click', () => { window.open(`https://t.me/share/url?url=${encodeURIComponent(shareUrl)}`); });
 
-        // Логотип — перезагрузка
         document.getElementById('logo').addEventListener('click', function(e) {
             e.preventDefault();
             location.reload();
