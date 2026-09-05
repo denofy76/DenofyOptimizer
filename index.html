@@ -313,6 +313,31 @@
         }
         .card .btn { margin-top: auto; }
 
+        /* Стили для выбора версий */
+        .version-options {
+            width: 100%;
+            margin: 6px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .version-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            font-size: 0.85rem;
+        }
+        .version-item:last-child { border-bottom: none; }
+        .version-item .ver-name { font-weight: 500; color: #e6edf3; }
+        .version-item .ver-size { color: #8b949e; }
+        .version-item .btn {
+            padding: 4px 14px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+        }
+
         .action-buttons {
             display: flex;
             gap: 14px;
@@ -392,7 +417,6 @@
         }
         .label-before { left: 14px; } .label-after { right: 14px; }
 
-        /* Возвращаем старые стили для social-icons */
         .social-icons {
             display: flex;
             gap: 12px;
@@ -494,6 +518,8 @@
             .compare-container { max-width: 100%; }
             .social-icons a { width: 40px; height: 40px; }
             .social-icons img { width: 20px; height: 20px; }
+            .version-item { font-size: 0.75rem; flex-wrap: wrap; gap: 4px; }
+            .version-item .btn { font-size: 0.7rem; padding: 3px 10px; }
         }
         @media (max-width: 520px) {
             body { font-size: 14px; padding: 8px; }
@@ -548,6 +574,7 @@
         <!-- Вкладка: Скачать пак -->
         <div id="download-pack" class="tab-content active">
             <div class="cards-grid">
+                <!-- Карточка DenofyOptimizer с выбором версий -->
                 <div class="card">
                     <div class="card-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="#2ea043" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -557,12 +584,21 @@
                     </div>
                     <div class="card-name">DenofyOptimizer</div>
                     <div class="card-desc" data-i18n="pack1_desc">Сборка с набором твиков и скриптов</div>
-                    <div class="card-size">1,44 ГБ</div>
-                    <a href="https://cloud.mail.ru/public/qB9H/3HmAwzxP7" class="btn btn-icon" data-i18n="download_btn">
-                        💾 Скачать
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M8 11l4 4 4-4M4 21h16"/></svg>
-                    </a>
+                    <div class="version-options">
+                        <div class="version-item">
+                            <span class="ver-name" data-i18n="version_2_1">Версия 2.1</span>
+                            <span class="ver-size">1,44 ГБ</span>
+                            <a href="https://cloud.mail.ru/public/qB9H/3HmAwzxP7" class="btn btn-icon" data-i18n="download">Скачать</a>
+                        </div>
+                        <div class="version-item">
+                            <span class="ver-name" data-i18n="version_2_2">Версия 2.2</span>
+                            <span class="ver-size">1,91 ГБ</span>
+                            <a href="https://1drv.ms/u/c/876d3f5265e2f8f5/IQCOe5olksMCRIY-qyaigx3vAUpiJ9XSNI3PK_m0nT9i9nA?e=2Yuja1" class="btn btn-icon" data-i18n="download">Скачать</a>
+                        </div>
+                    </div>
                 </div>
+
+                <!-- Вторая карточка (Проверка ПК) -->
                 <div class="card">
                     <div class="card-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="#2ea043" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -586,6 +622,8 @@
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M8 11l4 4 4-4M4 21h16"/></svg>
                     </a>
                 </div>
+
+                <!-- Третья карточка (D336PvP) -->
                 <div class="card">
                     <div class="card-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="#2ea043" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -713,7 +751,7 @@
             </div>
         </div>
 
-        <!-- Вкладка: Автор с возвращёнными старыми иконками -->
+        <!-- Вкладка: Автор -->
         <div id="about-author" class="tab-content tab-content-center">
             <h2 style="margin-bottom: 6px; font-size: 1.6rem;" data-i18n="author_title">👤 Об авторе</h2>
             <p style="color: #8b949e; margin-bottom: 14px; font-size: 1rem;" data-i18n="author_desc">Связь со мной на разных площадках</p>
@@ -850,7 +888,11 @@
                 copy_link: '📋 Копировать ссылку',
                 share_vk: '💬 Поделиться ВКонтакте',
                 share_tg: '📢 Поделиться в Telegram',
-                close: 'Закрыть'
+                close: 'Закрыть',
+                // Новые ключи для выбора версий
+                version_2_1: 'Версия 2.1',
+                version_2_2: 'Версия 2.2',
+                download: 'Скачать'
             },
             en: {
                 tab_download: '📦 Download Pack',
@@ -887,7 +929,10 @@
                 copy_link: '📋 Copy link',
                 share_vk: '💬 Share on VK',
                 share_tg: '📢 Share on Telegram',
-                close: 'Close'
+                close: 'Close',
+                version_2_1: 'Version 2.1',
+                version_2_2: 'Version 2.2',
+                download: 'Download'
             },
             uk: {
                 tab_download: '📦 Завантажити пак',
@@ -924,7 +969,10 @@
                 copy_link: '📋 Копіювати посилання',
                 share_vk: '💬 Поділитися ВКонтакте',
                 share_tg: '📢 Поділитися в Telegram',
-                close: 'Закрити'
+                close: 'Закрити',
+                version_2_1: 'Версія 2.1',
+                version_2_2: 'Версія 2.2',
+                download: 'Завантажити'
             }
         };
 
